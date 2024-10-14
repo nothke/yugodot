@@ -335,9 +335,9 @@ margin_right = 624.954
 margin_bottom = 138.159
 rect_rotation = 3.0
 rect_scale = Vector2( 2, 2 )
+custom_colors/default_color = Color( 0, 0, 0, 1 )
 custom_fonts/mono_font = ExtResource( 19 )
 custom_fonts/normal_font = ExtResource( 19 )
-custom_colors/default_color = Color( 0, 0, 0, 1 )
 text = "Best: 0.000
 Time: 0.000
 ##############
@@ -358,8 +358,8 @@ margin_bottom = 104.0
 rect_scale = Vector2( 2, 2 )
 size_flags_horizontal = 0
 size_flags_vertical = 0
-custom_fonts/normal_font = ExtResource( 19 )
 custom_colors/default_color = Color( 0, 0, 0, 1 )
+custom_fonts/normal_font = ExtResource( 19 )
 text = "4"
 __meta__ = {
 "_edit_use_anchors_": false
