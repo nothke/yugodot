@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/beetle_hi.wav-9406994c23fe0bbdc38932951048c983.sample"
+
+[deps]
+
+source_file="res://audio/beetle_hi.wav"
+dest_files=[ "res://.import/beetle_hi.wav-9406994c23fe0bbdc38932951048c983.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=true
+compress/mode=0
