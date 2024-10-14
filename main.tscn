@@ -1,0 +1,396 @@
+[gd_scene load_steps=32 format=2]
+
+[ext_resource path="res://TexturesCom_Cargo0095_S.jpg" type="Texture" id=1]
+[ext_resource path="res://scripts/CarController.cs" type="Script" id=2]
+[ext_resource path="res://car.tscn" type="PackedScene" id=3]
+[ext_resource path="res://plane.tres" type="Material" id=4]
+[ext_resource path="res://base_plane.tres" type="PlaneMesh" id=5]
+[ext_resource path="res://particle.tres" type="Material" id=6]
+[ext_resource path="res://scripts/LineDrawer3D.cs" type="Script" id=7]
+[ext_resource path="res://line.tres" type="Material" id=8]
+[ext_resource path="res://crate.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Checkpoint.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scripts/CarCamera.cs" type="Script" id=11]
+[ext_resource path="res://scripts/Game.cs" type="Script" id=12]
+[ext_resource path="res://audio/beetle_hi.wav" type="AudioStream" id=13]
+[ext_resource path="res://track/track.fbx" type="PackedScene" id=14]
+[ext_resource path="res://audio/beep.wav" type="AudioStream" id=15]
+[ext_resource path="res://audio/Powerup15.wav" type="AudioStream" id=16]
+[ext_resource path="res://audio/Blip_Select12.wav" type="AudioStream" id=17]
+[ext_resource path="res://new_environment.tres" type="Environment" id=18]
+[ext_resource path="res://inconsolata.tres" type="DynamicFont" id=19]
+[ext_resource path="res://stage_sign_split_rb.tscn" type="PackedScene" id=20]
+[ext_resource path="res://car/body.material" type="Material" id=21]
+[ext_resource path="res://gpu_dirt.tres" type="QuadMesh" id=22]
+[ext_resource path="res://gpu_dirt.material" type="Material" id=23]
+[ext_resource path="res://scripts/ParticlesTest.cs" type="Script" id=24]
+
+[sub_resource type="CubeMesh" id=1]
+
+[sub_resource type="SpatialMaterial" id=2]
+albedo_texture = ExtResource( 1 )
+
+[sub_resource type="BoxShape" id=3]
+
+[sub_resource type="CSharpScript" id=4]
+script/source = "using Godot;
+using System;
+
+public class First : Node
+{
+    public override void _Ready()
+    {
+        //GD.Print(\"Blah\");
+    }
+
+    public override void _Process(float dt)
+    {
+        //GD.Print(dt);
+    }
+}
+"
+
+[sub_resource type="QuadMesh" id=6]
+size = Vector2( 0.8, 0.8 )
+
+[sub_resource type="BoxShape" id=5]
+extents = Vector3( 0.729923, 0.544659, 1.65365 )
+
+[sub_resource type="BoxShape" id=7]
+extents = Vector3( 400, 5, 400 )
+
+[node name="Spatial" type="Spatial"]
+
+[node name="MeshInstance2" type="MeshInstance" parent="."]
+transform = Transform( 5.71067, -0.190899, 0.106616, 1.11094, 0.981604, 2.15103e-09, -0.100677, 0.00336548, 6.04752, 4.43784, -0.0275291, 7.46788 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
+
+[node name="StaticBody" type="StaticBody" parent="MeshInstance2"]
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance2/StaticBody"]
+shape = SubResource( 3 )
+
+[node name="MeshInstance4" type="MeshInstance" parent="."]
+transform = Transform( -5.43768, 0.181773, -1.85049, 1.11094, 0.981604, 2.15103e-09, 1.74742, -0.0584136, -5.75843, -69.7045, 7.16618, -109.377 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
+
+[node name="StaticBody" type="StaticBody" parent="MeshInstance4"]
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance4/StaticBody"]
+shape = SubResource( 3 )
+
+[node name="MeshInstance3" type="MeshInstance" parent="."]
+transform = Transform( 5.71067, -0.190899, 0.106616, 1.11094, 0.981604, 2.15103e-09, -0.100677, 0.00336548, 6.04752, 75.165, -0.0275291, 7.46788 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
+
+[node name="StaticBody" type="StaticBody" parent="MeshInstance3"]
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance3/StaticBody"]
+shape = SubResource( 3 )
+
+[node name="Node" type="Node" parent="."]
+script = SubResource( 4 )
+
+[node name="crate" parent="." instance=ExtResource( 9 )]
+
+[node name="crate2" parent="." instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.75005, 0.496809, 1.22815 )
+
+[node name="crate3" parent="." instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.75005, 0.496809, 2.10822 )
+
+[node name="crate4" parent="." instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.75005, 0.496809, 2.96164 )
+
+[node name="crate5" parent="." instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.75005, 1.35388, 2.55557 )
+
+[node name="crate6" parent="." instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.75576, 2.15155, 2.07984 )
+
+[node name="stage_sign_split_rb" parent="." instance=ExtResource( 20 )]
+transform = Transform( 0.170433, -0.985369, -3.52396e-07, 0, -3.57628e-07, 1, -0.985369, -0.170433, -6.09516e-08, 11.1893, 0.958337, 8.60168 )
+
+[node name="Particles2" type="Particles" parent="."]
+transform = Transform( 0.999999, -2.23517e-08, -1.22125e-15, 0, -4.37114e-08, 0.999999, -2.42144e-08, -1, -4.37113e-08, 20.1967, 2.7034, 23.8472 )
+visible = false
+amount = 32
+lifetime = 0.24
+local_coords = false
+process_material = ExtResource( 23 )
+draw_pass_1 = ExtResource( 22 )
+script = ExtResource( 24 )
+
+[node name="dirt_fl" type="CPUParticles" parent="."]
+transform = Transform( 0.946812, -0.245938, -0.207497, -0.27827, -0.302018, -0.911784, 0.161574, 0.921027, -0.354394, 25.3946, 4.50584, 22.5842 )
+visible = false
+material_override = ExtResource( 6 )
+amount = 32
+lifetime = 0.24
+randomness = 0.02
+local_coords = false
+mesh = SubResource( 6 )
+direction = Vector3( 0, 0, -1 )
+spread = 8.4
+gravity = Vector3( 0, -30, 0 )
+initial_velocity = 13.48
+initial_velocity_random = 0.35
+damping = 13.15
+angle_random = 1.0
+
+[node name="stage_sign" type="Spatial" parent="."]
+transform = Transform( -0.999932, 0, 0.0116757, 0, 1, 0, -0.0116757, 0, -0.999932, 19.2804, 2.71352, 23.1843 )
+
+[node name="RootNode" type="Spatial" parent="stage_sign"]
+
+[node name="camera_trackside" type="Camera" parent="."]
+transform = Transform( -0.626985, -0.122619, 0.769321, 0, 0.987535, 0.1574, -0.779032, 0.0986872, -0.619169, 60.909, 10.683, -61.256 )
+visible = false
+current = true
+fov = 35.9
+far = 1000.0
+
+[node name="car_controller" type="RigidBody" parent="."]
+transform = Transform( -0.999932, 0, 0.0116757, 0, 1, 0, -0.0116757, 0, -0.999932, 24.5999, 1.44342, 21.5634 )
+mass = 1.23
+linear_damp = 0.0
+angular_damp = 2.042
+script = ExtResource( 2 )
+springRate = 40.0
+dampRate = 3.0
+tractionEase = 4.4382
+maxSpeedKmh = 100.0
+maxTraction = 60.0
+sidewaysTractionMult = 0.5
+engineAudioPath = NodePath("AudioStreamPlayer3D")
+timingPath = NodePath("../timing")
+countdownPath = NodePath("../countdown")
+checkpointSoundPath = NodePath("../audio_checkpoint")
+countdownSoundPath = NodePath("../audio_countdown")
+finishSoundPath = NodePath("../audio_finish")
+material = ExtResource( 21 )
+bodyNode = NodePath("car/RootNode/car/car_body")
+
+[node name="CollisionShape" type="CollisionShape" parent="car_controller"]
+transform = Transform( 1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, 1, 0, 0.522249, 0 )
+shape = SubResource( 5 )
+
+[node name="car" parent="car_controller" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 9.31323e-10, 0, 1, 0, -9.31323e-10, 0, 1, -0.000513077, -0.546232, 0.00111961 )
+
+[node name="wheel_debug" type="ImmediateGeometry" parent="car_controller"]
+transform = Transform( 0.218211, 0, -0.975901, 0, 1, 0, 0.975901, 0, 0.218211, 8.19687, -2.62628, 4.31221 )
+material_override = ExtResource( 8 )
+cast_shadow = 0
+script = ExtResource( 7 )
+
+[node name="dirt_fl" type="Particles" parent="car_controller"]
+transform = Transform( 0.999997, 0, 0, 0, 1, -8.74226e-08, 0, 8.74228e-08, 0.999998, -0.595, -0.264411, 1.02726 )
+amount = 32
+lifetime = 0.24
+local_coords = false
+process_material = ExtResource( 23 )
+draw_pass_1 = ExtResource( 22 )
+
+[node name="dirt_fr" type="Particles" parent="car_controller"]
+transform = Transform( 0.999998, 0, 0, 0, 1, -8.74226e-08, 0, 8.74228e-08, 0.999998, 0.595, -0.264, 1.027 )
+amount = 32
+lifetime = 0.24
+local_coords = false
+process_material = ExtResource( 23 )
+draw_pass_1 = ExtResource( 22 )
+
+[node name="dirt_rl" type="Particles" parent="car_controller"]
+transform = Transform( 0.999998, 1.11022e-16, 0, 0, 1, -8.74226e-08, 0, 8.74228e-08, 0.999998, -0.595, -0.264, -1.027 )
+amount = 32
+lifetime = 0.24
+local_coords = false
+process_material = ExtResource( 23 )
+draw_pass_1 = ExtResource( 22 )
+
+[node name="dirt_rr" type="Particles" parent="car_controller"]
+transform = Transform( 0.999998, 0, 0, 0, 1, -8.74226e-08, 0, 8.74228e-08, 0.999998, 0.595, -0.264, -1.027 )
+amount = 32
+lifetime = 0.24
+local_coords = false
+process_material = ExtResource( 23 )
+draw_pass_1 = ExtResource( 22 )
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="car_controller"]
+transform = Transform( 1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, 0, 0, 0 )
+stream = ExtResource( 13 )
+unit_db = 20.0
+autoplay = true
+emission_angle_degrees = 82.0
+
+[node name="Camera" type="Camera" parent="car_controller"]
+transform = Transform( -1, 0, 7.82311e-08, 0, 1, 0, -7.82311e-08, 0, -1, 0.0086441, 0.770113, 0.739529 )
+visible = false
+far = 1000.0
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0837917, -0.0837917, -0.0216465 )
+mesh = ExtResource( 5 )
+material/0 = ExtResource( 4 )
+
+[node name="StaticBody" type="StaticBody" parent="MeshInstance"]
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0 )
+shape = SubResource( 7 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.0369346, 0.895348, 0.443833, -0.784513, -0.249134, 0.567865, 0.619011, -0.369167, 0.693211, -8.51985, 10.6491, -20.8834 )
+light_indirect_energy = 0.88
+shadow_enabled = true
+shadow_bias = 0.16
+shadow_contact = 0.56
+
+[node name="Checkpoint" parent="." instance=ExtResource( 10 )]
+transform = Transform( 0.00442082, 0, 0.99999, 0, 1, 0, -0.99999, 0, 0.00442082, 24.8696, 0.636365, 17.466 )
+
+[node name="stage_sign_split" parent="Checkpoint/stage_sign_split_rb" index="0"]
+visible = false
+
+[node name="stage_sign_finish" parent="Checkpoint/stage_sign_split_rb" index="2"]
+visible = true
+
+[node name="stage_sign_split" parent="Checkpoint/stage_sign_split_rb2" index="0"]
+visible = false
+
+[node name="stage_sign_finish" parent="Checkpoint/stage_sign_split_rb2" index="2"]
+visible = true
+
+[node name="Checkpoint3" parent="." instance=ExtResource( 10 )]
+transform = Transform( 0.00442082, 0, 0.99999, 0, 1, 0, -0.99999, 0, 0.00442082, 1.52562, 0.518541, -27.3525 )
+
+[node name="Checkpoint4" parent="." instance=ExtResource( 10 )]
+transform = Transform( 0.772005, 0, 0.635616, 0, 1, 0, -0.635616, 0, 0.772005, 51.398, 7.58502, -53.8544 )
+
+[node name="Checkpoint5" parent="." instance=ExtResource( 10 )]
+transform = Transform( -0.472109, 0, 0.881537, 0, 1, 0, -0.881524, 0, -0.472116, 75.2337, 6.92684, -116.687 )
+
+[node name="Checkpoint6" parent="." instance=ExtResource( 10 )]
+transform = Transform( -0.969702, 0, -0.244236, 0, 1, 0, 0.244233, 0, -0.969716, -12.5309, 6.89216, -152.831 )
+
+[node name="Checkpoint7" parent="." instance=ExtResource( 10 )]
+transform = Transform( -0.861345, 0, -0.508, 0, 1, 0, 0.507993, 0, -0.861357, -51.3014, 6.76313, -114.14 )
+
+[node name="Checkpoint8" parent="." instance=ExtResource( 10 )]
+transform = Transform( -0.296592, 0, -0.955003, 0, 1, 0, 0.95499, 0, -0.296596, -115.416, 9.84102, -87.4118 )
+
+[node name="Checkpoint9" parent="." instance=ExtResource( 10 )]
+transform = Transform( -0.977352, 0, -0.211559, 0, 1, 0, 0.211556, 0, -0.977365, -104.661, 9.62825, 29.4603 )
+
+[node name="Checkpoint10" parent="." instance=ExtResource( 10 )]
+transform = Transform( -0.977352, 0, -0.211559, 0, 1, 0, 0.211556, 0, -0.977365, -148.314, 14.2443, -45.7421 )
+
+[node name="Checkpoint11" parent="." instance=ExtResource( 10 )]
+transform = Transform( 0.84332, 0, -0.537392, 0, 1, 0, 0.537385, 0, 0.843332, -134.346, 9.73245, 62.8798 )
+
+[node name="Checkpoint12" parent="." instance=ExtResource( 10 )]
+transform = Transform( 0.968159, 0, -0.250284, 0, 1, 0, 0.25028, 0, 0.968173, -39.7914, 4.50785, 34.3337 )
+
+[node name="Checkpoint13" parent="." instance=ExtResource( 10 )]
+transform = Transform( 0.798684, 0, -0.601736, 0, 1, 0, 0.601727, 0, 0.798695, -18.0219, 1.00573, 56.1821 )
+
+[node name="Checkpoint14" parent="." instance=ExtResource( 10 )]
+transform = Transform( 0.573273, 0, 0.819359, 0, 1, 0, -0.819348, 0, 0.573281, 18.6107, 0.6638, 50.1217 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 0.448328, 0.233585, -0.862809, -0.0127748, 0.966828, 0.255108, 0.893778, -0.10335, 0.43644, 35.7844, 4.76113, 4.43211 )
+current = true
+far = 1000.0
+script = ExtResource( 11 )
+carPath = NodePath("../car_controller")
+
+[node name="Game" type="Node" parent="."]
+script = ExtResource( 12 )
+hoodCameraPath = NodePath("../car_controller/Camera")
+wingmanCameraPath = NodePath("../Camera")
+tracksideCameraPath = NodePath("../camera_trackside")
+
+[node name="track" parent="." instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3718, -0.936892, -31.4487 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+margin_left = 17.0
+margin_top = 20.0
+margin_right = 364.0
+margin_bottom = 198.0
+rect_rotation = 3.0
+color = Color( 0, 0, 0, 0.117647 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="timing" type="RichTextLabel" parent="."]
+margin_left = 30.9541
+margin_top = 36.1585
+margin_right = 624.954
+margin_bottom = 138.159
+rect_rotation = 3.0
+rect_scale = Vector2( 2, 2 )
+custom_fonts/mono_font = ExtResource( 19 )
+custom_fonts/normal_font = ExtResource( 19 )
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+text = "Best: 0.000
+Time: 0.000
+##############
+Finished!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="countdown" type="RichTextLabel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -14.0
+margin_top = -150.0
+margin_right = 355.0
+margin_bottom = 104.0
+rect_scale = Vector2( 2, 2 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/normal_font = ExtResource( 19 )
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+text = "4"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="audio_checkpoint" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 15 )
+
+[node name="audio_countdown" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 17 )
+
+[node name="audio_finish" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 16 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 18 )
+
+[connection signal="body_entered" from="Checkpoint" to="car_controller" method="BodyEntered" binds= [ 0 ]]
+[connection signal="body_entered" from="Checkpoint3" to="car_controller" method="BodyEntered" binds= [ 1 ]]
+[connection signal="body_entered" from="Checkpoint4" to="car_controller" method="BodyEntered" binds= [ 2 ]]
+[connection signal="body_entered" from="Checkpoint5" to="car_controller" method="BodyEntered" binds= [ 3 ]]
+[connection signal="body_entered" from="Checkpoint6" to="car_controller" method="BodyEntered" binds= [ 4 ]]
+[connection signal="body_entered" from="Checkpoint7" to="car_controller" method="BodyEntered" binds= [ 5 ]]
+[connection signal="body_entered" from="Checkpoint8" to="car_controller" method="BodyEntered" binds= [ 6 ]]
+[connection signal="body_entered" from="Checkpoint9" to="car_controller" method="BodyEntered" binds= [ 7 ]]
+[connection signal="body_entered" from="Checkpoint10" to="car_controller" method="BodyEntered" binds= [ 8 ]]
+[connection signal="body_entered" from="Checkpoint11" to="car_controller" method="BodyEntered" binds= [ 9 ]]
+[connection signal="body_entered" from="Checkpoint12" to="car_controller" method="BodyEntered" binds= [ 10 ]]
+[connection signal="body_entered" from="Checkpoint13" to="car_controller" method="BodyEntered" binds= [ 11 ]]
+[connection signal="body_entered" from="Checkpoint14" to="car_controller" method="BodyEntered" binds= [ 12 ]]
+
+[editable path="Checkpoint"]
+[editable path="Checkpoint/stage_sign_split_rb"]
+[editable path="Checkpoint/stage_sign_split_rb2"]

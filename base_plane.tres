@@ -1,0 +1,4 @@
+[gd_resource type="PlaneMesh" format=2]
+
+[resource]
+size = Vector2( 1000, 1000 )

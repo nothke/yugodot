@@ -1,0 +1,25 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+[application]
+
+config/name="stop-waiting-for-godot-jam"
+run/main_scene="res://main.tscn"
+config/icon="res://icon.png"
+
+[physics]
+
+common/physics_fps=120
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+quality/filters/anisotropic_filter_level=8
+environment/default_environment="res://default_env.tres"
