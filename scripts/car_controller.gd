@@ -190,8 +190,8 @@ func _physics_process(dt: float) -> void:
 	timingText.clear()
 	timingText.push_color(black)
 
-	var stageTimeStr: String = "0.000" if stageTime < 0 else str(stageTime, "%.3f")
-	var bestTimeStr: String = "--.---" if bestTime == 0 else str(bestTime, "%.3f")
+	var stageTimeStr: String = "0.000" if stageTime < 0 else str(stageTime, "F3")
+	var bestTimeStr: String = "--.---" if bestTime == 0 else str(bestTime, "F3")
 	timingText.append_bbcode("Best: " + bestTimeStr + "\n")
 
 	timingText.append_bbcode("Time: " + stageTimeStr + "\n")
@@ -258,7 +258,6 @@ func _physics_process(dt: float) -> void:
 	var tractionPoint: Vector3 = Vector3.ZERO
 	
 	var i: int = 0
-
 	for w in wheels:
 		var wheelPos: Vector3 = to_global(w.point)
 		
@@ -330,6 +329,8 @@ func _physics_process(dt: float) -> void:
 		
 		w.wasGrounded = grounded
 		
+		i += 1
+		
 	var gear: int = int(floor(forwardVelocity / 8))
 	
 	var gearPitch: float = repeat(forwardVelocity, 8.0) / 8.0
@@ -370,8 +371,6 @@ func _physics_process(dt: float) -> void:
 		
 		samples.append(replaySample)
 		
-	i += 1
-
 # TODO: rename to on_trigger_entered later
 func BodyEntered(body: Node, checkpointIndex: int) -> void:
 	if body.is_in_group("checkpoints"):
