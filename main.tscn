@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://TexturesCom_Cargo0095_S.jpg" type="Texture" id=1]
 [ext_resource path="res://scripts/CarController.cs" type="Script" id=2]
@@ -24,6 +24,7 @@
 [ext_resource path="res://gpu_dirt.tres" type="QuadMesh" id=22]
 [ext_resource path="res://gpu_dirt.material" type="Material" id=23]
 [ext_resource path="res://scripts/ParticlesTest.cs" type="Script" id=24]
+[ext_resource path="res://art/track/track.gltf" type="PackedScene" id=25]
 
 [sub_resource type="CubeMesh" id=1]
 
@@ -313,8 +314,8 @@ hoodCameraPath = NodePath("../car_controller/Camera")
 wingmanCameraPath = NodePath("../Camera")
 tracksideCameraPath = NodePath("../camera_trackside")
 
-[node name="track" parent="." instance=ExtResource( 14 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3718, -0.936892, -31.4487 )
+[node name="OLD_track" parent="." instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3718, -8.03092, -31.4487 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
@@ -377,6 +378,9 @@ stream = ExtResource( 16 )
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 18 )
 
+[node name="track2" parent="." instance=ExtResource( 25 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3718, -0.936892, -31.4487 )
+
 [connection signal="body_entered" from="Checkpoint" to="car_controller" method="BodyEntered" binds= [ 0 ]]
 [connection signal="body_entered" from="Checkpoint3" to="car_controller" method="BodyEntered" binds= [ 1 ]]
 [connection signal="body_entered" from="Checkpoint4" to="car_controller" method="BodyEntered" binds= [ 2 ]]
@@ -391,6 +395,7 @@ environment = ExtResource( 18 )
 [connection signal="body_entered" from="Checkpoint13" to="car_controller" method="BodyEntered" binds= [ 11 ]]
 [connection signal="body_entered" from="Checkpoint14" to="car_controller" method="BodyEntered" binds= [ 12 ]]
 
+[editable path="car_controller/car"]
 [editable path="Checkpoint"]
 [editable path="Checkpoint/stage_sign_split_rb"]
 [editable path="Checkpoint/stage_sign_split_rb2"]
