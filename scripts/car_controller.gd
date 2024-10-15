@@ -97,6 +97,9 @@ class ReplaySample:
 var samples = [] # TODO: Init capacity..?
 
 func _ready():
+	for i in 4:
+		wheels.append(Wheel.new())
+	
 	wheels[0].point = Vector3(-wheelTrack, 0, wheelBase)
 	wheels[1].point = Vector3(wheelTrack, 0, wheelBase)
 	wheels[2].point = Vector3(-wheelTrack, 0, -wheelBase)
@@ -244,6 +247,9 @@ func _physics_process(dt: float) -> void:
 
 	var forward: Vector3 = -global_transform.basis.z
 	var right: Vector3 = global_transform.basis.x
+	var up: Vector3 = global_transform.basis.y
+
+	var rayLength = 6.0
 
 	for w in wheels:
 		var wheelPos: Vector3 = w.point + global_transform.origin
@@ -257,8 +263,12 @@ func _physics_process(dt: float) -> void:
 		if grounded:
 			w.wasGrounded = true
 			var normal: Vector3 = result["normal"]
-			var raycastDistance: float = result["distance"]
+			#var raycastDistance: float = result["distance"]
 			var hitPoint: Vector3 = result["position"]
+
+			var dest = wheelPos - up * rayLength
+			var raycastDistance = (dest - hitPoint).length()
+			
 			var deltaHeight: float = raycastHeightOffset - raycastDistance
 
 			var traction: Vector3 = normal * (smoothThrottle * tractionForceMult)
@@ -275,7 +285,7 @@ func _physics_process(dt: float) -> void:
 			sidewaysTraction = sidewaysTraction.linear_interpolate(Vector3.ZERO, dt * sidewaysTractionEase)
 			add_central_force(sidewaysTraction)
 
-			var v: Vector3 = (hitPoint - wheelPos).normalized()
+			#var v: Vector3 = (hitPoint - wheelPos).normalized()
 
 			#line.add_point(hitPoint, black)
 			#line.add_point(hitPoint + normal * 0.1, green)
