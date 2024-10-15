@@ -36,6 +36,6 @@ func _physics_process(dt):
 	
 	camPos = camPos.linear_interpolate(rearTargetPoint, dt * smoothing)
 	
-func _process(delta):
+func _process(_delta):
 	translation = camPos
 	look_at(carPos, Vector3.UP)
