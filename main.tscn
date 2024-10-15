@@ -10,7 +10,7 @@
 [ext_resource path="res://line.tres" type="Material" id=8]
 [ext_resource path="res://crate.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Checkpoint.tscn" type="PackedScene" id=10]
-[ext_resource path="res://scripts/CarCamera.cs" type="Script" id=11]
+[ext_resource path="res://scripts/carCamera.gd" type="Script" id=11]
 [ext_resource path="res://audio/beetle_hi.wav" type="AudioStream" id=13]
 [ext_resource path="res://scripts/game.gd" type="Script" id=14]
 [ext_resource path="res://audio/beep.wav" type="AudioStream" id=15]
@@ -70,7 +70,7 @@ transform = Transform( 0.448328, 0.233585, -0.862809, -0.0127748, 0.966828, 0.25
 current = true
 far = 1000.0
 script = ExtResource( 11 )
-carPath = NodePath("../car_controller")
+car_path = NodePath("../car_controller")
 
 [node name="car_controller" type="RigidBody" parent="."]
 transform = Transform( -0.999932, 0, 0.0116757, 0, 1, 0, -0.0116757, 0, -0.999932, 24.5999, 1.44342, 21.5634 )
