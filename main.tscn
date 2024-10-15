@@ -1,7 +1,7 @@
 [gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://TexturesCom_Cargo0095_S.jpg" type="Texture" id=1]
-[ext_resource path="res://scripts/CarController.cs" type="Script" id=2]
+[ext_resource path="res://scripts/car_controller.gd" type="Script" id=2]
 [ext_resource path="res://car.tscn" type="PackedScene" id=3]
 [ext_resource path="res://plane.tres" type="Material" id=4]
 [ext_resource path="res://art/base_plane.tres" type="PlaneMesh" id=5]
@@ -73,13 +73,12 @@ script = ExtResource( 11 )
 car_path = NodePath("../car_controller")
 
 [node name="car_controller" type="RigidBody" parent="."]
-transform = Transform( -0.999932, 0, 0.0116757, 0, 1, 0, -0.0116757, 0, -0.999932, 24.5999, 1.44342, 21.5634 )
+transform = Transform( -0.999932, 0, 0.0116757, 0, 1, 0, -0.0116757, 0, -0.999932, 24.5999, 1.88381, 21.5634 )
 mass = 1.23
 linear_damp = 0.0
 angular_damp = 2.042
 script = ExtResource( 2 )
 springRate = 40.0
-dampRate = 3.0
 tractionEase = 4.4382
 maxSpeedKmh = 100.0
 maxTraction = 60.0

@@ -32,6 +32,9 @@ func _physics_process(dt):
 	var rearTargetPoint = carPos - carForward * distance
 	rearTargetPoint.y = carPos.y + height
 	
+	# use with C#:
+	#var smoothing = raceSmoothing if car.RaceStarted else startSmoothing
+	# use with gdscript:
 	var smoothing = raceSmoothing if car.race_started() else startSmoothing
 	
 	camPos = camPos.linear_interpolate(rearTargetPoint, dt * smoothing)

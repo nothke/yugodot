@@ -89,12 +89,16 @@ var speedPitch: float
 var smoothSteer: float
 var lastCountdownTime: int
 
+const dbToVolume = 8.685
+
 class ReplaySample:
 	var t: Transform
 	var time: float
 	var throttle: float
 
 var samples = [] # TODO: Init capacity..?
+
+const rayLength = 0.6
 
 func _ready():
 	for i in 4:
@@ -140,7 +144,7 @@ func _ready():
 		dampRate = float(config.get_value("setup", "damp_rate", 3))
 
 		var volume = float(config.get_value("audio", "master_volume", 1))
-		AudioServer.set_bus_volume_db(0, log(volume) * 8.685)
+		AudioServer.set_bus_volume_db(0, log(volume) * dbToVolume)
 
 		drawParticles = float(config.get_value("graphics", "draw_particles", 1)) != 0
 		drawLines = float(config.get_value("debug", "lines", 0)) != 0
@@ -245,56 +249,75 @@ func _physics_process(dt: float) -> void:
 	if smoothThrottle < 0:
 		targetSpeed = 0.0
 
+	var spaceState: PhysicsDirectSpaceState = get_world().direct_space_state
+	
 	var forward: Vector3 = -global_transform.basis.z
 	var right: Vector3 = global_transform.basis.x
 	var up: Vector3 = global_transform.basis.y
-
-	var rayLength = 6.0
+	
+	var wheelsOnGround: int = 0
+	
+	var tractionPoint: Vector3 = Vector3.ZERO
 
 	for w in wheels:
-		var wheelPos: Vector3 = w.point + global_transform.origin
-		var rayDir: Vector3 = Vector3(0, -1, 0)
+		var wheelPos: Vector3 = to_global(w.point)
+		
+		var origin: Vector3 = wheelPos + up * raycastHeightOffset
+		var dest: Vector3 = origin - up * rayLength
 
-		var spaceState: PhysicsDirectSpaceState = get_world().direct_space_state
-		var result: Dictionary = spaceState.intersect_ray(wheelPos + Vector3(0, raycastHeightOffset, 0), wheelPos + rayDir)
+		var result: Dictionary = spaceState.intersect_ray(origin, dest)
 
 		var grounded: bool = result.size() > 0
 
+		# suspension
 		if grounded:
 			w.wasGrounded = true
-			var normal: Vector3 = result["normal"]
-			#var raycastDistance: float = result["distance"]
-			var hitPoint: Vector3 = result["position"]
-
-			var dest = wheelPos - up * rayLength
-			var raycastDistance = (dest - hitPoint).length()
 			
-			var deltaHeight: float = raycastHeightOffset - raycastDistance
+			var hitPoint: Vector3 = result["position"]
+			var normal: Vector3 = result["normal"]
 
-			var traction: Vector3 = normal * (smoothThrottle * tractionForceMult)
-			add_central_force(traction)
+			var distFromTarget: float = (dest - hitPoint).length()
+			
+			var spring: float = springRate * distFromTarget
+			
+			#var traction: Vector3 = normal * (smoothThrottle * tractionForceMult)
+			#add_central_force(traction)
+			
+			print(distFromTarget)
+			
+			var veloAtWheel: Vector3 = get_velocity_at_point(origin)
+			var verticalVeloAtWheel: float = up.dot(veloAtWheel)
+			
+			var damp: float = -verticalVeloAtWheel * dampRate
 
-			if smoothThrottle > 0:
-				var springForce: Vector3 = normal * (-springRate * deltaHeight)
-				var dampForce: Vector3 = normal * (-dampRate * (linear_velocity.dot(normal)))
-
-				var totalForce: Vector3 = springForce + dampForce + traction
-				add_central_force(totalForce)
+			add_force(normal * (spring + damp), hitPoint - transform.origin)
 
 			var sidewaysTraction: Vector3 = right * (smoothThrottle * sidewaysTractionMult * sidewaysTractionEase)
 			sidewaysTraction = sidewaysTraction.linear_interpolate(Vector3.ZERO, dt * sidewaysTractionEase)
-			add_central_force(sidewaysTraction)
+			#add_central_force(sidewaysTraction)
 
 			#var v: Vector3 = (hitPoint - wheelPos).normalized()
 
 			#line.add_point(hitPoint, black)
 			#line.add_point(hitPoint + normal * 0.1, green)
+			
+			wheelsOnGround += 1
+			
+			tractionPoint += hitPoint
 
 		else:
 			if w.wasGrounded:
 				w.wasGrounded = false
 				if drawParticles:
 					w.dirt.emitting = true
+					
+	
+
+	if wheelsOnGround > 0:
+		var wheelFactor: float = tractionPoint / wheelsOnGround
+		
+		var midPoint: Vector3 = tractionPoint / wheelsOnGround
+		
 
 	# WTF, on ubacio:
 	#if !grounded and not wheels[0].wasGrounded and not wheels[1].wasGrounded:
@@ -304,12 +327,17 @@ func _physics_process(dt: float) -> void:
 	add_torque(Vector3(0, smoothSteer * torqueMult, 0))
 
 	# Compute speed pitch
-	speedPitch = clamp(linear_velocity.length() / targetSpeed, 0, 1)
-	engineAudio.pitch = lerp(0.5, 1.5, speedPitch)
+	if targetSpeed != 0:
+		speedPitch = clamp(linear_velocity.length() / targetSpeed, 0, 1)
+	else:
+		speedPitch = 1
+		
+	engineAudio.pitch_scale = lerp(0.5, 1.5, speedPitch)
 
-func on_trigger_enter(body: Node) -> void:
+# TODO: rename to on_trigger_entered later
+func BodyEntered(body: Node, checkpointIndex: int) -> void:
 	if body.is_in_group("checkpoints"):
-		var checkpointIndex: int = body.get("checkpoint_index")
+		#var checkpointIndex: int = body.get("checkpoint_index")
 
 		if checkpointIndex > checkpointPassed:
 			checkpointPassed = checkpointIndex
