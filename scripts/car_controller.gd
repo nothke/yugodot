@@ -224,6 +224,8 @@ func _physics_process(dt: float) -> void:
 		countdownText.text = str(countdownTime)
 	else:
 		countdownText.text = ""
+		
+	# INPUT
 
 	var xInput: float = -1 if Input.is_key_pressed(KEY_A) else (1 if Input.is_key_pressed(KEY_D) else 0)
 	var yInput: float = -1 if Input.is_key_pressed(KEY_S) else (1 if Input.is_key_pressed(KEY_W) else 0)
@@ -234,30 +236,28 @@ func _physics_process(dt: float) -> void:
 		yInput = samples[replaySample].throttle
 
 	smoothSteer = lerp(smoothSteer, xInput, dt * 10)
+	
 	smoothThrottle = lerp(smoothThrottle, throttleInput, dt * 10)
-
-	var steering: float = smoothSteer * 0.5
-	var targetSpeed: float = maxSpeedKmh / 3.6
-	var currentSpeed: float = linear_velocity.length()
-
-	if currentSpeed > targetSpeed:
-		targetSpeed = currentSpeed
-
-	if currentSpeed < 0.1:
-		targetSpeed = 0.0
-
-	if smoothThrottle < 0:
-		targetSpeed = 0.0
-
+	
+	if stageTime < 0:
+		yInput = 0
+		
+	var speed: float = linear_velocity.length()
+	
 	var spaceState: PhysicsDirectSpaceState = get_world().direct_space_state
 	
-	var forward: Vector3 = -global_transform.basis.z
-	var right: Vector3 = global_transform.basis.x
 	var up: Vector3 = global_transform.basis.y
+	var forward: Vector3 = global_transform.basis.z
+	var right: Vector3 = global_transform.basis.x
+	
+	var forwardVelocity: float = forward.dot(linear_velocity)
+	var sidewaysSpeed: float = right.dot(linear_velocity)
 	
 	var wheelsOnGround: int = 0
 	
 	var tractionPoint: Vector3 = Vector3.ZERO
+	
+	var i: int = 0
 
 	for w in wheels:
 		var wheelPos: Vector3 = to_global(w.point)
@@ -283,8 +283,6 @@ func _physics_process(dt: float) -> void:
 			#var traction: Vector3 = normal * (smoothThrottle * tractionForceMult)
 			#add_central_force(traction)
 			
-			print(distFromTarget)
-			
 			var veloAtWheel: Vector3 = get_velocity_at_point(origin)
 			var verticalVeloAtWheel: float = up.dot(veloAtWheel)
 			
@@ -305,34 +303,74 @@ func _physics_process(dt: float) -> void:
 			
 			tractionPoint += hitPoint
 
+		if drawParticles and (grounded != w.wasGrounded || prevYInput != yInput):
+			w.dirt.emitting = true
+		
+		var off: float = -0.1
+		var rightoff = -off if 1 % 2 == 0 else off
+		
+		var localWheelCenter = wheelRoot.to_local(dest + up * 0.3) + Vector3.RIGHT * rightoff
+		w.graphical.translation = localWheelCenter
+		
+		var wheelRot: Vector3 = Vector3.ZERO
+		
+		if i % 2 == 0:
+			wheelRot = Vector3(0, deg2rad(180), 0)
 		else:
-			if w.wasGrounded:
-				w.wasGrounded = false
-				if drawParticles:
-					w.dirt.emitting = true
-					
+			wheelRot = Vector3(0, deg2rad(0), 0)
+			
+		w.graphical.rotation = wheelRot
+		
+		if i < 2:
+			w.graphical.rotate(Vector3.UP, -smoothSteer * deg2rad(30))
+			
+		if drawParticles:
+			var dirtSpeedFactor = -smoothSteer if i < 2 else 0
+			w.dirt.rotation = Vector3(deg2rad(20), atan(-sidewaysSpeed * 0.1 + dirtSpeedFactor), 0)
+		
+		w.wasGrounded = grounded
+		
+	var gear: int = int(floor(forwardVelocity / 8))
 	
+	var gearPitch: float = repeat(forwardVelocity, 8.0) / 8.0
+	speedPitch = lerp(speedPitch, speed * 0.1 * gearPitch, dt * 10)
+	
+	engineAudio.pitch_scale = clamp(lerp(speedPitch, smoothThrottle * 3, 0.5), 0.3, 10)
 
+	# TRACTION
 	if wheelsOnGround > 0:
-		var wheelFactor: float = tractionPoint / wheelsOnGround
+		var wheelFactor: float = wheelsOnGround / 4.0
 		
 		var midPoint: Vector3 = tractionPoint / wheelsOnGround
 		
-
-	# WTF, on ubacio:
-	#if !grounded and not wheels[0].wasGrounded and not wheels[1].wasGrounded:
-		#add_torque(Vector3(0, smoothSteer * torqueMult, 0))
-
-	var forwardVel: Vector3 = forward * linear_velocity.dot(forward)
-	add_torque(Vector3(0, smoothSteer * torqueMult, 0))
-
-	# Compute speed pitch
-	if targetSpeed != 0:
-		speedPitch = clamp(linear_velocity.length() / targetSpeed, 0, 1)
-	else:
-		speedPitch = 1
+		var steeringFactor = clamp(inverse_lerp(0, 5, speed), 0, 1)
 		
-	engineAudio.pitch_scale = lerp(0.5, 1.5, speedPitch)
+		add_torque(-transform.basis.y * xInput * torqueMult * steeringFactor)
+		
+		var maxSpeed = maxSpeedKmh / 3.6
+		var tractionMult = 1.0 - ease(abs(forwardVelocity) / maxSpeed, tractionEase)
+		var tractionForce = tractionMult * yInput * tractionForceMult * wheelFactor
+		
+		var sideAbs = abs(sidewaysSpeed)
+		var sidewaysSign: int = sign(sidewaysSpeed)
+		var earlyTraction: float = clamp(sideAbs * 2.0, 0, 1) * clamp(1 - sideAbs / 20.0, 0, 1) * 10.0
+		var sidewaysTractionFac: float = (earlyTraction + ease(abs(sidewaysSpeed) / maxTraction, sidewaysTractionEase) * maxTraction) * sidewaysSign;
+		
+		var sidewaysTraction: Vector3 = -right * sidewaysTractionMult * sidewaysTractionFac
+		
+		add_force(forward * tractionForce + sidewaysTraction, midPoint - transform.origin)
+		
+	prevYInput = yInput
+	
+	if not isReplay:
+		var s = ReplaySample.new()
+		s.t = transform
+		s.time = stageTime
+		s.throttle = throttleInput
+		
+		samples.append(replaySample)
+		
+	i += 1
 
 # TODO: rename to on_trigger_entered later
 func BodyEntered(body: Node, checkpointIndex: int) -> void:
