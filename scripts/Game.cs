@@ -18,6 +18,8 @@ public class Game : Node
         wingmanCamera = GetNode<Camera>(wingmanCameraPath);
         hoodCamera = GetNode<Camera>(hoodCameraPath);
         tracksideCamera = GetNode<Camera>(tracksideCameraPath);
+
+        wingmanCamera.MakeCurrent();
     }
 
     bool hasRestarted;

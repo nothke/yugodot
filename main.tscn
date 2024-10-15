@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://TexturesCom_Cargo0095_S.jpg" type="Texture" id=1]
 [ext_resource path="res://scripts/CarController.cs" type="Script" id=2]
@@ -18,7 +18,6 @@
 [ext_resource path="res://audio/Blip_Select12.wav" type="AudioStream" id=17]
 [ext_resource path="res://new_environment.tres" type="Environment" id=18]
 [ext_resource path="res://inconsolata.tres" type="DynamicFont" id=19]
-[ext_resource path="res://stage_sign_split_rb.tscn" type="PackedScene" id=20]
 [ext_resource path="res://car/body.material" type="Material" id=21]
 [ext_resource path="res://gpu_dirt.tres" type="QuadMesh" id=22]
 [ext_resource path="res://gpu_dirt.material" type="Material" id=23]
@@ -59,19 +58,19 @@ shadow_enabled = true
 shadow_bias = 0.16
 shadow_contact = 0.56
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( 0.448328, 0.233585, -0.862809, -0.0127748, 0.966828, 0.255108, 0.893778, -0.10335, 0.43644, 35.7844, 4.76113, 4.43211 )
-current = true
-far = 1000.0
-script = ExtResource( 11 )
-carPath = NodePath("../car_controller")
-
 [node name="camera_trackside" type="Camera" parent="."]
 transform = Transform( -0.626985, -0.122619, 0.769321, 0, 0.987535, 0.157399, -0.779032, 0.098687, -0.619169, 60.909, 10.683, -61.256 )
 visible = false
 current = true
 fov = 35.9
 far = 1000.0
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 0.448328, 0.233585, -0.862809, -0.0127748, 0.966828, 0.255108, 0.893778, -0.10335, 0.43644, 35.7844, 4.76113, 4.43211 )
+current = true
+far = 1000.0
+script = ExtResource( 11 )
+carPath = NodePath("../car_controller")
 
 [node name="car_controller" type="RigidBody" parent="."]
 transform = Transform( -0.999932, 0, 0.0116757, 0, 1, 0, -0.0116757, 0, -0.999932, 24.5999, 1.44342, 21.5634 )
@@ -149,6 +148,7 @@ emission_angle_degrees = 82.0
 [node name="Camera" type="Camera" parent="car_controller"]
 transform = Transform( -1, 0, 7.82311e-08, 0, 1, 0, -7.82311e-08, 0, -1, 0.0086441, 0.770113, 0.739529 )
 visible = false
+current = true
 far = 1000.0
 
 [node name="track" parent="." instance=ExtResource( 25 )]
@@ -218,36 +218,6 @@ material/0 = SubResource( 2 )
 
 [node name="CollisionShape" type="CollisionShape" parent="ramps/ramp_3/StaticBody"]
 shape = SubResource( 3 )
-
-[node name="stage_sign_split_rb" parent="." instance=ExtResource( 20 )]
-transform = Transform( 0.170433, -0.985369, -3.52396e-07, 0, -3.57628e-07, 1, -0.985369, -0.170433, -6.09516e-08, 11.1893, 0.958337, 8.60168 )
-
-[node name="Particles2" type="Particles" parent="."]
-transform = Transform( 0.999999, -2.23517e-08, -1.22125e-15, 0, -4.37114e-08, 0.999999, -2.42144e-08, -1, -4.37113e-08, 20.1967, 2.7034, 23.8472 )
-visible = false
-amount = 32
-lifetime = 0.24
-local_coords = false
-process_material = ExtResource( 23 )
-draw_pass_1 = ExtResource( 22 )
-script = ExtResource( 24 )
-
-[node name="dirt_fl" type="CPUParticles" parent="."]
-transform = Transform( 0.946812, -0.245938, -0.207497, -0.27827, -0.302018, -0.911784, 0.161574, 0.921027, -0.354394, 25.3946, 4.50584, 22.5842 )
-visible = false
-material_override = ExtResource( 6 )
-amount = 32
-lifetime = 0.24
-randomness = 0.02
-local_coords = false
-mesh = SubResource( 6 )
-direction = Vector3( 0, 0, -1 )
-spread = 8.4
-gravity = Vector3( 0, -30, 0 )
-initial_velocity = 13.48
-initial_velocity_random = 0.35
-damping = 13.15
-angle_random = 1.0
 
 [node name="Checkpoint" parent="." instance=ExtResource( 10 )]
 transform = Transform( 0.00442082, 0, 0.99999, 0, 1, 0, -0.99999, 0, 0.00442082, 24.8696, 0.636365, 17.466 )
@@ -351,6 +321,35 @@ stream = ExtResource( 17 )
 
 [node name="audio_finish" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 16 )
+
+[node name="testing" type="Spatial" parent="."]
+
+[node name="Particles2" type="Particles" parent="testing"]
+transform = Transform( 0.999999, -2.23517e-08, -1.22125e-15, 0, -4.37114e-08, 0.999999, -2.42144e-08, -1, -4.37113e-08, 20.1967, 2.7034, 23.8472 )
+visible = false
+amount = 32
+lifetime = 0.24
+local_coords = false
+process_material = ExtResource( 23 )
+draw_pass_1 = ExtResource( 22 )
+script = ExtResource( 24 )
+
+[node name="dirt_fl" type="CPUParticles" parent="testing"]
+transform = Transform( 0.946812, -0.245938, -0.207497, -0.27827, -0.302018, -0.911784, 0.161574, 0.921027, -0.354394, 25.3946, 4.50584, 22.5842 )
+visible = false
+material_override = ExtResource( 6 )
+amount = 32
+lifetime = 0.24
+randomness = 0.02
+local_coords = false
+mesh = SubResource( 6 )
+direction = Vector3( 0, 0, -1 )
+spread = 8.4
+gravity = Vector3( 0, -30, 0 )
+initial_velocity = 13.48
+initial_velocity_random = 0.35
+damping = 13.15
+angle_random = 1.0
 
 [connection signal="body_entered" from="Checkpoint" to="car_controller" method="BodyEntered" binds= [ 0 ]]
 [connection signal="body_entered" from="Checkpoint3" to="car_controller" method="BodyEntered" binds= [ 1 ]]
