@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://TexturesCom_Cargo0095_S.jpg" type="Texture" id=1]
 [ext_resource path="res://scripts/CarController.cs" type="Script" id=2]
@@ -13,7 +13,6 @@
 [ext_resource path="res://scripts/CarCamera.cs" type="Script" id=11]
 [ext_resource path="res://scripts/Game.cs" type="Script" id=12]
 [ext_resource path="res://audio/beetle_hi.wav" type="AudioStream" id=13]
-[ext_resource path="res://track/track.fbx" type="PackedScene" id=14]
 [ext_resource path="res://audio/beep.wav" type="AudioStream" id=15]
 [ext_resource path="res://audio/Powerup15.wav" type="AudioStream" id=16]
 [ext_resource path="res://audio/Blip_Select12.wav" type="AudioStream" id=17]
@@ -313,9 +312,6 @@ script = ExtResource( 12 )
 hoodCameraPath = NodePath("../car_controller/Camera")
 wingmanCameraPath = NodePath("../Camera")
 tracksideCameraPath = NodePath("../camera_trackside")
-
-[node name="OLD_track" parent="." instance=ExtResource( 14 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3718, -8.03092, -31.4487 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
