@@ -325,7 +325,7 @@ func _physics_process(dt: float) -> void:
 			tractionPoint += hitPoint
 
 		if drawParticles and (grounded != w.wasGrounded || prevYInput != yInput):
-			w.dirt.emitting = true
+			w.dirt.emitting = grounded and yInput > 0
 
 		var localWheelCenter = wheelRoot.to_local(dest + up * 0.3)
 		w.graphical.translation = localWheelCenter
