@@ -204,6 +204,8 @@ func _physics_process(dt: float) -> void:
 		if replaySample == samples.size():
 			replaySample = 0
 
+	# -- TIMING --
+
 	var time: float = OS.get_ticks_msec() / 1000.0
 
 	if not stageEnded:
@@ -249,7 +251,7 @@ func _physics_process(dt: float) -> void:
 	else:
 		countdownText.text = ""
 
-	# INPUT
+	# -- INPUT --
 
 	var xInput: float = -1 if Input.is_key_pressed(KEY_A) else (1 if Input.is_key_pressed(KEY_D) else 0)
 	var yInput: float = -1 if Input.is_key_pressed(KEY_S) else (1 if Input.is_key_pressed(KEY_W) else 0)
@@ -266,10 +268,13 @@ func _physics_process(dt: float) -> void:
 	if stageTime < 0:
 		yInput = 0
 
+	# -- PHYSICS --
+
 	var speed: float = linear_velocity.length()
 
 	var spaceState: PhysicsDirectSpaceState = get_world().direct_space_state
 
+	# Car-dinal directions
 	var up: Vector3 = global_transform.basis.y
 	var forward: Vector3 = global_transform.basis.z
 	var right: Vector3 = global_transform.basis.x
@@ -285,6 +290,8 @@ func _physics_process(dt: float) -> void:
 	for w in wheels:
 		var wheelPos: Vector3 = to_global(w.point)
 
+		# Raycast
+
 		var origin: Vector3 = wheelPos + up * raycastHeightOffset
 		var dest: Vector3 = origin - up * rayLength
 
@@ -294,7 +301,8 @@ func _physics_process(dt: float) -> void:
 
 		var graphicalWheelPoint: Vector3 = dest;
 
-		# suspension
+		# Suspension
+
 		if grounded:
 			var hitPoint: Vector3 = result["position"]
 			var normal: Vector3 = result["normal"]
@@ -310,20 +318,22 @@ func _physics_process(dt: float) -> void:
 
 			add_force(normal * (spring + damp), hitPoint - transform.origin)
 
-			var sidewaysTraction: Vector3 = right * (smoothThrottle * sidewaysTractionMult * sidewaysTractionEase)
-			sidewaysTraction = sidewaysTraction.linear_interpolate(Vector3.ZERO, dt * sidewaysTractionEase)
-			add_central_force(sidewaysTraction)
-
-			#var v: Vector3 = (hitPoint - wheelPos).normalized()
-
 			wheelsOnGround += 1
 
 			tractionPoint += hitPoint
 
 			graphicalWheelPoint = hitPoint
 
-		if drawParticles and (grounded != w.wasGrounded || prevYInput != yInput):
-			w.dirt.emitting = grounded and yInput > 0
+		# Particles
+
+		if drawParticles:
+			var dirtSpeedFactor = -smoothSteer if i < 2 else 0.0
+			w.dirt.rotation = Vector3(deg2rad(20), atan(-sidewaysSpeed * 0.1 + dirtSpeedFactor), 0)
+
+			if grounded != w.wasGrounded || prevYInput != yInput:
+				w.dirt.emitting = grounded and yInput > 0
+
+		# Graphical wheel position and rotation
 
 		var localWheelCenter = wheelRoot.to_local(graphicalWheelPoint + up * wheelRadius)
 		w.graphical.translation = localWheelCenter
@@ -339,11 +349,7 @@ func _physics_process(dt: float) -> void:
 
 		if i < 2:
 			w.graphical.rotate(Vector3.UP, -smoothSteer * deg2rad(30))
-
-		if drawParticles:
-			var dirtSpeedFactor = -smoothSteer if i < 2 else 0.0
-			w.dirt.rotation = Vector3(deg2rad(20), atan(-sidewaysSpeed * 0.1 + dirtSpeedFactor), 0)
-
+		
 		w.wasGrounded = grounded
 
 		i += 1
@@ -355,15 +361,17 @@ func _physics_process(dt: float) -> void:
 
 	engineAudio.pitch_scale = clamp(lerp(speedPitch, smoothThrottle * 3, 0.5), 0.3, 10)
 
-	# TRACTION
 	if wheelsOnGround > 0:
 		var wheelFactor: float = wheelsOnGround / 4.0
-
 		var midPoint: Vector3 = tractionPoint / wheelsOnGround
+
+		# Steering
 
 		var steeringFactor = clamp(inverse_lerp(0, 5, speed), 0, 1)
 
 		add_torque(-transform.basis.y * xInput * torqueMult * steeringFactor)
+
+		# Traction
 
 		var maxSpeed = maxSpeedKmh / 3.6
 		var tractionMult = 1.0 - ease(abs(forwardVelocity) / maxSpeed, tractionEase)
