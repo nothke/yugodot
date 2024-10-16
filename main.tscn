@@ -97,7 +97,7 @@ transform = Transform( 1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, 1, 0, 0.5222
 shape = SubResource( 5 )
 
 [node name="car" parent="car_controller" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 9.31323e-10, 0, 1, 0, -9.31323e-10, 0, 1, -0.000513077, -0.546232, 0.00111961 )
+transform = Transform( 1, 0, 9.31323e-10, 0, 1, 0, -9.31323e-10, 0, 1, 0, -0.546, 0 )
 
 [node name="wheel_debug" type="ImmediateGeometry" parent="car_controller"]
 transform = Transform( 0.218211, 0, -0.975901, 0, 1, 0, 0.975901, 0, 0.218211, 8.19687, -2.62628, 4.31221 )

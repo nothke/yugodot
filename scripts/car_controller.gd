@@ -195,8 +195,8 @@ func _physics_process(dt: float) -> void:
 	timingText.clear()
 	timingText.push_color(black)
 
-	var stageTimeStr: String = "0.000" if stageTime < 0 else str(stageTime, "F3")
-	var bestTimeStr: String = "--.---" if bestTime == 0 else str(bestTime, "F3")
+	var stageTimeStr: String = "0.000" if stageTime < 0 else "%.3f" % stageTime
+	var bestTimeStr: String = "--.---" if bestTime == 0 else "%.3f" % bestTime
 	timingText.append_bbcode("Best: " + bestTimeStr + "\n")
 
 	timingText.append_bbcode("Time: " + stageTimeStr + "\n")
@@ -310,10 +310,7 @@ func _physics_process(dt: float) -> void:
 		if drawParticles and (grounded != w.wasGrounded || prevYInput != yInput):
 			w.dirt.emitting = true
 		
-		var off: float = -0.1
-		var rightoff = -off if 1 % 2 == 0 else off
-		
-		var localWheelCenter = wheelRoot.to_local(dest + up * 0.3) + Vector3.RIGHT * rightoff
+		var localWheelCenter = wheelRoot.to_local(dest + up * 0.3)
 		w.graphical.translation = localWheelCenter
 		
 		var wheelRot: Vector3 = Vector3.ZERO
