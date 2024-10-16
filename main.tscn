@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://TexturesCom_Cargo0095_S.jpg" type="Texture" id=1]
 [ext_resource path="res://scripts/car_controller.gd" type="Script" id=2]
@@ -6,8 +6,6 @@
 [ext_resource path="res://plane.tres" type="Material" id=4]
 [ext_resource path="res://art/base_plane.tres" type="PlaneMesh" id=5]
 [ext_resource path="res://particle.tres" type="Material" id=6]
-[ext_resource path="res://scripts/LineDrawer3D.cs" type="Script" id=7]
-[ext_resource path="res://line.tres" type="Material" id=8]
 [ext_resource path="res://crate.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Checkpoint.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scripts/carCamera.gd" type="Script" id=11]
@@ -21,7 +19,6 @@
 [ext_resource path="res://car/body.material" type="Material" id=21]
 [ext_resource path="res://gpu_dirt.tres" type="QuadMesh" id=22]
 [ext_resource path="res://gpu_dirt.material" type="Material" id=23]
-[ext_resource path="res://scripts/ParticlesTest.cs" type="Script" id=24]
 [ext_resource path="res://art/track/track.gltf" type="PackedScene" id=25]
 
 [sub_resource type="BoxShape" id=5]
@@ -98,12 +95,6 @@ shape = SubResource( 5 )
 
 [node name="car" parent="car_controller" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 9.31323e-10, 0, 1, 0, -9.31323e-10, 0, 1, 0, -0.546, 0 )
-
-[node name="wheel_debug" type="ImmediateGeometry" parent="car_controller"]
-transform = Transform( 0.218211, 0, -0.975901, 0, 1, 0, 0.975901, 0, 0.218211, 8.19687, -2.62628, 4.31221 )
-material_override = ExtResource( 8 )
-cast_shadow = 0
-script = ExtResource( 7 )
 
 [node name="dirt_fl" type="Particles" parent="car_controller"]
 transform = Transform( 0.999997, 0, 0, 0, 1, -8.74226e-08, 0, 8.74228e-08, 0.999998, -0.595, -0.264411, 1.02726 )
@@ -331,7 +322,6 @@ lifetime = 0.24
 local_coords = false
 process_material = ExtResource( 23 )
 draw_pass_1 = ExtResource( 22 )
-script = ExtResource( 24 )
 
 [node name="dirt_fl" type="CPUParticles" parent="testing"]
 transform = Transform( 0.946812, -0.245938, -0.207497, -0.27827, -0.302018, -0.911784, 0.161574, 0.921027, -0.354394, 25.3946, 4.50584, 22.5842 )
