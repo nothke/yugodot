@@ -1,11 +1,11 @@
 extends Camera
 
-export var car_path:NodePath
+export var car_path: NodePath
 
-var car:Spatial
+var car: Spatial
 
-var camPos:Vector3
-var carPos:Vector3
+var camPos: Vector3
+var carPos: Vector3
 
 var startSmoothing = 1.0
 var raceSmoothing = 7.0
@@ -18,6 +18,7 @@ func _ready():
 	
 	var config = ConfigFile.new()
 	var CONFIG_PATH = "config.ini"
+	
 	if(config.load(CONFIG_PATH) == OK):
 		raceSmoothing = float(config.get_value("camera", "smoothing_rate", 7))
 		height = float(config.get_value("camera", "height", 3))
@@ -32,9 +33,6 @@ func _physics_process(dt):
 	var rearTargetPoint = carPos - carForward * distance
 	rearTargetPoint.y = carPos.y + height
 	
-	# use with C#:
-	#var smoothing = raceSmoothing if car.RaceStarted else startSmoothing
-	# use with gdscript:
 	var smoothing = raceSmoothing if car.race_started() else startSmoothing
 	
 	camPos = camPos.linear_interpolate(rearTargetPoint, dt * smoothing)
