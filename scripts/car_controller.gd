@@ -52,6 +52,8 @@ class Wheel:
 
 var wheels = [] # TODO: Size is known, can we prealloc?
 
+const wheelRadius: float = 0.3
+
 # Timing
 
 var checkpointPassed: int = -1
@@ -290,19 +292,16 @@ func _physics_process(dt: float) -> void:
 
 		var grounded: bool = result.size() > 0
 
+		var graphicalWheelPoint: Vector3 = dest;
+
 		# suspension
 		if grounded:
-			w.wasGrounded = true
-
 			var hitPoint: Vector3 = result["position"]
 			var normal: Vector3 = result["normal"]
 
 			var distFromTarget: float = (dest - hitPoint).length()
 
 			var spring: float = springRate * distFromTarget
-
-			#var traction: Vector3 = normal * (smoothThrottle * tractionForceMult)
-			#add_central_force(traction)
 
 			var veloAtWheel: Vector3 = get_velocity_at_point(origin)
 			var verticalVeloAtWheel: float = up.dot(veloAtWheel)
@@ -313,21 +312,20 @@ func _physics_process(dt: float) -> void:
 
 			var sidewaysTraction: Vector3 = right * (smoothThrottle * sidewaysTractionMult * sidewaysTractionEase)
 			sidewaysTraction = sidewaysTraction.linear_interpolate(Vector3.ZERO, dt * sidewaysTractionEase)
-			#add_central_force(sidewaysTraction)
+			add_central_force(sidewaysTraction)
 
 			#var v: Vector3 = (hitPoint - wheelPos).normalized()
-
-			#line.add_point(hitPoint, black)
-			#line.add_point(hitPoint + normal * 0.1, green)
 
 			wheelsOnGround += 1
 
 			tractionPoint += hitPoint
 
+			graphicalWheelPoint = hitPoint
+
 		if drawParticles and (grounded != w.wasGrounded || prevYInput != yInput):
 			w.dirt.emitting = grounded and yInput > 0
 
-		var localWheelCenter = wheelRoot.to_local(dest + up * 0.3)
+		var localWheelCenter = wheelRoot.to_local(graphicalWheelPoint + up * wheelRadius)
 		w.graphical.translation = localWheelCenter
 
 		var wheelRot: Vector3 = Vector3.ZERO
