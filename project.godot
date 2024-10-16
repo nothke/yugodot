@@ -14,6 +14,10 @@ config/name="stop-waiting-for-godot-jam"
 run/main_scene="res://main.tscn"
 config/icon="res://icon.png"
 
+[audio]
+
+default_bus_layout="res://audio/default_bus_layout.tres"
+
 [mono]
 
 project/assembly_name="stop-waiting-for-godot-jam"

@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/TexturesCom_Grass0177_1_seamless_S.jpg-ffdde28d93980c19c4eba8afba1443ad.s3tc.stex"
-path.etc2="res://.import/TexturesCom_Grass0177_1_seamless_S.jpg-ffdde28d93980c19c4eba8afba1443ad.etc2.stex"
+path.s3tc="res://.import/TexturesCom_Grass0177_1_seamless_S.jpg-a69aeb3d66e4a6041f77ff0405c8ddc4.s3tc.stex"
+path.etc2="res://.import/TexturesCom_Grass0177_1_seamless_S.jpg-a69aeb3d66e4a6041f77ff0405c8ddc4.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://TexturesCom_Grass0177_1_seamless_S.jpg"
-dest_files=[ "res://.import/TexturesCom_Grass0177_1_seamless_S.jpg-ffdde28d93980c19c4eba8afba1443ad.s3tc.stex", "res://.import/TexturesCom_Grass0177_1_seamless_S.jpg-ffdde28d93980c19c4eba8afba1443ad.etc2.stex" ]
+source_file="res://art/TexturesCom_Grass0177_1_seamless_S.jpg"
+dest_files=[ "res://.import/TexturesCom_Grass0177_1_seamless_S.jpg-a69aeb3d66e4a6041f77ff0405c8ddc4.s3tc.stex", "res://.import/TexturesCom_Grass0177_1_seamless_S.jpg-a69aeb3d66e4a6041f77ff0405c8ddc4.etc2.stex" ]
 
 [params]
 

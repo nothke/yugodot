@@ -1,6 +1,6 @@
 [gd_scene load_steps=27 format=2]
 
-[ext_resource path="res://TexturesCom_Cargo0095_S.jpg" type="Texture" id=1]
+[ext_resource path="res://art/TexturesCom_Cargo0095_S.jpg" type="Texture" id=1]
 [ext_resource path="res://scripts/car_controller.gd" type="Script" id=2]
 [ext_resource path="res://car.tscn" type="PackedScene" id=3]
 [ext_resource path="res://plane.tres" type="Material" id=4]
@@ -17,8 +17,8 @@
 [ext_resource path="res://new_environment.tres" type="Environment" id=18]
 [ext_resource path="res://inconsolata.tres" type="DynamicFont" id=19]
 [ext_resource path="res://car/body.material" type="Material" id=21]
-[ext_resource path="res://gpu_dirt.tres" type="QuadMesh" id=22]
-[ext_resource path="res://gpu_dirt.material" type="Material" id=23]
+[ext_resource path="res://effects/gpu_dirt.tres" type="QuadMesh" id=22]
+[ext_resource path="res://effects/gpu_dirt.material" type="Material" id=23]
 [ext_resource path="res://art/track/track.gltf" type="PackedScene" id=25]
 
 [sub_resource type="BoxShape" id=5]
@@ -158,34 +158,24 @@ shape = SubResource( 7 )
 [node name="crates" type="Spatial" parent="."]
 
 [node name="crate" parent="crates" instance=ExtResource( 9 )]
+transform = Transform( 0.4761, 0, -0.879391, 0, 1, 0, 0.879391, 0, 0.4761, 9.93102, 1.39276, -24.1007 )
 
 [node name="crate2" parent="crates" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.75005, 0.496809, 1.22815 )
+transform = Transform( 0.4761, 0, -0.879391, 0, 1, 0, 0.879391, 0, 0.4761, 10.1554, 0.524634, -24.2915 )
 
 [node name="crate3" parent="crates" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.75005, 0.496809, 2.10822 )
+transform = Transform( 0.4761, 0, -0.879391, 0, 1, 0, 0.879391, 0, 0.4761, 9.38148, 0.524634, -23.8724 )
 
 [node name="crate4" parent="crates" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.75005, 0.496809, 2.96164 )
+transform = Transform( 0.4761, 0, -0.879391, 0, 1, 0, 0.879391, 0, 0.4761, 8.63099, 0.524634, -23.4661 )
 
 [node name="crate5" parent="crates" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.75005, 1.35388, 2.55557 )
+transform = Transform( 0.4761, 0, -0.879391, 0, 1, 0, 0.879391, 0, 0.4761, 8.98808, 1.3817, -23.6595 )
 
 [node name="crate6" parent="crates" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.75576, 2.15155, 2.07984 )
+transform = Transform( 0.4761, 0, -0.879391, 0, 1, 0, 0.879391, 0, 0.4761, 9.40372, 2.17937, -23.891 )
 
 [node name="ramps" type="Spatial" parent="."]
-
-[node name="ramp_1" type="MeshInstance" parent="ramps"]
-transform = Transform( 5.71067, -0.190899, 0.106616, 1.11094, 0.981604, 2.15103e-09, -0.100677, 0.00336548, 6.04752, 4.43784, -0.0275291, 7.46788 )
-mesh = SubResource( 1 )
-skeleton = NodePath("../..")
-material/0 = SubResource( 2 )
-
-[node name="StaticBody" type="StaticBody" parent="ramps/ramp_1"]
-
-[node name="CollisionShape" type="CollisionShape" parent="ramps/ramp_1/StaticBody"]
-shape = SubResource( 3 )
 
 [node name="ramp_2" type="MeshInstance" parent="ramps"]
 transform = Transform( -5.43768, 0.181773, -1.85049, 1.11094, 0.981604, 2.15103e-09, 1.74742, -0.0584136, -5.75843, -69.7045, 7.16618, -109.377 )
@@ -196,17 +186,6 @@ material/0 = SubResource( 2 )
 [node name="StaticBody" type="StaticBody" parent="ramps/ramp_2"]
 
 [node name="CollisionShape" type="CollisionShape" parent="ramps/ramp_2/StaticBody"]
-shape = SubResource( 3 )
-
-[node name="ramp_3" type="MeshInstance" parent="ramps"]
-transform = Transform( 5.71067, -0.190899, 0.106616, 1.11094, 0.981604, 2.15103e-09, -0.100677, 0.00336548, 6.04752, 75.165, -0.0275291, 7.46788 )
-mesh = SubResource( 1 )
-skeleton = NodePath("../..")
-material/0 = SubResource( 2 )
-
-[node name="StaticBody" type="StaticBody" parent="ramps/ramp_3"]
-
-[node name="CollisionShape" type="CollisionShape" parent="ramps/ramp_3/StaticBody"]
 shape = SubResource( 3 )
 
 [node name="Checkpoint" parent="." instance=ExtResource( 10 )]

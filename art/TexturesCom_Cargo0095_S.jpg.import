@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/TexturesCom_Cargo0095_S.jpg-4365b27f3b5b31ab88dfa891e31f98e3.s3tc.stex"
-path.etc2="res://.import/TexturesCom_Cargo0095_S.jpg-4365b27f3b5b31ab88dfa891e31f98e3.etc2.stex"
+path.s3tc="res://.import/TexturesCom_Cargo0095_S.jpg-4b4db4c1711f691a26dc4b3307077d4d.s3tc.stex"
+path.etc2="res://.import/TexturesCom_Cargo0095_S.jpg-4b4db4c1711f691a26dc4b3307077d4d.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://TexturesCom_Cargo0095_S.jpg"
-dest_files=[ "res://.import/TexturesCom_Cargo0095_S.jpg-4365b27f3b5b31ab88dfa891e31f98e3.s3tc.stex", "res://.import/TexturesCom_Cargo0095_S.jpg-4365b27f3b5b31ab88dfa891e31f98e3.etc2.stex" ]
+source_file="res://art/TexturesCom_Cargo0095_S.jpg"
+dest_files=[ "res://.import/TexturesCom_Cargo0095_S.jpg-4b4db4c1711f691a26dc4b3307077d4d.s3tc.stex", "res://.import/TexturesCom_Cargo0095_S.jpg-4b4db4c1711f691a26dc4b3307077d4d.etc2.stex" ]
 
 [params]
 
