@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://art/TexturesCom_Cargo0095_S.jpg" type="Texture" id=1]
 [ext_resource path="res://scripts/car_controller.gd" type="Script" id=2]
@@ -16,7 +16,6 @@
 [ext_resource path="res://audio/Blip_Select12.wav" type="AudioStream" id=17]
 [ext_resource path="res://effects/new_environment.tres" type="Environment" id=18]
 [ext_resource path="res://art/fonts/inconsolata.tres" type="DynamicFont" id=19]
-[ext_resource path="res://car/body.material" type="Material" id=21]
 [ext_resource path="res://effects/gpu_dirt.tres" type="QuadMesh" id=22]
 [ext_resource path="res://effects/gpu_dirt.material" type="Material" id=23]
 [ext_resource path="res://art/track/track.gltf" type="PackedScene" id=25]
@@ -86,8 +85,6 @@ countdownPath = NodePath("../countdown")
 checkpointSoundPath = NodePath("../audio_checkpoint")
 countdownSoundPath = NodePath("../audio_countdown")
 finishSoundPath = NodePath("../audio_finish")
-material = ExtResource( 21 )
-bodyNode = NodePath("car/RootNode/car/car_body")
 
 [node name="CollisionShape" type="CollisionShape" parent="car_controller"]
 transform = Transform( 1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, 1, 0, 0.522249, 0 )

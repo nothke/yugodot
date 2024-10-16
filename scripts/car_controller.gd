@@ -22,9 +22,6 @@ export var checkpointSoundPath: NodePath
 export var countdownSoundPath: NodePath
 export var finishSoundPath: NodePath
 
-export var material: Material
-export var bodyNode: NodePath
-
 # Car vars
 
 var torqueMult: float = 10
@@ -143,8 +140,6 @@ func _ready():
 	checkpointSound = get_node(checkpointSoundPath) as AudioStreamPlayer
 	countdownSound = get_node(countdownSoundPath) as AudioStreamPlayer
 	finishSound = get_node(finishSoundPath) as AudioStreamPlayer
-
-	get_node(bodyNode).material_override = material
 
 	for w in wheels:
 		w.dirt.emitting = false
