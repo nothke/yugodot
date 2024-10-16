@@ -1,6 +1,7 @@
 extends RigidBody
 
 export var raycastHeightOffset: float = 0
+const rayLength = 0.6
 
 export var springRate: float = 20
 export var dampRate = 2
@@ -20,16 +21,9 @@ export var countdownSoundPath: NodePath
 export var finishSoundPath: NodePath 
 
 export var material: Material 
-export var bodyNode: NodePath 
-
-var checkpointSound: AudioStreamPlayer 
-var countdownSound: AudioStreamPlayer 
-var finishSound: AudioStreamPlayer 
-
-var engineAudio: AudioStreamPlayer3D
+export var bodyNode: NodePath
 
 var torqueMult: float = 10
-
 
 var wheelBase: float = 1.05
 var wheelTrack: float = 0.7
@@ -37,11 +31,26 @@ var wheelTrack: float = 0.7
 var wheelRoot: Spatial
 
 var smoothThrottle: float
+var smoothSteer: float # Used for graphics
+
+var prevYInput: float
+
+var  config: ConfigFile
+var drawParticles = true
+#var drawLines = false
+var debugSplits = false
+
+class Wheel:
+	var point: Vector3
+	var graphical: Spatial
+	var dirt: Particles
+	var wasGrounded: bool
+
+var wheels = [] # TODO: Size is known, can we prealloc?
+
+# Timing
 
 var checkpointPassed: int = -1
-
-var timingText: RichTextLabel
-var countdownText: RichTextLabel
 
 var countdown: float = 4
 
@@ -54,27 +63,6 @@ var bestCheckpointTimes: PoolRealArray
 var checkpointTimes: PoolRealArray
 var prevBestCheckpointTimes: PoolRealArray
 
-const red = Color(1.0, 0.0, 0.0)
-const blue = Color(0, 0.0, 1.0)
-const green = Color(0.0, 1.0, 0.0)
-const darkGreen = Color(0.0, 0.9, 0.0)
-const black = Color(0, 0, 0)
-
-var prevYInput: float
-
-var  config: ConfigFile
-var drawParticles = true
-var drawLines = false
-var debugSplits = false
-
-class Wheel:
-	var point: Vector3
-	var graphical: Spatial
-	var dirt: Particles
-	var wasGrounded: bool
-
-var wheels = [] # Wheel
-
 var stageEnded = false;
 
 func race_started():
@@ -82,12 +70,12 @@ func race_started():
 
 var stageTime: float
 
-var speedPitch: float
-
-var smoothSteer: float
 var lastCountdownTime: int
 
-const dbToVolume = 8.685
+var timingText: RichTextLabel
+var countdownText: RichTextLabel
+
+# Replay
 
 class ReplaySample:
 	var t: Transform
@@ -96,7 +84,27 @@ class ReplaySample:
 
 var samples = [] # TODO: Init capacity..?
 
-const rayLength = 0.6
+var isReplay: bool = false
+var replaySample: int = 0
+
+# Audio
+
+var speedPitch: float
+
+var checkpointSound: AudioStreamPlayer
+var countdownSound: AudioStreamPlayer
+var finishSound: AudioStreamPlayer
+var engineAudio: AudioStreamPlayer3D
+
+const dbToVolume = 8.685
+
+# Debugging
+
+const red = Color(1.0, 0.0, 0.0)
+const blue = Color(0, 0.0, 1.0)
+const green = Color(0.0, 1.0, 0.0)
+const darkGreen = Color(0.0, 0.9, 0.0)
+const black = Color(0, 0, 0)
 
 func _ready():
 	wheels.resize(4)
@@ -108,7 +116,6 @@ func _ready():
 	wheels[2].point = Vector3(-wheelTrack, 0, -wheelBase)
 	wheels[3].point = Vector3(wheelTrack, 0, -wheelBase)
 
-	# line = get_node("wheel_debug") as LineDrawer3D
 
 	wheels[0].graphical = get_node("car/RootNode/fl") as MeshInstance
 	wheels[1].graphical = get_node("car/RootNode/fr") as MeshInstance
@@ -136,6 +143,8 @@ func _ready():
 	for w in wheels:
 		w.dirt.emitting = false
 
+	# line = get_node("wheel_debug") as LineDrawer3D
+
 	config = ConfigFile.new()
 	var configPath = "config.ini"
 	if config.load(configPath) == OK:
@@ -146,7 +155,7 @@ func _ready():
 		AudioServer.set_bus_volume_db(0, log(volume) * dbToVolume)
 
 		drawParticles = float(config.get_value("graphics", "draw_particles", 1)) != 0
-		drawLines = float(config.get_value("debug", "lines", 0)) != 0
+		#drawLines = float(config.get_value("debug", "lines", 0)) != 0
 		debugSplits = float(config.get_value("debug", "splits", 0)) != 0
 	else:
 		print("Couldn't load " + configPath)
@@ -168,15 +177,14 @@ func get_velocity_at_point(point: Vector3) -> Vector3:
 static func repeat(t: float, length: float) -> float:
 	return clamp(t - floor(t / length) * length, 0.0, length)
 
-func sat(value: float) -> float:
+static func sat(value: float) -> float:
 	return clamp(value, 0, 1)
 
 func get_sector_time(splits: PoolRealArray, i: int) -> float:
-	var lastCheckTime: float = 0 if i == 0 else splits[i - 1]
+	var lastCheckTime: float = 0.0 if i == 0 else splits[i - 1]
 	return splits[i] - lastCheckTime
 
-var isReplay: bool = false
-var replaySample: int = 0
+
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.scancode == KEY_F:
@@ -331,14 +339,14 @@ func _physics_process(dt: float) -> void:
 			w.graphical.rotate(Vector3.UP, -smoothSteer * deg2rad(30))
 			
 		if drawParticles:
-			var dirtSpeedFactor = -smoothSteer if i < 2 else 0
+			var dirtSpeedFactor = -smoothSteer if i < 2 else 0.0
 			w.dirt.rotation = Vector3(deg2rad(20), atan(-sidewaysSpeed * 0.1 + dirtSpeedFactor), 0)
 		
 		w.wasGrounded = grounded
 		
 		i += 1
 		
-	var gear: int = int(floor(forwardVelocity / 8))
+	# var gear: int = int(floor(forwardVelocity / 8))
 	
 	var gearPitch: float = repeat(forwardVelocity, 8.0) / 8.0
 	speedPitch = lerp(speedPitch, speed * 0.1 * gearPitch, dt * 10)
@@ -358,9 +366,9 @@ func _physics_process(dt: float) -> void:
 		var maxSpeed = maxSpeedKmh / 3.6
 		var tractionMult = 1.0 - ease(abs(forwardVelocity) / maxSpeed, tractionEase)
 		var tractionForce = tractionMult * yInput * tractionForceMult * wheelFactor
-		
+
 		var sideAbs = abs(sidewaysSpeed)
-		var sidewaysSign: int = sign(sidewaysSpeed)
+		var sidewaysSign: int = int(sign(sidewaysSpeed))
 		var earlyTraction: float = sat(sideAbs * 2.0) * sat(1 - sideAbs / 20.0) * 10.0
 		var sidewaysTractionFac: float = (earlyTraction + ease(abs(sidewaysSpeed) / maxTraction, sidewaysTractionEase) * maxTraction) * sidewaysSign;
 		
