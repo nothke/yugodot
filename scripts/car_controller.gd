@@ -156,6 +156,11 @@ func _ready():
 	checkpointTimes.resize(CHECKPOINT_NUM)
 	bestCheckpointTimes.resize(CHECKPOINT_NUM)
 	prevBestCheckpointTimes.resize(CHECKPOINT_NUM)
+	
+	for i in CHECKPOINT_NUM:
+		checkpointTimes[i] = 0
+		bestCheckpointTimes[i] = 0
+		prevBestCheckpointTimes[i] = 0
 
 func get_velocity_at_point(point: Vector3) -> Vector3:
 	return linear_velocity + angular_velocity.cross(point - global_transform.origin)
