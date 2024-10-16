@@ -50,16 +50,15 @@ var sceneStartTime: float
 const CHECKPOINT_NUM: int = 13
 var bestTime: float
 # TODO: Init capacity to CHECKPOINT_NUM
-var bestCheckpointTimes = [PoolRealArray()] 
-var checkpointTimes = [PoolRealArray()] 
-var prevBestCheckpointTimes = [PoolRealArray()]
+var bestCheckpointTimes: PoolRealArray
+var checkpointTimes: PoolRealArray
+var prevBestCheckpointTimes: PoolRealArray
 
 const red = Color(1.0, 0.0, 0.0)
 const blue = Color(0, 0.0, 1.0)
 const green = Color(0.0, 1.0, 0.0)
 const darkGreen = Color(0.0, 0.9, 0.0)
 const black = Color(0, 0, 0)
-
 
 var prevYInput: float
 
@@ -73,7 +72,6 @@ class Wheel:
 	var graphical: Spatial
 	var dirt: Particles
 	var wasGrounded: bool
-
 
 var wheels = [] # Wheel
 
@@ -101,8 +99,9 @@ var samples = [] # TODO: Init capacity..?
 const rayLength = 0.6
 
 func _ready():
+	wheels.resize(4)
 	for i in 4:
-		wheels.append(Wheel.new())
+		wheels[i] = Wheel.new()
 	
 	wheels[0].point = Vector3(-wheelTrack, 0, wheelBase)
 	wheels[1].point = Vector3(wheelTrack, 0, wheelBase)
@@ -151,6 +150,12 @@ func _ready():
 		debugSplits = float(config.get_value("debug", "splits", 0)) != 0
 	else:
 		print("Couldn't load " + configPath)
+		
+	checkpointPassed = -1
+	
+	checkpointTimes.resize(CHECKPOINT_NUM)
+	bestCheckpointTimes.resize(CHECKPOINT_NUM)
+	prevBestCheckpointTimes.resize(CHECKPOINT_NUM)
 
 func get_velocity_at_point(point: Vector3) -> Vector3:
 	return linear_velocity + angular_velocity.cross(point - global_transform.origin)
@@ -161,7 +166,7 @@ static func repeat(t: float, length: float) -> float:
 func sat(value: float) -> float:
 	return clamp(value, 0, 1)
 
-func get_sector_time(splits: Array, i: int) -> float:
+func get_sector_time(splits: PoolRealArray, i: int) -> float:
 	var lastCheckTime: float = 0 if i == 0 else splits[i - 1]
 	return splits[i] - lastCheckTime
 
@@ -211,7 +216,7 @@ func _physics_process(dt: float) -> void:
 			timingText.append_bbcode("#")
 
 		var diff: float = get_sector_time(checkpointTimes, checkpointPassed) - get_sector_time(bestTimes, checkpointPassed)
-		timingText.append_bbcode("\nSplit: " + ("+" if diff > 0 else "") + str(diff, "%.3f"))
+		timingText.append_bbcode("\nSplit: " + ("+" if diff > 0 else "") + ("%.3f" % diff))
 
 	if stageEnded:
 		timingText.push_color(black)
@@ -354,7 +359,7 @@ func _physics_process(dt: float) -> void:
 		
 		var sideAbs = abs(sidewaysSpeed)
 		var sidewaysSign: int = sign(sidewaysSpeed)
-		var earlyTraction: float = clamp(sideAbs * 2.0, 0, 1) * clamp(1 - sideAbs / 20.0, 0, 1) * 10.0
+		var earlyTraction: float = sat(sideAbs * 2.0) * sat(1 - sideAbs / 20.0) * 10.0
 		var sidewaysTractionFac: float = (earlyTraction + ease(abs(sidewaysSpeed) / maxTraction, sidewaysTractionEase) * maxTraction) * sidewaysSign;
 		
 		var sidewaysTraction: Vector3 = -right * sidewaysTractionMult * sidewaysTractionFac
@@ -373,23 +378,24 @@ func _physics_process(dt: float) -> void:
 		
 # TODO: rename to on_trigger_entered later
 func BodyEntered(body: Node, checkpointIndex: int) -> void:
-	if body.is_in_group("checkpoints"):
-		#var checkpointIndex: int = body.get("checkpoint_index")
+	if body == self:
+		print("Entered " + str(checkpointIndex))
+		
+		if checkpointPassed + 1 == checkpointIndex:
+			print("Valid checkpoint!")
+			
+			checkpointPassed = checkpointIndex;
+			checkpointSound.play();
 
-		if checkpointIndex > checkpointPassed:
-			checkpointPassed = checkpointIndex
-			checkpointTimes.append(OS.get_ticks_msec() / 1000.0)
-			checkpointSound.play()
+			checkpointTimes[checkpointIndex] = stageTime;
+			
+		if checkpointPassed == 12 && checkpointIndex == 0:
+			stageEnded = true;
+			finishSound.play();
 
-			if checkpointPassed >= CHECKPOINT_NUM:
-				stageEnded = true
-				finishSound.play()
-				if bestTime == 0 or stageTime < bestTime:
-					bestTime = stageTime
-					bestCheckpointTimes = checkpointTimes.duplicate()
-
-				if checkpointPassed == CHECKPOINT_NUM:
-					countdownText.text = ""
-
-				checkpointTimes = []
-				prevBestCheckpointTimes = bestCheckpointTimes.duplicate()
+			if bestTime == 0 or stageTime < bestTime:
+				bestTime = stageTime;
+				for i in CHECKPOINT_NUM:
+					prevBestCheckpointTimes[i] = bestCheckpointTimes[i];
+					bestCheckpointTimes[i] = checkpointTimes[i];
+		
