@@ -1,9 +1,0 @@
-<Project Sdk="Godot.NET.Sdk/3.3.0">
-  <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-    <RootNamespace>stopwaitingforgodotjam</RootNamespace>
-  </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="scripts\NewFolder\" />
-  </ItemGroup>
-</Project>
