@@ -6,7 +6,7 @@
 extents = Vector3( 0.354209, 22.1532, 5.20659 )
 
 [node name="Checkpoint" type="Area"]
-transform = Transform( 0.999998, 0, 0, 0, 0.999998, 0, 0, 0, 1, 25.0536, 0, 17.466 )
+transform = Transform( 0.999998, 0, 0, 0, 0.999998, 0, 0, 0, 1, 0, 0, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 1 )

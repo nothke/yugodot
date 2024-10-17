@@ -391,8 +391,7 @@ func _physics_process(dt: float) -> void:
 
 		samples.append(replaySample)
 
-# TODO: rename to on_trigger_entered later
-func BodyEntered(body: Node, checkpointIndex: int) -> void:
+func on_entered_checkpoint(body: Node, checkpointIndex: int) -> void:
 	if body == self:
 		print("Entered " + str(checkpointIndex))
 
@@ -413,4 +412,3 @@ func BodyEntered(body: Node, checkpointIndex: int) -> void:
 				for i in CHECKPOINT_NUM:
 					prevBestCheckpointTimes[i] = bestCheckpointTimes[i];
 					bestCheckpointTimes[i] = checkpointTimes[i];
-
