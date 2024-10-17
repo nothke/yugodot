@@ -88,7 +88,7 @@ class ReplaySample:
 var samples = [] # TODO: Init capacity..?
 
 var isReplay: bool = false
-var replaySample: int = 0
+var replaySampleIndex: int = 0
 
 # Audio
 
@@ -190,14 +190,16 @@ func get_sector_time(splits: PoolRealArray, i: int) -> float:
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.scancode == KEY_F:
 		isReplay = true
-		replaySample = 0
+		replaySampleIndex = 0
 
 func _physics_process(dt: float) -> void:
 	if isReplay:
-		transform = samples[replaySample].t
-		replaySample += 1
-		if replaySample == samples.size():
-			replaySample = 0
+		var sample: ReplaySample = samples[replaySampleIndex] as ReplaySample
+		transform = sample.t
+		
+		replaySampleIndex += 1
+		if replaySampleIndex == samples.size():
+			replaySampleIndex = 0
 
 	# -- TIMING --
 
@@ -254,7 +256,7 @@ func _physics_process(dt: float) -> void:
 	var throttleInput: float = yInput
 
 	if isReplay:
-		yInput = samples[replaySample].throttle
+		yInput = samples[replaySampleIndex].throttle
 
 	smoothSteer = lerp(smoothSteer, xInput, dt * 10)
 
@@ -389,7 +391,7 @@ func _physics_process(dt: float) -> void:
 		s.time = stageTime
 		s.throttle = throttleInput
 
-		samples.append(replaySample)
+		samples.append(s)
 
 func on_entered_checkpoint(body: Node, checkpointIndex: int) -> void:
 	if body == self:
