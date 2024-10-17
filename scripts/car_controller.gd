@@ -7,9 +7,9 @@ const rayLength = 0.6
 
 export var springRate: float = 20
 export var dampRate = 2
-export(float, EXP) var tractionEase: float = 2
+export(float, EASE) var tractionEase: float = 2
 export var maxSpeedKmh: float = 60
-export(float, EXP) var sidewaysTractionEase: float = 1
+export(float, EASE) var sidewaysTractionEase: float = 1
 export var maxTraction: float = 30
 export var tractionForceMult: float = 10
 export var sidewaysTractionMult: float = 1
