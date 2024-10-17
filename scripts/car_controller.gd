@@ -380,8 +380,9 @@ func _physics_process(dt: float) -> void:
 		var sidewaysTractionFac: float = (earlyTraction + ease(abs(sidewaysSpeed) / maxTraction, sidewaysTractionEase) * maxTraction) * sidewaysSign;
 
 		var sidewaysTraction: Vector3 = -right * sidewaysTractionMult * sidewaysTractionFac
+		var forwardTraction: Vector3 = forward * tractionForce
 
-		add_force(forward * tractionForce + sidewaysTraction, midPoint - transform.origin)
+		add_force(forwardTraction + sidewaysTraction, midPoint - transform.origin)
 
 	prevYInput = yInput
 
