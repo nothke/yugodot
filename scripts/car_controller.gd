@@ -120,10 +120,10 @@ func _ready():
 	wheels[3].point = Vector3(wheelTrack, 0, -wheelBase)
 
 
-	wheels[0].graphical = get_node("car/RootNode/fl") as MeshInstance
-	wheels[1].graphical = get_node("car/RootNode/fr") as MeshInstance
-	wheels[2].graphical = get_node("car/RootNode/rl") as MeshInstance
-	wheels[3].graphical = get_node("car/RootNode/rr") as MeshInstance
+	wheels[0].graphical = get_node("car/RootNode/fl") as Spatial
+	wheels[1].graphical = get_node("car/RootNode/fr") as Spatial
+	wheels[2].graphical = get_node("car/RootNode/rl") as Spatial
+	wheels[3].graphical = get_node("car/RootNode/rr") as Spatial
 	wheelRoot = wheels[0].graphical.get_parent() as Spatial
 
 	wheels[0].dirt = get_node("dirt_fl") as Particles

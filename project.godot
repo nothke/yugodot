@@ -30,4 +30,3 @@ common/enable_pause_aware_picking=true
 [rendering]
 
 quality/filters/anisotropic_filter_level=8
-environment/default_environment="res://effects/default_env.tres"
