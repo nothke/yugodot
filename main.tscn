@@ -36,6 +36,10 @@ volumetric_fog_enabled = true
 volumetric_fog_density = 0.017
 volumetric_fog_detail_spread = 2.61165
 volumetric_fog_ambient_inject = 1.02
+adjustment_enabled = true
+adjustment_brightness = 1.03
+adjustment_contrast = 1.24
+adjustment_saturation = 1.18
 
 [sub_resource type="BoxShape3D" id="5"]
 size = Vector3(1.45985, 1.08932, 3.3073)
