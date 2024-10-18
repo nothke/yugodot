@@ -1,13 +1,14 @@
-[gd_scene load_steps=26 format=3 uid="uid://c3jddj6t3n61p"]
+[gd_scene load_steps=27 format=3 uid="uid://c3jddj6t3n61p"]
 
 [ext_resource type="Script" path="res://scripts/car_controller.gd" id="2"]
 [ext_resource type="PackedScene" path="res://car.tscn" id="3"]
 [ext_resource type="Material" path="res://art/plane.tres" id="4"]
 [ext_resource type="PlaneMesh" path="res://art/base_plane.tres" id="5"]
 [ext_resource type="Material" path="res://effects/particle.tres" id="6"]
-[ext_resource type="PackedScene" path="res://props/crate.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://dwgc3ig5rxica" path="res://props/crate.tscn" id="9"]
 [ext_resource type="PackedScene" path="res://props/checkpoint.tscn" id="10"]
 [ext_resource type="Script" path="res://scripts/car_camera.gd" id="11"]
+[ext_resource type="Material" uid="uid://bowatd2vi73uc" path="res://art/crate.tres" id="12_i58xi"]
 [ext_resource type="AudioStream" uid="uid://dn0s865j4dybc" path="res://audio/beetle_hi.wav" id="13"]
 [ext_resource type="Script" path="res://scripts/game.gd" id="14"]
 [ext_resource type="AudioStream" uid="uid://blkbgboic27oe" path="res://audio/beep.wav" id="15"]
@@ -31,6 +32,7 @@ sky = SubResource("Sky_j6ggp")
 tonemap_mode = 2
 ssao_enabled = true
 glow_enabled = true
+glow_strength = 1.51
 fog_sky_affect = 0.5
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.017
@@ -201,6 +203,7 @@ transform = Transform3D(0.4761, 0, -0.879391, 0, 1, 0, 0.879391, 0, 0.4761, 9.40
 
 [node name="ramp_2" type="MeshInstance3D" parent="ramps"]
 transform = Transform3D(-5.43768, 0.181773, -1.85049, 1.11094, 0.981604, 2.15103e-09, 1.74742, -0.0584136, -5.75843, -69.7045, 7.16618, -109.377)
+material_override = ExtResource("12_i58xi")
 mesh = SubResource("1")
 skeleton = NodePath("../..")
 

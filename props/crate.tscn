@@ -1,22 +1,20 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://dwgc3ig5rxica"]
 
-[ext_resource path="res://art/TexturesCom_Cargo0095_S.jpg" type="Texture2D" id=1]
+[ext_resource type="Material" uid="uid://bowatd2vi73uc" path="res://art/crate.tres" id="1_cxbwo"]
 
-[sub_resource type="BoxShape3D" id=1]
+[sub_resource type="BoxShape3D" id="1"]
+size = Vector3(2, 2, 2)
 
-[sub_resource type="BoxMesh" id=2]
-
-[sub_resource type="StandardMaterial3D" id=3]
-albedo_texture = ExtResource( 1 )
+[sub_resource type="BoxMesh" id="2"]
 
 [node name="RigidBody3" type="RigidBody3D"]
 mass = 0.2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D( 0.4, 9.31323e-08, -2.23517e-08, -1.00583e-07, 0.4, 2.98023e-08, -1.49012e-08, -1.04308e-07, 0.4, 0, 0, 0 )
-shape = SubResource( 1 )
+transform = Transform3D(0.4, 9.31323e-08, -2.23517e-08, -1.00583e-07, 0.4, 2.98023e-08, -1.49012e-08, -1.04308e-07, 0.4, 0, 0, 0)
+shape = SubResource("1")
 
-[node name="MeshInstance3" type="MeshInstance3D" parent="CollisionShape3D"]
-transform = Transform3D( 1, 7.45058e-08, 4.47035e-08, 1.04308e-07, 1, -5.96046e-08, 4.47035e-08, -5.96047e-08, 1, 0.0548363, 0.0308275, 0.0623932 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 3 )
+[node name="cube" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(2, -2.08616e-07, -8.9407e-08, 2.08616e-07, 2, 1.19209e-07, 8.9407e-08, -1.19209e-07, 2, 0, 0, 0)
+material_override = ExtResource("1_cxbwo")
+mesh = SubResource("2")
