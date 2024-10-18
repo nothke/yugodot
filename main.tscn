@@ -16,7 +16,7 @@
 [ext_resource type="AudioStream" uid="uid://n73bnpaqi8wu" path="res://audio/Blip_Select12.wav" id="17"]
 [ext_resource type="FontFile" path="res://art/fonts/inconsolata.tres" id="19"]
 [ext_resource type="QuadMesh" path="res://effects/gpu_dirt.tres" id="22"]
-[ext_resource type="Material" path="res://effects/gpu_dirt.material" id="23"]
+[ext_resource type="Material" uid="uid://ckkb1wyahqkn7" path="res://effects/gpu_dirt.material" id="23"]
 [ext_resource type="PackedScene" uid="uid://dwmbpe5cqsrb" path="res://art/track/track.gltf" id="25"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j7wa3"]
