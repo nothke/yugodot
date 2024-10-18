@@ -44,7 +44,7 @@ var debugSplits = false
 class Wheel:
 	var point: Vector3
 	var graphical: Node3D
-	var dirt: Particles
+	var dirt: GPUParticles3D
 	var wasGrounded: bool
 
 var wheels = [] # TODO: Size is known, can we prealloc?
@@ -123,10 +123,10 @@ func _ready():
 		var child: Node3D = w.graphical.get_child(0) as Node3D
 		child.translate_object_local(Vector3.RIGHT * wheelGraphicalXOffset)
 
-	wheels[0].dirt = get_node("dirt_fl") as Particles
-	wheels[1].dirt = get_node("dirt_fr") as Particles
-	wheels[2].dirt = get_node("dirt_rl") as Particles
-	wheels[3].dirt = get_node("dirt_rr") as Particles
+	wheels[0].dirt = get_node("dirt_fl") as GPUParticles3D
+	wheels[1].dirt = get_node("dirt_fr") as GPUParticles3D
+	wheels[2].dirt = get_node("dirt_rl") as GPUParticles3D
+	wheels[3].dirt = get_node("dirt_rr") as GPUParticles3D
 
 	engineAudio = get_node(engineAudioPath) as AudioStreamPlayer3D
 	timingText = get_node(timingPath) as RichTextLabel
@@ -288,8 +288,9 @@ func _physics_process(dt: float) -> void:
 
 		var origin: Vector3 = wheelPos + up * raycastHeightOffset
 		var dest: Vector3 = origin - up * rayLength
-
-		var result: Dictionary = spaceState.intersect_ray(origin, dest)
+		
+		var ray := PhysicsRayQueryParameters3D.create(origin, dest)
+		var result: Dictionary = spaceState.intersect_ray(ray)
 
 		var grounded: bool = result.size() > 0
 
