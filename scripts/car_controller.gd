@@ -212,9 +212,8 @@ func _physics_process(dt: float) -> void:
 
 	var stageTimeStr: String = "0.000" if stageTime < 0 else "%.3f" % stageTime
 	var bestTimeStr: String = "--.---" if bestTime == 0 else "%.3f" % bestTime
-	timingText.append_bbcode("Best: " + bestTimeStr + "\n")
-
-	timingText.append_bbcode("Time: " + stageTimeStr + "\n")
+	timingText.append_text("Best: " + bestTimeStr + "\n")
+	timingText.append_text("Time: " + stageTimeStr + "\n")
 
 	if checkpointPassed >= 0:
 		var bestTimes = prevBestCheckpointTimes if stageEnded else bestCheckpointTimes
@@ -228,14 +227,14 @@ func _physics_process(dt: float) -> void:
 			else:
 				timingText.push_color(Color.RED)
 
-			timingText.append_bbcode("#")
+			timingText.append_text("#")
 
 		var diff: float = get_sector_time(checkpointTimes, checkpointPassed) - get_sector_time(bestTimes, checkpointPassed)
-		timingText.append_bbcode("\nSplit: " + ("+" if diff > 0 else "") + ("%.3f" % diff))
+		timingText.append_text("\nSplit: " + ("+" if diff > 0 else "") + ("%.3f" % diff))
 
 	if stageEnded:
 		timingText.push_color(Color.BLACK)
-		timingText.append_bbcode("\nFinished! Press R to restart")
+		timingText.append_text("\nFinished! Press R to restart")
 
 	if stageTime < 0:
 		if countdownTime != lastCountdownTime:
