@@ -50,6 +50,7 @@ class Wheel:
 var wheels = [] # TODO: Size is known, can we prealloc?
 
 const wheelRadius: float = 0.3
+const wheelGraphicalXOffset: float = -0.1
 
 # Timing
 
@@ -125,6 +126,10 @@ func _ready():
 	wheels[2].graphical = get_node("car/RootNode/rl") as Spatial
 	wheels[3].graphical = get_node("car/RootNode/rr") as Spatial
 	wheelRoot = wheels[0].graphical.get_parent() as Spatial
+	
+	for w in wheels:
+		var child: Spatial = w.graphical.get_child(0) as Spatial
+		child.translate_object_local(Vector3.RIGHT * wheelGraphicalXOffset)
 
 	wheels[0].dirt = get_node("dirt_fl") as Particles
 	wheels[1].dirt = get_node("dirt_fr") as Particles
