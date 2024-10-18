@@ -29,7 +29,7 @@ sky_material = SubResource("ProceduralSkyMaterial_j7wa3")
 [sub_resource type="Environment" id="Environment_ems32"]
 background_mode = 2
 sky = SubResource("Sky_j6ggp")
-tonemap_mode = 2
+reflected_light_source = 2
 ssao_enabled = true
 glow_enabled = true
 glow_strength = 1.51
@@ -69,9 +69,9 @@ tracksideCamera = NodePath("../trackside_camera")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.0369346, 0.895348, 0.443833, -0.784513, -0.249134, 0.567865, 0.619011, -0.369167, 0.693211, -8.51985, 10.6491, -20.8834)
-light_indirect_energy = 0.88
 shadow_enabled = true
-shadow_bias = 0.16
+shadow_opacity = 0.8
+shadow_blur = 4.0
 
 [node name="trackside_camera" type="Camera3D" parent="."]
 transform = Transform3D(-0.626985, -0.122619, 0.769321, 0, 0.987535, 0.157399, -0.779032, 0.098687, -0.619169, 60.909, 10.683, -61.256)
