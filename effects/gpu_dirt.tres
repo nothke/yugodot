@@ -1,7 +1,6 @@
-[gd_resource type="QuadMesh" load_steps=2 format=2]
+[gd_resource type="QuadMesh" load_steps=2 format=3 uid="uid://blk6ks7b4u8e1"]
 
-[ext_resource path="res://effects/particle.tres" type="Material" id=1]
-
+[ext_resource type="Material" uid="uid://dfvthhapa3nh4" path="res://effects/particle.tres" id="1"]
 
 [resource]
-material = ExtResource( 1 )
+material = ExtResource("1")
