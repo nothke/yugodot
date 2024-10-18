@@ -65,6 +65,7 @@ car_path = NodePath("../car_controller")
 [node name="car_controller" type="RigidBody3D" parent="."]
 transform = Transform3D(-0.999932, 0, 0.0116757, 0, 1, 0, -0.0116757, 0, -0.999932, 24.5999, 1.88381, 21.5634)
 mass = 1.23
+center_of_mass_mode = 1
 angular_damp = 2.042
 script = ExtResource("2")
 springRate = 40.0

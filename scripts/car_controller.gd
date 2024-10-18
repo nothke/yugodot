@@ -300,7 +300,7 @@ func _physics_process(dt: float) -> void:
 		if grounded:
 			var hitPoint: Vector3 = result["position"]
 			var normal: Vector3 = result["normal"]
-
+			
 			var distFromTarget: float = (dest - hitPoint).length()
 
 			var spring: float = springRate * distFromTarget
@@ -310,7 +310,7 @@ func _physics_process(dt: float) -> void:
 
 			var damp: float = -verticalVeloAtWheel * dampRate
 
-			apply_force(hitPoint - transform.origin, normal * (spring + damp))
+			apply_force(normal * (spring + damp), hitPoint - transform.origin)
 
 			wheelsOnGround += 1
 
@@ -379,7 +379,7 @@ func _physics_process(dt: float) -> void:
 		var sidewaysTraction: Vector3 = -right * sidewaysTractionMult * sidewaysTractionFac
 		var forwardTraction: Vector3 = forward * tractionForce
 
-		apply_force(midPoint - transform.origin, forwardTraction + sidewaysTraction)
+		apply_force(forwardTraction + sidewaysTraction, midPoint - transform.origin)
 
 	prevYInput = yInput
 
