@@ -1,7 +1,6 @@
 {
 	"asset":{
-		"copyright":"nothke",
-		"generator":"Khronos glTF Blender I/O v4.0.44",
+		"generator":"Khronos glTF Blender I/O v4.2.70",
 		"version":"2.0"
 	},
 	"scene":0,
@@ -16,7 +15,7 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"car_wheel_",
+			"name":"car_whl",
 			"translation":[
 				0.5993919968605042,
 				0.29693281650543213,
@@ -56,7 +55,7 @@
 	],
 	"meshes":[
 		{
-			"name":"car_wheel",
+			"name":"car_whl",
 			"primitives":[
 				{
 					"attributes":{
