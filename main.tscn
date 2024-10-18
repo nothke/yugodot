@@ -273,11 +273,11 @@ rotation = 3.0
 color = Color(0, 0, 0, 0.117647)
 
 [node name="timing" type="RichTextLabel" parent="."]
-offset_left = 30.9541
-offset_top = 36.1585
-offset_right = 624.954
-offset_bottom = 138.159
-rotation = 3.0
+offset_left = 41.0
+offset_top = 34.0
+offset_right = 635.0
+offset_bottom = 136.0
+rotation = 0.102974
 scale = Vector2(2, 2)
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("19")
@@ -297,6 +297,8 @@ offset_left = -14.0
 offset_top = -150.0
 offset_right = 355.0
 offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
 scale = Vector2(2, 2)
 size_flags_horizontal = 0
 size_flags_vertical = 0
