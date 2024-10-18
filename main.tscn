@@ -1,7 +1,8 @@
-[gd_scene load_steps=23 format=3 uid="uid://c3jddj6t3n61p"]
+[gd_scene load_steps=26 format=3 uid="uid://c3jddj6t3n61p"]
 
 [ext_resource type="Script" path="res://scripts/car_controller.gd" id="2"]
 [ext_resource type="PackedScene" path="res://car.tscn" id="3"]
+[ext_resource type="Material" path="res://art/plane.tres" id="4"]
 [ext_resource type="PlaneMesh" path="res://art/base_plane.tres" id="5"]
 [ext_resource type="Material" path="res://effects/particle.tres" id="6"]
 [ext_resource type="PackedScene" path="res://props/crate.tscn" id="9"]
@@ -12,11 +13,26 @@
 [ext_resource type="AudioStream" uid="uid://blkbgboic27oe" path="res://audio/beep.wav" id="15"]
 [ext_resource type="AudioStream" uid="uid://cnh2u4xxekefn" path="res://audio/Powerup15.wav" id="16"]
 [ext_resource type="AudioStream" uid="uid://n73bnpaqi8wu" path="res://audio/Blip_Select12.wav" id="17"]
-[ext_resource type="Environment" uid="uid://b40s0gh45yfkt" path="res://effects/new_environment.tres" id="18"]
 [ext_resource type="FontFile" path="res://art/fonts/inconsolata.tres" id="19"]
 [ext_resource type="QuadMesh" path="res://effects/gpu_dirt.tres" id="22"]
 [ext_resource type="Material" path="res://effects/gpu_dirt.material" id="23"]
 [ext_resource type="PackedScene" uid="uid://dwmbpe5cqsrb" path="res://art/track/track.gltf" id="25"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j7wa3"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_j6ggp"]
+sky_material = SubResource("ProceduralSkyMaterial_j7wa3")
+
+[sub_resource type="Environment" id="Environment_ems32"]
+background_mode = 2
+sky = SubResource("Sky_j6ggp")
+tonemap_mode = 2
+ssao_enabled = true
+glow_enabled = true
+fog_enabled = true
+fog_sky_affect = 0.192
 
 [sub_resource type="BoxShape3D" id="5"]
 size = Vector3(1.45985, 1.08932, 3.3073)
@@ -33,14 +49,14 @@ size = Vector2(0.8, 0.8)
 
 [node name="Node3D" type="Node3D"]
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ems32")
+
 [node name="Game" type="Node" parent="."]
 script = ExtResource("14")
 hoodCamera = NodePath("../car_controller/hood_camera")
 chaseCamera = NodePath("../chase_camera")
 tracksideCamera = NodePath("../trackside_camera")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = ExtResource("18")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.0369346, 0.895348, 0.443833, -0.784513, -0.249134, 0.567865, 0.619011, -0.369167, 0.693211, -8.51985, 10.6491, -20.8834)
@@ -145,6 +161,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3718, -0.936892, -31.4487
 
 [node name="ground_plane" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0837917, -0.0837917, -0.0216465)
+material_override = ExtResource("4")
 mesh = ExtResource("5")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="ground_plane"]
