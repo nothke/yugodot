@@ -30,4 +30,5 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+textures/default_filters/anisotropic_filtering_level=4
 quality/filters/anisotropic_filter_level=8
