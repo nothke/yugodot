@@ -102,19 +102,11 @@ var engineAudio: AudioStreamPlayer3D
 
 const dbToVolume = 8.685
 
-# Debugging
-
-const red = Color(1.0, 0.0, 0.0)
-const blue = Color(0, 0.0, 1.0)
-const green = Color(0.0, 1.0, 0.0)
-const darkGreen = Color(0.0, 0.9, 0.0)
-const black = Color(0, 0, 0)
-
 func _ready():
 	wheels.resize(4)
 	for i in 4:
 		wheels[i] = Wheel.new()
-
+		
 	wheels[0].point = Vector3(-wheelTrack, 0, wheelBase)
 	wheels[1].point = Vector3(wheelTrack, 0, wheelBase)
 	wheels[2].point = Vector3(-wheelTrack, 0, -wheelBase)
@@ -216,7 +208,7 @@ func _physics_process(dt: float) -> void:
 	var countdownTime: int = int(-stageTime) + 1
 
 	timingText.clear()
-	timingText.push_color(black)
+	timingText.push_color(Color.black)
 
 	var stageTimeStr: String = "0.000" if stageTime < 0 else "%.3f" % stageTime
 	var bestTimeStr: String = "--.---" if bestTime == 0 else "%.3f" % bestTime
@@ -232,9 +224,9 @@ func _physics_process(dt: float) -> void:
 			var bestSectorTime: float = get_sector_time(bestTimes, c)
 
 			if bestTime == 0 or sectorTime < bestSectorTime:
-				timingText.push_color(darkGreen)
+				timingText.push_color(Color.green)
 			else:
-				timingText.push_color(red)
+				timingText.push_color(Color.red)
 
 			timingText.append_bbcode("#")
 
@@ -242,7 +234,7 @@ func _physics_process(dt: float) -> void:
 		timingText.append_bbcode("\nSplit: " + ("+" if diff > 0 else "") + ("%.3f" % diff))
 
 	if stageEnded:
-		timingText.push_color(black)
+		timingText.push_color(Color.black)
 		timingText.append_bbcode("\nFinished! Press R to restart")
 
 	if stageTime < 0:
