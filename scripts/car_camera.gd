@@ -1,8 +1,8 @@
-extends Camera
+extends Camera3D
 
-export var car_path: NodePath
+@export var car_path: NodePath
 
-var car: Spatial
+var car: Node3D
 
 var camPos: Vector3
 var carPos: Vector3
@@ -28,15 +28,15 @@ func _ready():
 
 func _physics_process(dt):
 	var carForward = car.transform.basis.z
-	carPos = car.translation
+	carPos = car.position
 	
 	var rearTargetPoint = carPos - carForward * distance
 	rearTargetPoint.y = carPos.y + height
 	
 	var smoothing = raceSmoothing if car.race_started() else startSmoothing
 	
-	camPos = camPos.linear_interpolate(rearTargetPoint, dt * smoothing)
+	camPos = camPos.lerp(rearTargetPoint, dt * smoothing)
 	
 func _process(_delta):
-	translation = camPos
+	position = camPos
 	look_at(carPos, Vector3.UP)

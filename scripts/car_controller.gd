@@ -1,26 +1,26 @@
-extends RigidBody
+extends RigidBody3D
 
 # Exports
 
-export var raycastHeightOffset: float = 0
+@export var raycastHeightOffset: float = 0
 const rayLength = 0.6
 
-export var springRate: float = 20
-export var dampRate = 2
-export(float, EASE) var tractionEase: float = 2
-export var maxSpeedKmh: float = 60
-export(float, EASE) var sidewaysTractionEase: float = 1
-export var maxTraction: float = 30
-export var tractionForceMult: float = 10
-export var sidewaysTractionMult: float = 1
+@export var springRate: float = 20
+@export var dampRate = 2
+@export var tractionEase: float = 2 # (float, EASE)
+@export var maxSpeedKmh: float = 60
+@export var sidewaysTractionEase: float = 1 # (float, EASE)
+@export var maxTraction: float = 30
+@export var tractionForceMult: float = 10
+@export var sidewaysTractionMult: float = 1
 
-export var engineAudioPath: NodePath
-export var timingPath: NodePath
-export var countdownPath: NodePath
+@export var engineAudioPath: NodePath
+@export var timingPath: NodePath
+@export var countdownPath: NodePath
 
-export var checkpointSoundPath: NodePath
-export var countdownSoundPath: NodePath
-export var finishSoundPath: NodePath
+@export var checkpointSoundPath: NodePath
+@export var countdownSoundPath: NodePath
+@export var finishSoundPath: NodePath
 
 # Car vars
 
@@ -29,7 +29,7 @@ var torqueMult: float = 10
 var wheelBase: float = 1.05
 var wheelTrack: float = 0.7
 
-var wheelRoot: Spatial
+var wheelRoot: Node3D
 
 var smoothThrottle: float
 var smoothSteer: float # Used for graphics
@@ -43,7 +43,7 @@ var debugSplits = false
 
 class Wheel:
 	var point: Vector3
-	var graphical: Spatial
+	var graphical: Node3D
 	var dirt: Particles
 	var wasGrounded: bool
 
@@ -63,9 +63,9 @@ var sceneStartTime: float
 const CHECKPOINT_NUM: int = 13
 var bestTime: float
 # TODO: Init capacity to CHECKPOINT_NUM
-var bestCheckpointTimes: PoolRealArray
-var checkpointTimes: PoolRealArray
-var prevBestCheckpointTimes: PoolRealArray
+var bestCheckpointTimes: PackedFloat32Array
+var checkpointTimes: PackedFloat32Array
+var prevBestCheckpointTimes: PackedFloat32Array
 
 var stageEnded = false;
 
@@ -82,7 +82,7 @@ var countdownText: RichTextLabel
 # Replay
 
 class ReplaySample:
-	var t: Transform
+	var t: Transform3D
 	var time: float
 	var throttle: float
 
@@ -113,14 +113,14 @@ func _ready():
 	wheels[3].point = Vector3(wheelTrack, 0, -wheelBase)
 
 
-	wheels[0].graphical = get_node("car/RootNode/fl") as Spatial
-	wheels[1].graphical = get_node("car/RootNode/fr") as Spatial
-	wheels[2].graphical = get_node("car/RootNode/rl") as Spatial
-	wheels[3].graphical = get_node("car/RootNode/rr") as Spatial
-	wheelRoot = wheels[0].graphical.get_parent() as Spatial
+	wheels[0].graphical = get_node("car/RootNode/fl") as Node3D
+	wheels[1].graphical = get_node("car/RootNode/fr") as Node3D
+	wheels[2].graphical = get_node("car/RootNode/rl") as Node3D
+	wheels[3].graphical = get_node("car/RootNode/rr") as Node3D
+	wheelRoot = wheels[0].graphical.get_parent() as Node3D
 	
 	for w in wheels:
-		var child: Spatial = w.graphical.get_child(0) as Spatial
+		var child: Node3D = w.graphical.get_child(0) as Node3D
 		child.translate_object_local(Vector3.RIGHT * wheelGraphicalXOffset)
 
 	wheels[0].dirt = get_node("dirt_fl") as Particles
@@ -132,7 +132,7 @@ func _ready():
 	timingText = get_node(timingPath) as RichTextLabel
 	countdownText = get_node(countdownPath) as RichTextLabel
 
-	sceneStartTime = OS.get_ticks_msec() / 1000.0
+	sceneStartTime = Time.get_ticks_msec() / 1000.0
 
 	checkpointSound = get_node(checkpointSoundPath) as AudioStreamPlayer
 	countdownSound = get_node(countdownSoundPath) as AudioStreamPlayer
@@ -178,14 +178,14 @@ static func repeat(t: float, length: float) -> float:
 static func sat(value: float) -> float:
 	return clamp(value, 0, 1)
 
-func get_sector_time(splits: PoolRealArray, i: int) -> float:
+func get_sector_time(splits: PackedFloat32Array, i: int) -> float:
 	var lastCheckTime: float = 0.0 if i == 0 else splits[i - 1]
 	return splits[i] - lastCheckTime
 
 
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and event.scancode == KEY_F:
+	if event is InputEventKey and event.pressed and event.keycode == KEY_F:
 		isReplay = true
 		replaySampleIndex = 0
 
@@ -200,7 +200,7 @@ func _physics_process(dt: float) -> void:
 
 	# -- TIMING --
 
-	var time: float = OS.get_ticks_msec() / 1000.0
+	var time: float = Time.get_ticks_msec() / 1000.0
 
 	if not stageEnded:
 		stageTime = time - sceneStartTime - countdown
@@ -208,7 +208,7 @@ func _physics_process(dt: float) -> void:
 	var countdownTime: int = int(-stageTime) + 1
 
 	timingText.clear()
-	timingText.push_color(Color.black)
+	timingText.push_color(Color.BLACK)
 
 	var stageTimeStr: String = "0.000" if stageTime < 0 else "%.3f" % stageTime
 	var bestTimeStr: String = "--.---" if bestTime == 0 else "%.3f" % bestTime
@@ -224,9 +224,9 @@ func _physics_process(dt: float) -> void:
 			var bestSectorTime: float = get_sector_time(bestTimes, c)
 
 			if bestTime == 0 or sectorTime < bestSectorTime:
-				timingText.push_color(Color.green)
+				timingText.push_color(Color.GREEN)
 			else:
-				timingText.push_color(Color.red)
+				timingText.push_color(Color.RED)
 
 			timingText.append_bbcode("#")
 
@@ -234,7 +234,7 @@ func _physics_process(dt: float) -> void:
 		timingText.append_bbcode("\nSplit: " + ("+" if diff > 0 else "") + ("%.3f" % diff))
 
 	if stageEnded:
-		timingText.push_color(Color.black)
+		timingText.push_color(Color.BLACK)
 		timingText.append_bbcode("\nFinished! Press R to restart")
 
 	if stageTime < 0:
@@ -266,7 +266,7 @@ func _physics_process(dt: float) -> void:
 
 	var speed: float = linear_velocity.length()
 
-	var spaceState: PhysicsDirectSpaceState = get_world().direct_space_state
+	var spaceState: PhysicsDirectSpaceState3D = get_world_3d().direct_space_state
 
 	# Car-dinal directions
 	var up: Vector3 = global_transform.basis.y
@@ -310,7 +310,7 @@ func _physics_process(dt: float) -> void:
 
 			var damp: float = -verticalVeloAtWheel * dampRate
 
-			add_force(normal * (spring + damp), hitPoint - transform.origin)
+			apply_force(hitPoint - transform.origin, normal * (spring + damp))
 
 			wheelsOnGround += 1
 
@@ -322,7 +322,7 @@ func _physics_process(dt: float) -> void:
 
 		if drawParticles:
 			var dirtSpeedFactor = -smoothSteer if i < 2 else 0.0
-			w.dirt.rotation = Vector3(deg2rad(20), atan(-sidewaysSpeed * 0.1 + dirtSpeedFactor), 0)
+			w.dirt.rotation = Vector3(deg_to_rad(20), atan(-sidewaysSpeed * 0.1 + dirtSpeedFactor), 0)
 
 			if grounded != w.wasGrounded || prevYInput != yInput:
 				w.dirt.emitting = grounded and yInput > 0
@@ -330,19 +330,19 @@ func _physics_process(dt: float) -> void:
 		# Graphical wheel position and rotation
 
 		var localWheelCenter = wheelRoot.to_local(graphicalWheelPoint + up * wheelRadius)
-		w.graphical.translation = localWheelCenter
+		w.graphical.position = localWheelCenter
 
 		var wheelRot: Vector3 = Vector3.ZERO
 
 		if i % 2 == 0:
-			wheelRot = Vector3(0, deg2rad(180), 0)
+			wheelRot = Vector3(0, deg_to_rad(180), 0)
 		else:
-			wheelRot = Vector3(0, deg2rad(0), 0)
+			wheelRot = Vector3(0, deg_to_rad(0), 0)
 
 		w.graphical.rotation = wheelRot
 
 		if i < 2:
-			w.graphical.rotate(Vector3.UP, -smoothSteer * deg2rad(30))
+			w.graphical.rotate(Vector3.UP, -smoothSteer * deg_to_rad(30))
 		
 		w.wasGrounded = grounded
 
@@ -363,7 +363,7 @@ func _physics_process(dt: float) -> void:
 
 		var steeringFactor = clamp(inverse_lerp(0, 5, speed), 0, 1)
 
-		add_torque(-transform.basis.y * xInput * torqueMult * steeringFactor)
+		apply_torque(-transform.basis.y * xInput * torqueMult * steeringFactor)
 
 		# Traction
 
@@ -379,7 +379,7 @@ func _physics_process(dt: float) -> void:
 		var sidewaysTraction: Vector3 = -right * sidewaysTractionMult * sidewaysTractionFac
 		var forwardTraction: Vector3 = forward * tractionForce
 
-		add_force(forwardTraction + sidewaysTraction, midPoint - transform.origin)
+		apply_force(midPoint - transform.origin, forwardTraction + sidewaysTraction)
 
 	prevYInput = yInput
 

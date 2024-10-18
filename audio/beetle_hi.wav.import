@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/beetle_hi.wav-9406994c23fe0bbdc38932951048c983.sample"
+type="AudioStreamWAV"
+uid="uid://dn0s865j4dybc"
+path="res://.godot/imported/beetle_hi.wav-9406994c23fe0bbdc38932951048c983.sample"
 
 [deps]
 
 source_file="res://audio/beetle_hi.wav"
-dest_files=[ "res://.import/beetle_hi.wav-9406994c23fe0bbdc38932951048c983.sample" ]
+dest_files=["res://.godot/imported/beetle_hi.wav-9406994c23fe0bbdc38932951048c983.sample"]
 
 [params]
 

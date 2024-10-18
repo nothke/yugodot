@@ -3,20 +3,20 @@
 [ext_resource path="res://art/car/car_body.gltf" type="PackedScene" id=1]
 [ext_resource path="res://props/car_wheel.tscn" type="PackedScene" id=2]
 
-[node name="car" type="Spatial"]
+[node name="car" type="Node3D"]
 
-[node name="RootNode" type="Spatial" parent="."]
+[node name="RootNode" type="Node3D" parent="."]
 
 [node name="fl" parent="RootNode" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.599392, 0.296933, 1.05 )
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.599392, 0.296933, 1.05 )
 
 [node name="fr" parent="RootNode" instance=ExtResource( 2 )]
-transform = Transform( -1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, -1, -0.599, 0.297, 1.05 )
+transform = Transform3D( -1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, -1, -0.599, 0.297, 1.05 )
 
 [node name="rl" parent="RootNode" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.599, 0.297, -1.05 )
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.599, 0.297, -1.05 )
 
 [node name="rr" parent="RootNode" instance=ExtResource( 2 )]
-transform = Transform( -1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, -1, -0.599, 0.297, -1.05 )
+transform = Transform3D( -1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, -1, -0.599, 0.297, -1.05 )
 
 [node name="car" parent="RootNode" instance=ExtResource( 1 )]

@@ -6,17 +6,18 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
+config_version=5
 
 [application]
 
 config/name="stop-waiting-for-godot-jam"
 run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.3")
 config/icon="res://art/icon.png"
 
 [audio]
 
-default_bus_layout="res://audio/default_bus_layout.tres"
+buses/default_bus_layout="res://audio/buses/default_bus_layout.tres"
 
 [mono]
 
