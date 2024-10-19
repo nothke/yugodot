@@ -31,6 +31,13 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-_subresources={}
+_subresources={
+"materials": {
+"dirtroad": {
+"use_external/enabled": true,
+"use_external/path": "res://art/track/dirtroad.material"
+}
+}
+}
 gltf/naming_version=0
 gltf/embedded_image_handling=1
