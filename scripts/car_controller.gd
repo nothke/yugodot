@@ -21,8 +21,14 @@ const rayLength = 0.6
 @export var checkpointSoundPath: NodePath
 @export var countdownSoundPath: NodePath
 @export var finishSoundPath: NodePath
+@export var isPlayer1:bool = false
 
 # Car vars
+var inputKeyRight
+var inputKeyLeft
+var inputKeyThrottle
+var inputKeyBreak
+
 
 var torqueMult: float = 10
 
@@ -103,6 +109,11 @@ var engineAudio: AudioStreamPlayer3D
 const dbToVolume = 8.685
 
 func _ready():
+	inputKeyRight = KEY_D if isPlayer1 else KEY_L
+	inputKeyLeft = KEY_A if isPlayer1 else KEY_J
+	inputKeyThrottle = KEY_W if isPlayer1 else KEY_I
+	inputKeyBreak = KEY_S if isPlayer1 else KEY_K
+	
 	wheels.resize(4)
 	for i in 4:
 		wheels[i] = Wheel.new()
@@ -245,9 +256,10 @@ func _physics_process(dt: float) -> void:
 		countdownText.text = ""
 
 	# -- INPUT --
-
-	var xInput: float = -1 if Input.is_key_pressed(KEY_A) else (1 if Input.is_key_pressed(KEY_D) else 0)
-	var yInput: float = -1 if Input.is_key_pressed(KEY_S) else (1 if Input.is_key_pressed(KEY_W) else 0)
+	
+	
+	var xInput: float = -1 if Input.is_key_pressed(inputKeyLeft) else (1 if Input.is_key_pressed(inputKeyRight) else 0)
+	var yInput: float = -1 if Input.is_key_pressed(inputKeyBreak) else (1 if Input.is_key_pressed(inputKeyThrottle) else 0)
 
 	var throttleInput: float = yInput
 
