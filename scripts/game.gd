@@ -4,6 +4,8 @@ extends Node
 @export var chaseCamera: NodePath
 @export var tracksideCamera: NodePath
 
+@export var noPostEnvironment: Environment
+
 var sun: DirectionalLight3D
 
 var hoodCameraIsActive = false
@@ -16,6 +18,8 @@ func _ready():
 	sun = get_node("../sun") as DirectionalLight3D
 	assert(sun != null)
 	
+	var enviro := get_node("../WorldEnvironment") as WorldEnvironment
+	
 	var config := ConfigFile.new()
 	var configPath = "config.ini"
 	if config.load(configPath) == OK:
@@ -23,6 +27,11 @@ func _ready():
 			return float(config.get_value(segment, entry, 1)) != 0
 		
 		sun.shadow_enabled = cfgBool.call("graphics", "shadows")
+		
+		var noPost : bool = !cfgBool.call("graphics", "post_processing")
+		
+		if noPost:
+			enviro.environment = noPostEnvironment
 
 func _input(event):
 	
