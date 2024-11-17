@@ -44,8 +44,6 @@ var prevYInput: float
 
 var  config: ConfigFile
 var drawParticles = true
-var drawPostProcessing = true
-var drawShadows = true
 #var drawLines = false
 var debugSplits = false
 
@@ -169,8 +167,6 @@ func _ready():
 		AudioServer.set_bus_volume_db(0, log(volume) * dbToVolume)
 
 		drawParticles = cfgBool.call("graphics", "draw_particles")
-		drawPostProcessing = cfgBool.call("graphics", "post_processing")
-		drawShadows = cfgBool.call("graphics","post_processing")
 		
 		#drawLines = float(config.get_value("debug", "lines", 0)) != 0
 		debugSplits = float(config.get_value("debug", "splits", 0)) != 0

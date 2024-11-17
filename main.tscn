@@ -37,7 +37,7 @@ size = Vector2(0.8, 0.8)
 
 [node name="Node3D" type="Node3D"]
 
-[node name="GridContainer" type="GridContainer" parent="."]
+[node name="viewport_gird" type="GridContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -48,24 +48,24 @@ size_flags_vertical = 3
 columns = 2
 script = ExtResource("19_6kue6")
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="GridContainer"]
+[node name="viewport_p1" type="SubViewportContainer" parent="viewport_gird"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="GridContainer/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="viewport_gird/viewport_p1"]
 handle_input_locally = false
 size = Vector2i(574, 648)
 render_target_update_mode = 4
 
-[node name="SubViewportContainer2" type="SubViewportContainer" parent="GridContainer"]
+[node name="viewport_p2" type="SubViewportContainer" parent="viewport_gird"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="GridContainer/SubViewportContainer2"]
+[node name="SubViewport" type="SubViewport" parent="viewport_gird/viewport_p2"]
 handle_input_locally = false
 size = Vector2i(574, 648)
 render_target_update_mode = 4

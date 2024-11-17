@@ -1,7 +1,7 @@
 extends GridContainer
 
-@onready var viewport1: SubViewport = $SubViewportContainer/SubViewport
-@onready var viewport2: SubViewport = $SubViewportContainer2/SubViewport
+@onready var viewport1: SubViewport = $viewport_p1/SubViewport
+@onready var viewport2: SubViewport = $viewport_p2/SubViewport
 @onready var Camera1: Camera3D = %chase_camera
 @onready var Camera2: Camera3D = %chase_camera2
 
