@@ -4,12 +4,25 @@ extends Node
 @export var chaseCamera: NodePath
 @export var tracksideCamera: NodePath
 
+var sun: DirectionalLight3D
+
 var hoodCameraIsActive = false
 
 var hasRestared = false
 
 func _ready():
 	get_node(chaseCamera).make_current()
+	
+	sun = get_node("../sun") as DirectionalLight3D
+	assert(sun != null)
+	
+	var config := ConfigFile.new()
+	var configPath = "config.ini"
+	if config.load(configPath) == OK:
+		var cfgBool = func(segment, entry):
+			return float(config.get_value(segment, entry, 1)) != 0
+		
+		sun.shadow_enabled = cfgBool.call("graphics", "shadows")
 
 func _input(event):
 	
