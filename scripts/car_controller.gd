@@ -44,6 +44,8 @@ var prevYInput: float
 
 var  config: ConfigFile
 var drawParticles = true
+var drawPostProcessing = true
+var drawShadows = true
 #var drawLines = false
 var debugSplits = false
 
@@ -157,13 +159,19 @@ func _ready():
 	config = ConfigFile.new()
 	var configPath = "config.ini"
 	if config.load(configPath) == OK:
+		var cfgBool = func(segment, entry):
+			return float(config.get_value(segment, entry, 1)) != 0
+			
 		springRate = float(config.get_value("setup", "spring_rate", 40))
 		dampRate = float(config.get_value("setup", "damp_rate", 3))
 
 		var volume = float(config.get_value("audio", "master_volume", 1))
 		AudioServer.set_bus_volume_db(0, log(volume) * dbToVolume)
 
-		drawParticles = float(config.get_value("graphics", "draw_particles", 1)) != 0
+		drawParticles = cfgBool.call("graphics", "draw_particles")
+		drawPostProcessing = cfgBool.call("graphics", "post_processing")
+		drawShadows = cfgBool.call("graphics","post_processing")
+		
 		#drawLines = float(config.get_value("debug", "lines", 0)) != 0
 		debugSplits = float(config.get_value("debug", "splits", 0)) != 0
 	else:

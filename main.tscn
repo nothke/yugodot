@@ -1,5 +1,7 @@
 [gd_scene load_steps=28 format=3 uid="uid://c3jddj6t3n61p"]
 
+[ext_resource type="Environment" uid="uid://cdvs5noiss70h" path="res://effects/main_environment.tres" id="1_mtb8u"]
+[ext_resource type="Environment" uid="uid://ccvv7vlr00s3u" path="res://effects/no_post_environment.tres" id="1_ylkew"]
 [ext_resource type="Script" path="res://scripts/car_controller.gd" id="2"]
 [ext_resource type="PackedScene" path="res://car.tscn" id="3"]
 [ext_resource type="Material" path="res://art/plane.tres" id="4"]
@@ -19,30 +21,6 @@
 [ext_resource type="QuadMesh" uid="uid://blk6ks7b4u8e1" path="res://effects/gpu_dirt.tres" id="22"]
 [ext_resource type="Material" uid="uid://ckkb1wyahqkn7" path="res://effects/gpu_dirt.material" id="23"]
 [ext_resource type="PackedScene" uid="uid://dwmbpe5cqsrb" path="res://art/track/track.gltf" id="25"]
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j7wa3"]
-sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-
-[sub_resource type="Sky" id="Sky_j6ggp"]
-sky_material = SubResource("ProceduralSkyMaterial_j7wa3")
-
-[sub_resource type="Environment" id="Environment_ems32"]
-background_mode = 2
-sky = SubResource("Sky_j6ggp")
-reflected_light_source = 2
-ssao_enabled = true
-glow_enabled = true
-glow_strength = 1.51
-fog_sky_affect = 0.5
-volumetric_fog_enabled = true
-volumetric_fog_density = 0.017
-volumetric_fog_detail_spread = 2.61165
-volumetric_fog_ambient_inject = 1.02
-adjustment_enabled = true
-adjustment_brightness = 1.03
-adjustment_contrast = 1.24
-adjustment_saturation = 1.18
 
 [sub_resource type="BoxShape3D" id="5"]
 size = Vector3(1.45985, 1.08932, 3.3073)
@@ -92,17 +70,17 @@ handle_input_locally = false
 render_target_update_mode = 4
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_ems32")
+environment = ExtResource("1_mtb8u")
 
 [node name="Game" type="Node" parent="."]
 script = ExtResource("14")
 hoodCamera = NodePath("../car_controller/hood_camera")
 chaseCamera = NodePath("../chase_camera")
 tracksideCamera = NodePath("../trackside_camera")
+noPostEnvironment = ExtResource("1_ylkew")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.0369346, 0.895348, 0.443833, -0.784513, -0.249134, 0.567865, 0.619011, -0.369167, 0.693211, -8.51985, 10.6491, -20.8834)
-shadow_enabled = true
 shadow_opacity = 0.8
 shadow_blur = 4.0
 
