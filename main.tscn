@@ -3,7 +3,7 @@
 [ext_resource type="Environment" uid="uid://cdvs5noiss70h" path="res://effects/main_environment.tres" id="1_mtb8u"]
 [ext_resource type="Environment" uid="uid://ccvv7vlr00s3u" path="res://effects/no_post_environment.tres" id="1_ylkew"]
 [ext_resource type="Script" path="res://scripts/car_controller.gd" id="2"]
-[ext_resource type="PackedScene" path="res://car.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://dduetf8o80aci" path="res://car.tscn" id="3"]
 [ext_resource type="Material" path="res://art/plane.tres" id="4"]
 [ext_resource type="PlaneMesh" path="res://art/base_plane.tres" id="5"]
 [ext_resource type="Material" uid="uid://dfvthhapa3nh4" path="res://effects/particle.tres" id="6"]
@@ -45,6 +45,8 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
 columns = 2
 script = ExtResource("19_6kue6")
 
@@ -56,7 +58,7 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="viewport_gird/viewport_p1"]
 handle_input_locally = false
-size = Vector2i(574, 648)
+size = Vector2i(576, 648)
 render_target_update_mode = 4
 
 [node name="viewport_p2" type="SubViewportContainer" parent="viewport_gird"]
@@ -67,7 +69,7 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="viewport_gird/viewport_p2"]
 handle_input_locally = false
-size = Vector2i(574, 648)
+size = Vector2i(576, 648)
 render_target_update_mode = 4
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
