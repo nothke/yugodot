@@ -11,11 +11,14 @@ func _ready():
 	var viewport_rid1 = viewport1.get_viewport_rid()
 	RenderingServer.viewport_attach_camera(viewport_rid1, Camera_rid1)
 
-func add_new_player_view(camera: Camera3D):
+func add_new_player_view(camera: Camera3D, canvas: CanvasLayer):
 	var newViewPort = PLAYER_VIEW_PORT.instantiate()
 	add_child(newViewPort)
 
 	var Camera_rid = camera.get_camera_rid()
 	var viewport_rid = newViewPort.get_child(0).get_viewport_rid()
+	#canvas.
 	RenderingServer.viewport_attach_camera(viewport_rid, Camera_rid)
+	RenderingServer.viewport_attach_canvas(viewport_rid, canvas.get_canvas())
+
 	columns = 2

@@ -97,7 +97,8 @@ fov = 35.9
 far = 1000.0
 
 [node name="car" parent="." instance=ExtResource("3")]
-transform = Transform3D(-0.999932, 0, 0.0116757, 0, 1, 0, -0.0116757, 0, -0.999932, 24.5699, 3.05579, 21.5112)
+transform = Transform3D(-0.999932, 0, 0.0116757, 0, 1, 0, -0.0116757, 0, -0.999932, 23.3396, 3.05579, 21.5112)
+timingPath = NodePath("")
 
 [node name="track" parent="." instance=ExtResource("25")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3718, -0.936892, -31.4487)
@@ -200,21 +201,6 @@ transform = Transform3D(0.798695, 0, -0.601736, 0, 1, 0, 0.601736, 0, 0.798695, 
 
 [node name="Checkpoint12" parent="." groups=["Checkpoint_group"] instance=ExtResource("10")]
 transform = Transform3D(0.573281, 0, 0.819359, 0, 1, 0, -0.819359, 0, 0.573281, 18.6107, 0.6638, 50.1217)
-
-[node name="timing" type="RichTextLabel" parent="."]
-offset_left = 41.0
-offset_top = 34.0
-offset_right = 635.0
-offset_bottom = 136.0
-rotation = 0.102974
-scale = Vector2(2, 2)
-theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_fonts/normal_font = ExtResource("19")
-theme_override_fonts/mono_font = ExtResource("19")
-text = "Best: 0.000
-Time: 0.000
-##############
-Finished!"
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false

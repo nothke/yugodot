@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b5rnx13k43fsh"]
+[gd_scene load_steps=12 format=3 uid="uid://b5rnx13k43fsh"]
 
 [ext_resource type="PackedScene" uid="uid://og0w6ajh23rj" path="res://art/car/car_body.gltf" id="1"]
 [ext_resource type="Script" path="res://scripts/car_controller.gd" id="1_3d7m5"]
@@ -7,8 +7,9 @@
 [ext_resource type="QuadMesh" uid="uid://blk6ks7b4u8e1" path="res://effects/gpu_dirt.tres" id="3_4ok4p"]
 [ext_resource type="AudioStream" uid="uid://dn0s865j4dybc" path="res://audio/beetle_hi.wav" id="4_tuv2w"]
 [ext_resource type="PackedScene" uid="uid://dqwrgblwdkh3d" path="res://art/car/yugo/yugo_body.gltf" id="5_jl7f1"]
-[ext_resource type="Material" uid="uid://diusihsexbrpu" path="res://art/car/yugo/yugo_body_material.tres" id="6_s1yhe"]
+[ext_resource type="Material" path="res://art/car/yugo/yugo_body_material.tres" id="6_s1yhe"]
 [ext_resource type="Script" path="res://scripts/car_camera.gd" id="7_npgrb"]
+[ext_resource type="FontFile" path="res://art/fonts/inconsolata.tres" id="9_n2hot"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3ed4l"]
 size = Vector3(1.45985, 1.08932, 3.3073)
@@ -109,5 +110,28 @@ current = true
 far = 1000.0
 script = ExtResource("7_npgrb")
 car_path = NodePath("..")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Checkpoint" type="RichTextLabel" parent="UI"]
+offset_right = 40.0
+offset_bottom = 40.0
+text = "1/12"
+
+[node name="timing" type="RichTextLabel" parent="UI"]
+offset_left = 37.0
+offset_top = 21.0
+offset_right = 215.0
+offset_bottom = 123.0
+rotation = 0.102974
+scale = Vector2(2, 2)
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("9_n2hot")
+theme_override_fonts/mono_font = ExtResource("9_n2hot")
+text = "Best: 0.000
+Time: 0.000
+##############
+Finished!"
+text_direction = 1
 
 [editable path="car/body"]

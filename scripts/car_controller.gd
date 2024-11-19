@@ -65,7 +65,7 @@ var checkpointPassed: int = -1
 
 var race_start_time: float
 
-const CHECKPOINT_NUM: int = 13
+var checkpoint_num: int = 0
 var bestTime: float
 # TODO: Init capacity to CHECKPOINT_NUM
 var bestCheckpointTimes: PackedFloat32Array
@@ -79,7 +79,7 @@ func race_started():
 
 var stageTime: float = 0
 
-var timingText: RichTextLabel
+@onready var timingText = $UI/timing
 
 # Replay
 
@@ -105,6 +105,7 @@ const dbToVolume = 8.685
 var inputs = [[KEY_A, KEY_D, KEY_W, KEY_S], [KEY_J, KEY_L, KEY_I, KEY_K]]
 
 @onready var camera = $chase_camera
+@onready var ui = $UI
 
 @export var carBodyColors: PackedColorArray
 
@@ -116,9 +117,14 @@ func _ready():
 	inputKeyThrottle = inputs[playerId][2]
 	inputKeyBreak = inputs[playerId][3]
 
+
 	var checkpoints = get_tree().get_nodes_in_group("Checkpoint_group")
 	for checkpoint in checkpoints:
 		checkpoint.checkpoint_entered.connect(on_entered_checkpoint)
+	checkpoint_num = checkpoints.size()
+	print(checkpoint_num)
+	$UI/Checkpoint.text = "0/"+str(checkpoint_num)
+
 	wheels.resize(4)
 	for i in 4:
 		wheels[i] = Wheel.new()
@@ -145,7 +151,6 @@ func _ready():
 	wheels[3].dirt = get_node("dirt_rr") as GPUParticles3D
 
 	engineAudio = get_node(engineAudioPath) as AudioStreamPlayer3D
-	timingText = get_node(timingPath) as RichTextLabel
 
 	checkpointSound = get_node(checkpointSoundPath) as AudioStreamPlayer
 	finishSound = get_node(finishSoundPath) as AudioStreamPlayer
@@ -176,25 +181,25 @@ func _ready():
 
 	checkpointPassed = -1
 
-	checkpointTimes.resize(CHECKPOINT_NUM)
-	bestCheckpointTimes.resize(CHECKPOINT_NUM)
-	prevBestCheckpointTimes.resize(CHECKPOINT_NUM)
+	checkpointTimes.resize(checkpoint_num)
+	bestCheckpointTimes.resize(checkpoint_num)
+	prevBestCheckpointTimes.resize(checkpoint_num)
 
-	for i in CHECKPOINT_NUM:
+	for i in checkpoint_num:
 		checkpointTimes[i] = 0
 		bestCheckpointTimes[i] = 0
 		prevBestCheckpointTimes[i] = 0
-		
+
 	# randomize body color
 	var carBody := get_node(carBodyPath) as GeometryInstance3D
-	
+
 	var rng = RandomNumberGenerator.new()
-	
+
 	var bodyMat := carBody.material_override.duplicate() as ShaderMaterial
 	carBody.material_override = bodyMat
 	var bodyColor := carBodyColors[rng.randi_range(0, 4)]
 	bodyMat.set_shader_parameter("Body_Color", bodyColor)
-	
+
 
 func get_velocity_at_point(point: Vector3) -> Vector3:
 	return linear_velocity + angular_velocity.cross(point - global_transform.origin)
@@ -411,23 +416,23 @@ func _physics_process(dt: float) -> void:
 		s.throttle = throttleInput
 
 		samples.append(s)
-		
+
 	if up.y < 0.5 and speed < 2.0:
 		flippedClock += dt
-		
+
 		if flippedClock > 5:
 			var planar_forward := -forward
 			planar_forward.y = 0
-			
+
 			look_at(position + planar_forward.normalized())
 			translate(Vector3(0, 1, 0))
 			linear_velocity = Vector3.ZERO
 			angular_velocity = Vector3.ZERO
-			
+
 			flippedClock = 0.0
 	else:
 		flippedClock = 0.0
-		
+
 
 func on_entered_checkpoint(body: Node, checkpointIndex: int) -> void:
 	if body == self:
@@ -438,6 +443,7 @@ func on_entered_checkpoint(body: Node, checkpointIndex: int) -> void:
 
 			checkpointPassed = checkpointIndex;
 			checkpointSound.play();
+			$UI/Checkpoint.text = str(checkpointIndex + 1) + "/" + str(checkpoint_num)
 
 			checkpointTimes[checkpointIndex] = stageTime;
 
@@ -447,6 +453,6 @@ func on_entered_checkpoint(body: Node, checkpointIndex: int) -> void:
 
 			if bestTime == 0 or stageTime < bestTime:
 				bestTime = stageTime;
-				for i in CHECKPOINT_NUM:
+				for i in checkpoint_num:
 					prevBestCheckpointTimes[i] = bestCheckpointTimes[i];
 					bestCheckpointTimes[i] = checkpointTimes[i];

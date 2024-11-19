@@ -64,7 +64,10 @@ func add_player():
 	var car = CAR.instantiate()
 	car.playerId = players_active
 	get_parent().add_child(car)
-	%viewport_gird.add_new_player_view(car.camera)
+	var cars = get_tree().get_nodes_in_group("car_group")
+	car.global_position =  cars[cars.size()-2].global_position
+	car.global_position.x += car.get_child(0).shape.size.x * 2
+	%viewport_gird.add_new_player_view(car.camera, car.ui)
 	players_active +=1
 	countDownTime = countDownTimeSet
 	$countdown.text = str(countDownTime)
