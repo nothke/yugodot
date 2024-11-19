@@ -184,13 +184,13 @@ func _ready():
 	# randomize body color
 	var carBody := get_node(carBodyPath) as GeometryInstance3D
 	
-	print(carBody.material_override)
+	var rng = RandomNumberGenerator.new()
+	var my_random_number = rng.randf_range(-10.0, 10.0)
 	
 	var bodyMat := carBody.material_override.duplicate() as ShaderMaterial
 	carBody.material_override = bodyMat
-	bodyMat.set_shader_parameter("Body_Color", Color.GREEN)
-	
-	print(carBody.material_override)
+	var bodyColor := Color.from_hsv(rng.randf(), 1, 1)
+	bodyMat.set_shader_parameter("Body_Color", bodyColor)
 
 func get_velocity_at_point(point: Vector3) -> Vector3:
 	return linear_velocity + angular_velocity.cross(point - global_transform.origin)
