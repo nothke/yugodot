@@ -102,7 +102,6 @@ var checkpointSound: AudioStreamPlayer
 var finishSound: AudioStreamPlayer
 var engineAudio: AudioStreamPlayer3D
 const dbToVolume = 8.685
-var inputs = [[KEY_A, KEY_D, KEY_W, KEY_S], [KEY_J, KEY_L, KEY_I, KEY_K]]
 
 @onready var camera = $chase_camera
 @onready var ui = $UI
@@ -112,10 +111,10 @@ var inputs = [[KEY_A, KEY_D, KEY_W, KEY_S], [KEY_J, KEY_L, KEY_I, KEY_K]]
 var flippedClock : float = 0
 
 func _ready():
-	inputKeyLeft = inputs[playerId][0]
-	inputKeyRight = inputs[playerId][1]
-	inputKeyThrottle = inputs[playerId][2]
-	inputKeyBreak = inputs[playerId][3]
+	inputKeyLeft = "p"+str(playerId)+"_left"
+	inputKeyRight = "p"+str(playerId)+"_right"
+	inputKeyThrottle = "p"+str(playerId)+"_throttle"
+	inputKeyBreak = "p"+str(playerId)+"_break"
 
 
 	var checkpoints = get_tree().get_nodes_in_group("Checkpoint_group")
@@ -271,8 +270,8 @@ func _physics_process(dt: float) -> void:
 	# -- INPUT --
 
 
-	var xInput: float = -1 if Input.is_key_pressed(inputKeyLeft) else (1 if Input.is_key_pressed(inputKeyRight) else 0)
-	var yInput: float = -1 if Input.is_key_pressed(inputKeyBreak) else (1 if Input.is_key_pressed(inputKeyThrottle) else 0)
+	var xInput: float = -1 if Input.is_action_pressed(inputKeyLeft) else (1 if Input.is_action_pressed(inputKeyRight) else 0)
+	var yInput: float = -1 if Input.is_action_pressed(inputKeyBreak) else (1 if Input.is_action_pressed(inputKeyThrottle) else 0)
 
 	var throttleInput: float = yInput
 
