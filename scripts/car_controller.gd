@@ -21,7 +21,7 @@ const rayLength = 0.6
 @export var checkpointSoundPath: NodePath
 @export var countdownSoundPath: NodePath
 @export var finishSoundPath: NodePath
-@export var isPlayer1:bool = false
+@export var playerId:int = 0
 
 # Car vars
 var inputKeyRight
@@ -105,14 +105,16 @@ var checkpointSound: AudioStreamPlayer
 var countdownSound: AudioStreamPlayer
 var finishSound: AudioStreamPlayer
 var engineAudio: AudioStreamPlayer3D
-
 const dbToVolume = 8.685
+var inputs = [[KEY_A, KEY_D, KEY_W, KEY_S], [KEY_J, KEY_L, KEY_I, KEY_K]]
+
+@onready var camera = $chase_camera
 
 func _ready():
-	inputKeyRight = KEY_D if isPlayer1 else KEY_L
-	inputKeyLeft = KEY_A if isPlayer1 else KEY_J
-	inputKeyThrottle = KEY_W if isPlayer1 else KEY_I
-	inputKeyBreak = KEY_S if isPlayer1 else KEY_K
+	inputKeyLeft = inputs[playerId][0]
+	inputKeyRight = inputs[playerId][1]
+	inputKeyThrottle = inputs[playerId][2]
+	inputKeyBreak = inputs[playerId][3]
 
 	var checkpoints = get_tree().get_nodes_in_group("Checkpoint_group")
 	for checkpoint in checkpoints:

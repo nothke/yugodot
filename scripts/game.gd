@@ -3,15 +3,14 @@ extends Node
 @export var hoodCamera: NodePath
 @export var chaseCamera: NodePath
 @export var tracksideCamera: NodePath
-
+const CAR = preload("res://car.tscn")
 @export var noPostEnvironment: Environment
-
 var sun: DirectionalLight3D
 
 var hoodCameraIsActive = false
 
 var hasRestared = false
-
+var players_active = 1
 func _ready():
 	#get_node(chaseCamera).make_current()
 
@@ -36,6 +35,16 @@ func _ready():
 func _input(event):
 
 	if event is InputEventKey and event.pressed:
+
+		if event.keycode == KEY_I:
+			if(players_active > 1):
+				return
+			var car = CAR.instantiate()
+			car.playerId = players_active
+			get_parent().add_child(car)
+			%viewport_gird.add_new_player_view(car.camera)
+			players_active +=1
+
 
 		if event.keycode == KEY_R:
 			get_tree().reload_current_scene()

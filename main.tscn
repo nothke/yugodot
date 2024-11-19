@@ -1,7 +1,8 @@
-[gd_scene load_steps=23 format=3 uid="uid://c3jddj6t3n61p"]
+[gd_scene load_steps=24 format=3 uid="uid://c3jddj6t3n61p"]
 
 [ext_resource type="Environment" uid="uid://cdvs5noiss70h" path="res://effects/main_environment.tres" id="1_mtb8u"]
 [ext_resource type="Environment" uid="uid://ccvv7vlr00s3u" path="res://effects/no_post_environment.tres" id="1_ylkew"]
+[ext_resource type="PackedScene" uid="uid://y3xmnq2dtd80" path="res://player_view_port.tscn" id="2_eyh80"]
 [ext_resource type="PackedScene" uid="uid://b5rnx13k43fsh" path="res://car.tscn" id="3"]
 [ext_resource type="Material" path="res://art/plane.tres" id="4"]
 [ext_resource type="PlaneMesh" path="res://art/base_plane.tres" id="5"]
@@ -32,6 +33,7 @@ size = Vector2(0.8, 0.8)
 [node name="Node3D" type="Node3D"]
 
 [node name="viewport_gird" type="GridContainer" parent="."]
+unique_name_in_owner = true
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -41,30 +43,10 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
-columns = 2
 script = ExtResource("19_6kue6")
 
-[node name="viewport_p1" type="SubViewportContainer" parent="viewport_gird"]
+[node name="PlayerViewPort" parent="viewport_gird" instance=ExtResource("2_eyh80")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-stretch = true
-
-[node name="SubViewport" type="SubViewport" parent="viewport_gird/viewport_p1"]
-handle_input_locally = false
-size = Vector2i(576, 648)
-render_target_update_mode = 4
-
-[node name="viewport_p2" type="SubViewportContainer" parent="viewport_gird"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-stretch = true
-
-[node name="SubViewport" type="SubViewport" parent="viewport_gird/viewport_p2"]
-handle_input_locally = false
-size = Vector2i(576, 648)
-render_target_update_mode = 4
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("1_mtb8u")
@@ -265,11 +247,6 @@ mesh = SubResource("6")
 direction = Vector3(0, 0, -1)
 spread = 8.4
 gravity = Vector3(0, -30, 0)
-
-[node name="car2" parent="." instance=ExtResource("3")]
-transform = Transform3D(-0.999932, 0, 0.0116757, 0, 1, 0, -0.0116757, 0, -0.999932, 26.8827, 3.05579, 21.5112)
-engineAudioPath = NodePath("../car/AudioStreamPlayer3D")
-isPlayer1 = false
 
 [editable path="Checkpoint0"]
 [editable path="Checkpoint0/stage_sign_split_rb"]

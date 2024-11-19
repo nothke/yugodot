@@ -28,7 +28,6 @@ countdownPath = NodePath("../countdown")
 checkpointSoundPath = NodePath("../audio_checkpoint")
 countdownSoundPath = NodePath("../audio_countdown")
 finishSoundPath = NodePath("../audio_finish")
-isPlayer1 = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, 1, 0, 0.522249, 0)

@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://y3xmnq2dtd80"]
+
+[node name="PlayerViewPort" type="SubViewportContainer"]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+
+[node name="SubViewPort" type="SubViewport" parent="."]
+handle_input_locally = false
+size = Vector2i(2, 2)
+render_target_update_mode = 4
