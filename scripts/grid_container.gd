@@ -2,8 +2,8 @@ extends GridContainer
 
 @onready var viewport1: SubViewport = $viewport_p1/SubViewport
 @onready var viewport2: SubViewport = $viewport_p2/SubViewport
-@onready var Camera1: Camera3D = %chase_camera
-@onready var Camera2: Camera3D = %chase_camera2
+@onready var Camera1: Camera3D = get_node("../car/chase_camera")
+@onready var Camera2: Camera3D = get_node("../car2/chase_camera")
 
 
 func _ready():

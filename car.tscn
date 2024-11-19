@@ -1,22 +1,103 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=9 format=3 uid="uid://b5rnx13k43fsh"]
 
-[ext_resource path="res://art/car/car_body.gltf" type="PackedScene" id=1]
-[ext_resource path="res://props/car_wheel.tscn" type="PackedScene" id=2]
+[ext_resource type="PackedScene" uid="uid://og0w6ajh23rj" path="res://art/car/car_body.gltf" id="1"]
+[ext_resource type="Script" path="res://scripts/car_controller.gd" id="1_3d7m5"]
+[ext_resource type="PackedScene" uid="uid://bvxkcuertj2pg" path="res://props/car_wheel.tscn" id="2"]
+[ext_resource type="Material" uid="uid://ckkb1wyahqkn7" path="res://effects/gpu_dirt.material" id="2_oingp"]
+[ext_resource type="QuadMesh" uid="uid://blk6ks7b4u8e1" path="res://effects/gpu_dirt.tres" id="3_4ok4p"]
+[ext_resource type="AudioStream" uid="uid://dn0s865j4dybc" path="res://audio/beetle_hi.wav" id="4_tuv2w"]
+[ext_resource type="Script" path="res://scripts/car_camera.gd" id="7_npgrb"]
 
-[node name="car" type="Node3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_3ed4l"]
+size = Vector3(1.45985, 1.08932, 3.3073)
 
-[node name="RootNode" type="Node3D" parent="."]
+[node name="car" type="RigidBody3D"]
+transform = Transform3D(-0.999932, 0, 0.0116757, 0, 1, 0, -0.0116757, 0, -0.999932, 0, 0, 0)
+mass = 1.23
+center_of_mass_mode = 1
+angular_damp = 2.042
+script = ExtResource("1_3d7m5")
+springRate = 40.0
+tractionEase = 4.4382
+maxSpeedKmh = 100.0
+maxTraction = 60.0
+sidewaysTractionMult = 0.5
+engineAudioPath = NodePath("AudioStreamPlayer3D")
+timingPath = NodePath("../timing")
+countdownPath = NodePath("../countdown")
+checkpointSoundPath = NodePath("../audio_checkpoint")
+countdownSoundPath = NodePath("../audio_countdown")
+finishSoundPath = NodePath("../audio_finish")
+isPlayer1 = true
 
-[node name="fl" parent="RootNode" instance=ExtResource( 2 )]
-transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.599392, 0.296933, 1.05 )
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, 1, 0, 0.522249, 0)
+shape = SubResource("BoxShape3D_3ed4l")
 
-[node name="fr" parent="RootNode" instance=ExtResource( 2 )]
-transform = Transform3D( -1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, -1, -0.599, 0.297, 1.05 )
+[node name="dirt_fl" type="GPUParticles3D" parent="."]
+transform = Transform3D(0.999997, 0, 0, 0, 1, -8.74226e-08, 0, 8.74228e-08, 0.999998, -0.595, -0.264411, 1.02726)
+amount = 32
+lifetime = 0.24
+process_material = ExtResource("2_oingp")
+draw_pass_1 = ExtResource("3_4ok4p")
 
-[node name="rl" parent="RootNode" instance=ExtResource( 2 )]
-transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.599, 0.297, -1.05 )
+[node name="dirt_fr" type="GPUParticles3D" parent="."]
+transform = Transform3D(0.999998, 0, 0, 0, 1, -8.74226e-08, 0, 8.74228e-08, 0.999998, 0.595, -0.264, 1.027)
+amount = 32
+lifetime = 0.24
+process_material = ExtResource("2_oingp")
+draw_pass_1 = ExtResource("3_4ok4p")
 
-[node name="rr" parent="RootNode" instance=ExtResource( 2 )]
-transform = Transform3D( -1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, -1, -0.599, 0.297, -1.05 )
+[node name="dirt_rl" type="GPUParticles3D" parent="."]
+transform = Transform3D(0.999998, 1.11022e-16, 0, 0, 1, -8.74226e-08, 0, 8.74228e-08, 0.999998, -0.595, -0.264, -1.027)
+amount = 64
+lifetime = 0.24
+process_material = ExtResource("2_oingp")
+draw_pass_1 = ExtResource("3_4ok4p")
 
-[node name="car" parent="RootNode" instance=ExtResource( 1 )]
+[node name="dirt_rr" type="GPUParticles3D" parent="."]
+transform = Transform3D(0.999998, 0, 0, 0, 1, -8.74226e-08, 0, 8.74228e-08, 0.999998, 0.595, -0.264, -1.027)
+amount = 64
+lifetime = 0.24
+process_material = ExtResource("2_oingp")
+draw_pass_1 = ExtResource("3_4ok4p")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, 0, 0, 0)
+stream = ExtResource("4_tuv2w")
+volume_db = 20.0
+autoplay = true
+emission_angle_degrees = 82.0
+
+[node name="hood_camera" type="Camera3D" parent="."]
+transform = Transform3D(-1, 0, 7.82311e-08, 0, 1, 0, -7.82311e-08, 0, -1, 0.0086441, 0.770113, 0.739529)
+visible = false
+current = true
+far = 1000.0
+
+[node name="car" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 1.86265e-09, 0, 1, 0, -1.86265e-09, 0, 1, 0, -0.476137, 0)
+
+[node name="RootNode" type="Node3D" parent="car"]
+
+[node name="fl" parent="car/RootNode" instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.599392, 0.296933, 1.05)
+
+[node name="fr" parent="car/RootNode" instance=ExtResource("2")]
+transform = Transform3D(-1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, -1, -0.599, 0.297, 1.05)
+
+[node name="rl" parent="car/RootNode" instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.599, 0.297, -1.05)
+
+[node name="rr" parent="car/RootNode" instance=ExtResource("2")]
+transform = Transform3D(-1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, -1, -0.599, 0.297, -1.05)
+
+[node name="car" parent="car/RootNode" instance=ExtResource("1")]
+
+[node name="chase_camera" type="Camera3D" parent="."]
+transform = Transform3D(-0.437862, -0.234776, 0.867846, -0.0127748, 0.966828, 0.255108, -0.898952, 0.100615, -0.426336, 43.9783, 4.58558, 28.292)
+top_level = true
+current = true
+far = 1000.0
+script = ExtResource("7_npgrb")
+car_path = NodePath("..")

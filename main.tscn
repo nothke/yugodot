@@ -1,17 +1,14 @@
-[gd_scene load_steps=27 format=3 uid="uid://c3jddj6t3n61p"]
+[gd_scene load_steps=23 format=3 uid="uid://c3jddj6t3n61p"]
 
 [ext_resource type="Environment" uid="uid://cdvs5noiss70h" path="res://effects/main_environment.tres" id="1_mtb8u"]
 [ext_resource type="Environment" uid="uid://ccvv7vlr00s3u" path="res://effects/no_post_environment.tres" id="1_ylkew"]
-[ext_resource type="Script" path="res://scripts/car_controller.gd" id="2"]
-[ext_resource type="PackedScene" path="res://car.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://b5rnx13k43fsh" path="res://car.tscn" id="3"]
 [ext_resource type="Material" path="res://art/plane.tres" id="4"]
 [ext_resource type="PlaneMesh" path="res://art/base_plane.tres" id="5"]
 [ext_resource type="Material" uid="uid://dfvthhapa3nh4" path="res://effects/particle.tres" id="6"]
 [ext_resource type="PackedScene" uid="uid://dwgc3ig5rxica" path="res://props/crate.tscn" id="9"]
-[ext_resource type="PackedScene" uid="uid://coxxfeatv48et" path="res://props/checkpoint.tscn" id="10"]
-[ext_resource type="Script" path="res://scripts/car_camera.gd" id="11"]
+[ext_resource type="PackedScene" uid="uid://c87ei5ywn7uw5" path="res://props/checkpoint.tscn" id="10"]
 [ext_resource type="Material" uid="uid://bowatd2vi73uc" path="res://art/crate.tres" id="12_i58xi"]
-[ext_resource type="AudioStream" uid="uid://dn0s865j4dybc" path="res://audio/beetle_hi.wav" id="13"]
 [ext_resource type="Script" path="res://scripts/game.gd" id="14"]
 [ext_resource type="AudioStream" uid="uid://blkbgboic27oe" path="res://audio/beep.wav" id="15"]
 [ext_resource type="AudioStream" uid="uid://cnh2u4xxekefn" path="res://audio/Powerup15.wav" id="16"]
@@ -21,9 +18,6 @@
 [ext_resource type="QuadMesh" uid="uid://blk6ks7b4u8e1" path="res://effects/gpu_dirt.tres" id="22"]
 [ext_resource type="Material" uid="uid://ckkb1wyahqkn7" path="res://effects/gpu_dirt.material" id="23"]
 [ext_resource type="PackedScene" uid="uid://dwmbpe5cqsrb" path="res://art/track/track.gltf" id="25"]
-
-[sub_resource type="BoxShape3D" id="5"]
-size = Vector3(1.45985, 1.08932, 3.3073)
 
 [sub_resource type="BoxShape3D" id="7"]
 size = Vector3(800, 10, 800)
@@ -77,8 +71,7 @@ environment = ExtResource("1_mtb8u")
 
 [node name="Game" type="Node" parent="."]
 script = ExtResource("14")
-hoodCamera = NodePath("../car_controller/hood_camera")
-chaseCamera = NodePath("../chase_camera")
+chaseCamera = NodePath("../car/chase_camera")
 tracksideCamera = NodePath("../trackside_camera")
 noPostEnvironment = ExtResource("1_ylkew")
 
@@ -94,100 +87,8 @@ current = true
 fov = 35.9
 far = 1000.0
 
-[node name="chase_camera2" type="Camera3D" parent="."]
-unique_name_in_owner = true
-transform = Transform3D(0.448328, 0.233585, -0.862809, -0.0127748, 0.966828, 0.255108, 0.893778, -0.10335, 0.43644, 35.7844, 4.76113, 4.43211)
-current = true
-far = 1000.0
-script = ExtResource("11")
-car_path = NodePath("../car_controller2")
-
-[node name="chase_camera" type="Camera3D" parent="."]
-unique_name_in_owner = true
-transform = Transform3D(0.448328, 0.233585, -0.862809, -0.0127748, 0.966828, 0.255108, 0.893778, -0.10335, 0.43644, 35.7844, 4.76113, 4.43211)
-current = true
-far = 1000.0
-script = ExtResource("11")
-car_path = NodePath("../car_controller")
-
-[node name="car_controller" type="RigidBody3D" parent="."]
-transform = Transform3D(-0.999932, 0, 0.0116757, 0, 1, 0, -0.0116757, 0, -0.999932, 24.5999, 1.88381, 21.5634)
-mass = 1.23
-center_of_mass_mode = 1
-angular_damp = 2.042
-script = ExtResource("2")
-springRate = 40.0
-tractionEase = 4.4382
-maxSpeedKmh = 100.0
-maxTraction = 60.0
-sidewaysTractionMult = 0.5
-engineAudioPath = NodePath("AudioStreamPlayer3D")
-timingPath = NodePath("../timing")
-countdownPath = NodePath("../countdown")
-checkpointSoundPath = NodePath("../audio_checkpoint")
-countdownSoundPath = NodePath("../audio_countdown")
-finishSoundPath = NodePath("../audio_finish")
-isPlayer1 = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="car_controller"]
-transform = Transform3D(1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, 1, 0, 0.522249, 0)
-shape = SubResource("5")
-
-[node name="car" parent="car_controller" instance=ExtResource("3")]
-transform = Transform3D(1, 0, 9.31323e-10, 0, 1, 0, -9.31323e-10, 0, 1, 0, -0.546, 0)
-
-[node name="fl" parent="car_controller/car/RootNode" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="fr" parent="car_controller/car/RootNode" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="rl" parent="car_controller/car/RootNode" index="2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="rr" parent="car_controller/car/RootNode" index="3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="dirt_fl" type="GPUParticles3D" parent="car_controller"]
-transform = Transform3D(0.999997, 0, 0, 0, 1, -8.74226e-08, 0, 8.74228e-08, 0.999998, -0.595, -0.264411, 1.02726)
-amount = 32
-lifetime = 0.24
-process_material = ExtResource("23")
-draw_pass_1 = ExtResource("22")
-
-[node name="dirt_fr" type="GPUParticles3D" parent="car_controller"]
-transform = Transform3D(0.999998, 0, 0, 0, 1, -8.74226e-08, 0, 8.74228e-08, 0.999998, 0.595, -0.264, 1.027)
-amount = 32
-lifetime = 0.24
-process_material = ExtResource("23")
-draw_pass_1 = ExtResource("22")
-
-[node name="dirt_rl" type="GPUParticles3D" parent="car_controller"]
-transform = Transform3D(0.999998, 1.11022e-16, 0, 0, 1, -8.74226e-08, 0, 8.74228e-08, 0.999998, -0.595, -0.264, -1.027)
-amount = 64
-lifetime = 0.24
-process_material = ExtResource("23")
-draw_pass_1 = ExtResource("22")
-
-[node name="dirt_rr" type="GPUParticles3D" parent="car_controller"]
-transform = Transform3D(0.999998, 0, 0, 0, 1, -8.74226e-08, 0, 8.74228e-08, 0.999998, 0.595, -0.264, -1.027)
-amount = 64
-lifetime = 0.24
-process_material = ExtResource("23")
-draw_pass_1 = ExtResource("22")
-
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="car_controller"]
-transform = Transform3D(1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, 0, 0, 0)
-stream = ExtResource("13")
-volume_db = 20.0
-autoplay = true
-emission_angle_degrees = 82.0
-
-[node name="hood_camera" type="Camera3D" parent="car_controller"]
-transform = Transform3D(-1, 0, 7.82311e-08, 0, 1, 0, -7.82311e-08, 0, -1, 0.0086441, 0.770113, 0.739529)
-visible = false
-current = true
-far = 1000.0
+[node name="car" parent="." instance=ExtResource("3")]
+transform = Transform3D(-0.999932, 0, 0.0116757, 0, 1, 0, -0.0116757, 0, -0.999932, 24.5699, 3.05579, 21.5112)
 
 [node name="track" parent="." instance=ExtResource("25")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3718, -0.936892, -31.4487)
@@ -365,89 +266,11 @@ direction = Vector3(0, 0, -1)
 spread = 8.4
 gravity = Vector3(0, -30, 0)
 
-[node name="car_controller2" type="RigidBody3D" parent="."]
-transform = Transform3D(-0.999932, 0, 0.0116757, 0, 1, 0, -0.0116757, 0, -0.999932, 27.7468, 1.88381, 21.5634)
-mass = 1.23
-center_of_mass_mode = 1
-angular_damp = 2.042
-script = ExtResource("2")
-springRate = 40.0
-tractionEase = 4.4382
-maxSpeedKmh = 100.0
-maxTraction = 60.0
-sidewaysTractionMult = 0.5
-engineAudioPath = NodePath("AudioStreamPlayer3D")
-timingPath = NodePath("../timing")
-countdownPath = NodePath("../countdown")
-checkpointSoundPath = NodePath("../audio_checkpoint")
-countdownSoundPath = NodePath("../audio_countdown")
-finishSoundPath = NodePath("../audio_finish")
+[node name="car2" parent="." instance=ExtResource("3")]
+transform = Transform3D(-0.999932, 0, 0.0116757, 0, 1, 0, -0.0116757, 0, -0.999932, 26.8827, 3.05579, 21.5112)
+engineAudioPath = NodePath("../car/AudioStreamPlayer3D")
+isPlayer1 = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="car_controller2"]
-transform = Transform3D(1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, 1, 0, 0.522249, 0)
-shape = SubResource("5")
-
-[node name="car" parent="car_controller2" instance=ExtResource("3")]
-transform = Transform3D(1, 0, 9.31323e-10, 0, 1, 0, -9.31323e-10, 0, 1, 0, -0.546, 0)
-
-[node name="fl" parent="car_controller2/car/RootNode" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="fr" parent="car_controller2/car/RootNode" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="rl" parent="car_controller2/car/RootNode" index="2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="rr" parent="car_controller2/car/RootNode" index="3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="dirt_fl" type="GPUParticles3D" parent="car_controller2"]
-transform = Transform3D(0.999997, 0, 0, 0, 1, -8.74226e-08, 0, 8.74228e-08, 0.999998, -0.595, -0.264411, 1.02726)
-amount = 32
-lifetime = 0.24
-process_material = ExtResource("23")
-draw_pass_1 = ExtResource("22")
-
-[node name="dirt_fr" type="GPUParticles3D" parent="car_controller2"]
-transform = Transform3D(0.999998, 0, 0, 0, 1, -8.74226e-08, 0, 8.74228e-08, 0.999998, 0.595, -0.264, 1.027)
-amount = 32
-lifetime = 0.24
-process_material = ExtResource("23")
-draw_pass_1 = ExtResource("22")
-
-[node name="dirt_rl" type="GPUParticles3D" parent="car_controller2"]
-transform = Transform3D(0.999998, 1.11022e-16, 0, 0, 1, -8.74226e-08, 0, 8.74228e-08, 0.999998, -0.595, -0.264, -1.027)
-amount = 64
-lifetime = 0.24
-process_material = ExtResource("23")
-draw_pass_1 = ExtResource("22")
-
-[node name="dirt_rr" type="GPUParticles3D" parent="car_controller2"]
-transform = Transform3D(0.999998, 0, 0, 0, 1, -8.74226e-08, 0, 8.74228e-08, 0.999998, 0.595, -0.264, -1.027)
-amount = 64
-lifetime = 0.24
-process_material = ExtResource("23")
-draw_pass_1 = ExtResource("22")
-
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="car_controller2"]
-transform = Transform3D(1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, 0, 0, 0)
-stream = ExtResource("13")
-volume_db = 20.0
-autoplay = true
-emission_angle_degrees = 82.0
-
-[node name="hood_camera" type="Camera3D" parent="car_controller2"]
-transform = Transform3D(-1, 0, 7.82311e-08, 0, 1, 0, -7.82311e-08, 0, -1, 0.0086441, 0.770113, 0.739529)
-visible = false
-current = true
-far = 1000.0
-
-[connection signal="body_entered" from="Checkpoint1" to="car_controller" method="_on_checkpoint_3_body_entered"]
-[connection signal="body_entered" from="Checkpoint2" to="car_controller" method="_on_checkpoint_4_body_entered"]
-
-[editable path="car_controller/car"]
 [editable path="Checkpoint0"]
 [editable path="Checkpoint0/stage_sign_split_rb"]
 [editable path="Checkpoint0/stage_sign_split_rb2"]
-[editable path="car_controller2/car"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://coxxfeatv48et"]
+[gd_scene load_steps=4 format=3 uid="uid://c87ei5ywn7uw5"]
 
 [ext_resource type="PackedScene" path="res://props/stage_sign_split_rb.tscn" id="1"]
 [ext_resource type="Script" path="res://scripts/checkpoint.gd" id="1_rhff0"]
