@@ -106,6 +106,8 @@ var inputs = [[KEY_A, KEY_D, KEY_W, KEY_S], [KEY_J, KEY_L, KEY_I, KEY_K]]
 
 @onready var camera = $chase_camera
 
+@export var carBodyColors: PackedColorArray
+
 func _ready():
 	inputKeyLeft = inputs[playerId][0]
 	inputKeyRight = inputs[playerId][1]
@@ -185,12 +187,12 @@ func _ready():
 	var carBody := get_node(carBodyPath) as GeometryInstance3D
 	
 	var rng = RandomNumberGenerator.new()
-	var my_random_number = rng.randf_range(-10.0, 10.0)
 	
 	var bodyMat := carBody.material_override.duplicate() as ShaderMaterial
 	carBody.material_override = bodyMat
-	var bodyColor := Color.from_hsv(rng.randf(), 1, 1)
+	var bodyColor := carBodyColors[rng.randi_range(0, 4)]
 	bodyMat.set_shader_parameter("Body_Color", bodyColor)
+	
 
 func get_velocity_at_point(point: Vector3) -> Vector3:
 	return linear_velocity + angular_velocity.cross(point - global_transform.origin)

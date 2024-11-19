@@ -12,6 +12,7 @@ var hoodCameraIsActive = false
 
 var hasRestared = false
 var players_active = 1
+
 func _ready():
 	#get_node(chaseCamera).make_current()
 
