@@ -254,11 +254,6 @@ func _physics_process(dt: float) -> void:
 
 	var throttleInput: float = yInput
 
-	if !has_race_started:
-		xInput = 0
-		yInput = 0
-		throttleInput = 0
-
 
 	if isReplay:
 		yInput = samples[replaySampleIndex].throttle
@@ -267,7 +262,7 @@ func _physics_process(dt: float) -> void:
 
 	smoothThrottle = lerp(smoothThrottle, throttleInput, dt * 10)
 
-	if stageTime < 0:
+	if !has_race_started:
 		yInput = 0
 
 	# -- PHYSICS --
