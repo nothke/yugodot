@@ -21,6 +21,8 @@ const rayLength = 0.6
 @export var finishSoundPath: NodePath
 @export var playerId:int = 0
 
+@export var carBodyPath: NodePath
+
 # Car vars
 var inputKeyRight
 var inputKeyLeft
@@ -178,6 +180,17 @@ func _ready():
 		checkpointTimes[i] = 0
 		bestCheckpointTimes[i] = 0
 		prevBestCheckpointTimes[i] = 0
+		
+	# randomize body color
+	var carBody := get_node(carBodyPath) as GeometryInstance3D
+	
+	print(carBody.material_override)
+	
+	var bodyMat := carBody.material_override.duplicate() as ShaderMaterial
+	carBody.material_override = bodyMat
+	bodyMat.set_shader_parameter("Body_Color", Color.GREEN)
+	
+	print(carBody.material_override)
 
 func get_velocity_at_point(point: Vector3) -> Vector3:
 	return linear_velocity + angular_velocity.cross(point - global_transform.origin)

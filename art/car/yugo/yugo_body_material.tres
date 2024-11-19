@@ -7,6 +7,6 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_hqoyl")
-shader_parameter/Body_Color = Color(0.00046398, 0.313856, 0.971247, 1)
+shader_parameter/Body_Color = Color(0.97, 0.7275, 0, 1)
 shader_parameter/Albedo_Texture = ExtResource("2_mv3fu")
 shader_parameter/Splat_Texture = ExtResource("3_wlue0")
