@@ -24,6 +24,10 @@ buses/default_bus_layout="res://audio/buses/default_bus_layout.tres"
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[global_group]
+
+car_group=""
+
 [input]
 
 throttle={

@@ -6,7 +6,8 @@ extends Node
 const CAR = preload("res://car.tscn")
 @export var noPostEnvironment: Environment
 var sun: DirectionalLight3D
-
+@export var countDownTimeSet = 4
+var countDownTime = countDownTimeSet
 var hoodCameraIsActive = false
 
 var hasRestared = false
@@ -31,20 +32,15 @@ func _ready():
 
 		if noPost:
 			enviro.environment = noPostEnvironment
+	$CountDownTimer.start(1)
+	$CountDownTimer.one_shot = false
 
 func _input(event):
 
 	if event is InputEventKey and event.pressed:
 
 		if event.keycode == KEY_I:
-			if(players_active > 1):
-				return
-			var car = CAR.instantiate()
-			car.playerId = players_active
-			get_parent().add_child(car)
-			%viewport_gird.add_new_player_view(car.camera)
-			players_active +=1
-
+			add_player()
 
 		if event.keycode == KEY_R:
 			get_tree().reload_current_scene()
@@ -60,3 +56,27 @@ func _input(event):
 
 		if event.keycode == KEY_V:
 			(get_node(tracksideCamera)).make_current()
+
+func add_player():
+	if(players_active > 1 || countDownTime <=0):
+		return
+	var car = CAR.instantiate()
+	car.playerId = players_active
+	get_parent().add_child(car)
+	%viewport_gird.add_new_player_view(car.camera)
+	players_active +=1
+	countDownTime = countDownTimeSet
+	$countdown.text = str(countDownTime)
+
+
+func _on_count_down_timer_timeout() -> void:
+	if(countDownTime > 0):
+		countDownTime -=1
+		$audio_countdown.play()
+		$countdown.text = str(countDownTime)
+		return
+	$countdown.visible = false
+	var cars = get_tree().get_nodes_in_group("car_group")
+	for car in cars:
+		car.start_race()
+	$CountDownTimer.stop()

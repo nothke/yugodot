@@ -11,7 +11,7 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_3ed4l"]
 size = Vector3(1.45985, 1.08932, 3.3073)
 
-[node name="car" type="RigidBody3D"]
+[node name="car" type="RigidBody3D" groups=["car_group"]]
 transform = Transform3D(-0.999932, 0, 0.0116757, 0, 1, 0, -0.0116757, 0, -0.999932, 0, 0, 0)
 mass = 1.23
 center_of_mass_mode = 1
@@ -24,9 +24,7 @@ maxTraction = 60.0
 sidewaysTractionMult = 0.5
 engineAudioPath = NodePath("AudioStreamPlayer3D")
 timingPath = NodePath("../timing")
-countdownPath = NodePath("../countdown")
 checkpointSoundPath = NodePath("../audio_checkpoint")
-countdownSoundPath = NodePath("../audio_countdown")
 finishSoundPath = NodePath("../audio_finish")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

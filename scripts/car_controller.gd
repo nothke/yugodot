@@ -16,10 +16,8 @@ const rayLength = 0.6
 
 @export var engineAudioPath: NodePath
 @export var timingPath: NodePath
-@export var countdownPath: NodePath
 
 @export var checkpointSoundPath: NodePath
-@export var countdownSoundPath: NodePath
 @export var finishSoundPath: NodePath
 @export var playerId:int = 0
 
@@ -29,6 +27,7 @@ var inputKeyLeft
 var inputKeyThrottle
 var inputKeyBreak
 
+var has_race_started:bool = false
 
 var torqueMult: float = 10
 
@@ -62,9 +61,7 @@ const wheelGraphicalXOffset: float = -0.1
 
 var checkpointPassed: int = -1
 
-var countdown: float = 4
-
-var sceneStartTime: float
+var race_start_time: float
 
 const CHECKPOINT_NUM: int = 13
 var bestTime: float
@@ -78,12 +75,9 @@ var stageEnded = false;
 func race_started():
 	return stageTime > 0
 
-var stageTime: float
-
-var lastCountdownTime: int
+var stageTime: float = 0
 
 var timingText: RichTextLabel
-var countdownText: RichTextLabel
 
 # Replay
 
@@ -102,7 +96,7 @@ var replaySampleIndex: int = 0
 var speedPitch: float
 
 var checkpointSound: AudioStreamPlayer
-var countdownSound: AudioStreamPlayer
+
 var finishSound: AudioStreamPlayer
 var engineAudio: AudioStreamPlayer3D
 const dbToVolume = 8.685
@@ -146,12 +140,8 @@ func _ready():
 
 	engineAudio = get_node(engineAudioPath) as AudioStreamPlayer3D
 	timingText = get_node(timingPath) as RichTextLabel
-	countdownText = get_node(countdownPath) as RichTextLabel
-
-	sceneStartTime = Time.get_ticks_msec() / 1000.0
 
 	checkpointSound = get_node(checkpointSoundPath) as AudioStreamPlayer
-	countdownSound = get_node(countdownSoundPath) as AudioStreamPlayer
 	finishSound = get_node(finishSoundPath) as AudioStreamPlayer
 
 	for w in wheels:
@@ -202,6 +192,9 @@ func get_sector_time(splits: PackedFloat32Array, i: int) -> float:
 	var lastCheckTime: float = 0.0 if i == 0 else splits[i - 1]
 	return splits[i] - lastCheckTime
 
+func start_race():
+	has_race_started = true
+	race_start_time = Time.get_ticks_msec() / 1000.0
 
 
 func _input(event: InputEvent) -> void:
@@ -219,13 +212,10 @@ func _physics_process(dt: float) -> void:
 			replaySampleIndex = 0
 
 	# -- TIMING --
-
 	var time: float = Time.get_ticks_msec() / 1000.0
 
-	if not stageEnded:
-		stageTime = time - sceneStartTime - countdown
-
-	var countdownTime: int = int(-stageTime) + 1
+	if not stageEnded && has_race_started:
+		stageTime = time - race_start_time
 
 	timingText.clear()
 	timingText.push_color(Color.BLACK)
@@ -256,14 +246,6 @@ func _physics_process(dt: float) -> void:
 		timingText.push_color(Color.BLACK)
 		timingText.append_text("\nFinished! Press R to restart")
 
-	if stageTime < 0:
-		if countdownTime != lastCountdownTime:
-			countdownSound.play()
-		lastCountdownTime = countdownTime
-		countdownText.text = str(countdownTime)
-	else:
-		countdownText.text = ""
-
 	# -- INPUT --
 
 
@@ -271,6 +253,12 @@ func _physics_process(dt: float) -> void:
 	var yInput: float = -1 if Input.is_key_pressed(inputKeyBreak) else (1 if Input.is_key_pressed(inputKeyThrottle) else 0)
 
 	var throttleInput: float = yInput
+
+	if !has_race_started:
+		xInput = 0
+		yInput = 0
+		throttleInput = 0
+
 
 	if isReplay:
 		yInput = samples[replaySampleIndex].throttle

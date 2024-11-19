@@ -57,6 +57,33 @@ chaseCamera = NodePath("../car/chase_camera")
 tracksideCamera = NodePath("../trackside_camera")
 noPostEnvironment = ExtResource("1_ylkew")
 
+[node name="countdown" type="RichTextLabel" parent="Game"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -14.0
+offset_top = -150.0
+offset_right = 355.0
+offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("19")
+text = "4"
+
+[node name="SecondTickTimer" type="Timer" parent="Game"]
+
+[node name="CountDownTimer" type="Timer" parent="Game"]
+one_shot = true
+
+[node name="audio_countdown" type="AudioStreamPlayer" parent="Game"]
+stream = ExtResource("17")
+
 [node name="sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.0369346, 0.895348, 0.443833, -0.784513, -0.249134, 0.567865, 0.619011, -0.369167, 0.693211, -8.51985, 10.6491, -20.8834)
 shadow_opacity = 0.8
@@ -174,15 +201,6 @@ transform = Transform3D(0.798695, 0, -0.601736, 0, 1, 0, 0.601736, 0, 0.798695, 
 [node name="Checkpoint12" parent="." groups=["Checkpoint_group"] instance=ExtResource("10")]
 transform = Transform3D(0.573281, 0, 0.819359, 0, 1, 0, -0.819359, 0, 0.573281, 18.6107, 0.6638, 50.1217)
 
-[node name="ColorRect" type="ColorRect" parent="."]
-visible = false
-offset_left = 17.0
-offset_top = 20.0
-offset_right = 364.0
-offset_bottom = 198.0
-rotation = 3.0
-color = Color(0, 0, 0, 0.117647)
-
 [node name="timing" type="RichTextLabel" parent="."]
 offset_left = 41.0
 offset_top = 34.0
@@ -198,30 +216,17 @@ Time: 0.000
 ##############
 Finished!"
 
-[node name="countdown" type="RichTextLabel" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -14.0
-offset_top = -150.0
-offset_right = 355.0
-offset_bottom = 104.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(2, 2)
-size_flags_horizontal = 0
-size_flags_vertical = 0
-theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_fonts/normal_font = ExtResource("19")
-text = "4"
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_left = 17.0
+offset_top = 20.0
+offset_right = 364.0
+offset_bottom = 198.0
+rotation = 3.0
+color = Color(0, 0, 0, 0.117647)
 
 [node name="audio_checkpoint" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("15")
-
-[node name="audio_countdown" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("17")
 
 [node name="audio_finish" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("16")
@@ -247,6 +252,8 @@ mesh = SubResource("6")
 direction = Vector3(0, 0, -1)
 spread = 8.4
 gravity = Vector3(0, -30, 0)
+
+[connection signal="timeout" from="Game/CountDownTimer" to="Game" method="_on_count_down_timer_timeout"]
 
 [editable path="Checkpoint0"]
 [editable path="Checkpoint0/stage_sign_split_rb"]
