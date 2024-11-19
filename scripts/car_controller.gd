@@ -113,11 +113,14 @@ func _ready():
 	inputKeyLeft = KEY_A if isPlayer1 else KEY_J
 	inputKeyThrottle = KEY_W if isPlayer1 else KEY_I
 	inputKeyBreak = KEY_S if isPlayer1 else KEY_K
-	
+
+	var checkpoints = get_tree().get_nodes_in_group("Checkpoint_group")
+	for checkpoint in checkpoints:
+		checkpoint.checkpoint_entered.connect(on_entered_checkpoint)
 	wheels.resize(4)
 	for i in 4:
 		wheels[i] = Wheel.new()
-		
+
 	wheels[0].point = Vector3(-wheelTrack, 0, wheelBase)
 	wheels[1].point = Vector3(wheelTrack, 0, wheelBase)
 	wheels[2].point = Vector3(-wheelTrack, 0, -wheelBase)
@@ -129,7 +132,7 @@ func _ready():
 	wheels[2].graphical = get_node("car/RootNode/rl") as Node3D
 	wheels[3].graphical = get_node("car/RootNode/rr") as Node3D
 	wheelRoot = wheels[0].graphical.get_parent() as Node3D
-	
+
 	for w in wheels:
 		var child: Node3D = w.graphical.get_child(0) as Node3D
 		child.translate_object_local(Vector3.RIGHT * wheelGraphicalXOffset)
@@ -159,7 +162,7 @@ func _ready():
 	if config.load(configPath) == OK:
 		var cfgBool = func(segment, entry):
 			return float(config.get_value(segment, entry, 1)) != 0
-			
+
 		springRate = float(config.get_value("setup", "spring_rate", 40))
 		dampRate = float(config.get_value("setup", "damp_rate", 3))
 
@@ -167,7 +170,7 @@ func _ready():
 		AudioServer.set_bus_volume_db(0, log(volume) * dbToVolume)
 
 		drawParticles = cfgBool.call("graphics", "draw_particles")
-		
+
 		#drawLines = float(config.get_value("debug", "lines", 0)) != 0
 		debugSplits = float(config.get_value("debug", "splits", 0)) != 0
 	else:
@@ -208,7 +211,7 @@ func _physics_process(dt: float) -> void:
 	if isReplay:
 		var sample: ReplaySample = samples[replaySampleIndex] as ReplaySample
 		transform = sample.t
-		
+
 		replaySampleIndex += 1
 		if replaySampleIndex == samples.size():
 			replaySampleIndex = 0
@@ -260,8 +263,8 @@ func _physics_process(dt: float) -> void:
 		countdownText.text = ""
 
 	# -- INPUT --
-	
-	
+
+
 	var xInput: float = -1 if Input.is_key_pressed(inputKeyLeft) else (1 if Input.is_key_pressed(inputKeyRight) else 0)
 	var yInput: float = -1 if Input.is_key_pressed(inputKeyBreak) else (1 if Input.is_key_pressed(inputKeyThrottle) else 0)
 
@@ -303,7 +306,7 @@ func _physics_process(dt: float) -> void:
 
 		var origin: Vector3 = wheelPos + up * raycastHeightOffset
 		var dest: Vector3 = origin - up * rayLength
-		
+
 		var ray := PhysicsRayQueryParameters3D.create(origin, dest)
 		var result: Dictionary = spaceState.intersect_ray(ray)
 
@@ -316,7 +319,7 @@ func _physics_process(dt: float) -> void:
 		if grounded:
 			var hitPoint: Vector3 = result["position"]
 			var normal: Vector3 = result["normal"]
-			
+
 			var distFromTarget: float = (dest - hitPoint).length()
 
 			var spring: float = springRate * distFromTarget
@@ -359,7 +362,7 @@ func _physics_process(dt: float) -> void:
 
 		if i < 2:
 			w.graphical.rotate(Vector3.UP, -smoothSteer * deg_to_rad(30))
-		
+
 		w.wasGrounded = grounded
 
 		i += 1

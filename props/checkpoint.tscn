@@ -1,12 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://coxxfeatv48et"]
+[gd_scene load_steps=4 format=3 uid="uid://coxxfeatv48et"]
 
 [ext_resource type="PackedScene" path="res://props/stage_sign_split_rb.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/checkpoint.gd" id="1_rhff0"]
 
 [sub_resource type="BoxShape3D" id="1"]
 size = Vector3(0.708418, 44.3064, 10.4132)
 
 [node name="Checkpoint" type="Area3D"]
 transform = Transform3D(0.999998, 0, 0, 0, 0.999998, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("1_rhff0")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("1")
@@ -16,3 +18,5 @@ transform = Transform3D(1.31134e-07, 1, -4.37114e-08, 3.82137e-15, 4.37114e-08, 
 
 [node name="stage_sign_split_rb2" parent="." instance=ExtResource("1")]
 transform = Transform3D(1.31134e-07, 1, -4.37114e-08, 3.82137e-15, 4.37114e-08, 1, 1, -1.31134e-07, 1.91069e-15, 0, 0.954, -5.4)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

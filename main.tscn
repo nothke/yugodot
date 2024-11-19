@@ -3,7 +3,7 @@
 [ext_resource type="Environment" uid="uid://cdvs5noiss70h" path="res://effects/main_environment.tres" id="1_mtb8u"]
 [ext_resource type="Environment" uid="uid://ccvv7vlr00s3u" path="res://effects/no_post_environment.tres" id="1_ylkew"]
 [ext_resource type="Script" path="res://scripts/car_controller.gd" id="2"]
-[ext_resource type="PackedScene" uid="uid://dduetf8o80aci" path="res://car.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://car.tscn" id="3"]
 [ext_resource type="Material" path="res://art/plane.tres" id="4"]
 [ext_resource type="PlaneMesh" path="res://art/base_plane.tres" id="5"]
 [ext_resource type="Material" uid="uid://dfvthhapa3nh4" path="res://effects/particle.tres" id="6"]
@@ -236,55 +236,59 @@ skeleton = NodePath("../..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ramps/ramp_2/StaticBody3D"]
 shape = SubResource("3")
 
-[node name="Checkpoint" parent="." instance=ExtResource("10")]
+[node name="Checkpoint0" parent="." groups=["Checkpoint_group"] instance=ExtResource("10")]
 transform = Transform3D(0.00442082, 0, 0.99999, 0, 1, 0, -0.99999, 0, 0.00442082, 24.8696, 0.636365, 17.466)
 
-[node name="stage_sign_split" parent="Checkpoint/stage_sign_split_rb" index="1"]
+[node name="stage_sign_split" parent="Checkpoint0/stage_sign_split_rb" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 visible = false
 
-[node name="stage_sign_end" parent="Checkpoint/stage_sign_split_rb" index="2"]
+[node name="stage_sign_end" parent="Checkpoint0/stage_sign_split_rb" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 visible = true
 
-[node name="stage_sign_split" parent="Checkpoint/stage_sign_split_rb2" index="1"]
+[node name="stage_sign_split" parent="Checkpoint0/stage_sign_split_rb2" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 visible = false
 
-[node name="stage_sign_end" parent="Checkpoint/stage_sign_split_rb2" index="2"]
+[node name="stage_sign_end" parent="Checkpoint0/stage_sign_split_rb2" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 visible = true
 
-[node name="Checkpoint3" parent="." instance=ExtResource("10")]
+[node name="Checkpoint1" parent="." groups=["Checkpoint_group"] instance=ExtResource("10")]
 transform = Transform3D(0.00442082, 0, 0.99999, 0, 1, 0, -0.99999, 0, 0.00442082, 1.52562, 0.518541, -27.3525)
 
-[node name="Checkpoint4" parent="." instance=ExtResource("10")]
+[node name="Checkpoint2" parent="." groups=["Checkpoint_group"] instance=ExtResource("10")]
 transform = Transform3D(0.772005, 0, 0.635616, 0, 1, 0, -0.635616, 0, 0.772005, 51.398, 7.58502, -53.8544)
 
-[node name="Checkpoint5" parent="." instance=ExtResource("10")]
+[node name="Checkpoint3" parent="." groups=["Checkpoint_group"] instance=ExtResource("10")]
 transform = Transform3D(-0.472115, 0, 0.881537, 0, 0.999998, 0, -0.881535, 0, -0.472116, 75.2337, 6.92684, -116.687)
 
-[node name="Checkpoint6" parent="." instance=ExtResource("10")]
+[node name="Checkpoint4" parent="." groups=["Checkpoint_group"] instance=ExtResource("10")]
 transform = Transform3D(-0.969714, 0, -0.244236, 0, 0.999998, 0, 0.244236, 0, -0.969716, -12.5309, 6.89216, -152.831)
 
-[node name="Checkpoint7" parent="." instance=ExtResource("10")]
+[node name="Checkpoint5" parent="." groups=["Checkpoint_group"] instance=ExtResource("10")]
 transform = Transform3D(-0.861357, 0, -0.508, 0, 1, 0, 0.508, 0, -0.861357, -51.3014, 6.76313, -114.14)
 
-[node name="Checkpoint8" parent="." instance=ExtResource("10")]
+[node name="Checkpoint6" parent="." groups=["Checkpoint_group"] instance=ExtResource("10")]
 transform = Transform3D(-0.296596, 0, -0.955003, 0, 1, 0, 0.955003, 0, -0.296596, -115.416, 9.84102, -87.4118)
 
-[node name="Checkpoint9" parent="." instance=ExtResource("10")]
+[node name="Checkpoint7" parent="." groups=["Checkpoint_group"] instance=ExtResource("10")]
 transform = Transform3D(-0.977365, 0, -0.211559, 0, 1, 0, 0.211559, 0, -0.977365, -104.661, 9.62825, 29.4603)
 
-[node name="Checkpoint10" parent="." instance=ExtResource("10")]
+[node name="Checkpoint8" parent="." groups=["Checkpoint_group"] instance=ExtResource("10")]
 transform = Transform3D(-0.977365, 0, -0.211559, 0, 1, 0, 0.211559, 0, -0.977365, -148.314, 14.2443, -45.7421)
 
-[node name="Checkpoint11" parent="." instance=ExtResource("10")]
+[node name="Checkpoint9" parent="." groups=["Checkpoint_group"] instance=ExtResource("10")]
 transform = Transform3D(0.843332, 0, -0.537393, 0, 1, 0, 0.537393, 0, 0.843332, -134.346, 9.73245, 62.8798)
 
-[node name="Checkpoint12" parent="." instance=ExtResource("10")]
+[node name="Checkpoint10" parent="." groups=["Checkpoint_group"] instance=ExtResource("10")]
 transform = Transform3D(0.968173, 0, -0.250283, 0, 1, 0, 0.250283, 0, 0.968173, -39.7914, 4.50785, 34.3337)
 
-[node name="Checkpoint13" parent="." instance=ExtResource("10")]
+[node name="Checkpoint11" parent="." groups=["Checkpoint_group"] instance=ExtResource("10")]
 transform = Transform3D(0.798695, 0, -0.601736, 0, 1, 0, 0.601736, 0, 0.798695, -18.0219, 1.00573, 56.1821)
 
-[node name="Checkpoint14" parent="." instance=ExtResource("10")]
+[node name="Checkpoint12" parent="." groups=["Checkpoint_group"] instance=ExtResource("10")]
 transform = Transform3D(0.573281, 0, 0.819359, 0, 1, 0, -0.819359, 0, 0.573281, 18.6107, 0.6638, 50.1217)
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -439,8 +443,11 @@ visible = false
 current = true
 far = 1000.0
 
+[connection signal="body_entered" from="Checkpoint1" to="car_controller" method="_on_checkpoint_3_body_entered"]
+[connection signal="body_entered" from="Checkpoint2" to="car_controller" method="_on_checkpoint_4_body_entered"]
+
 [editable path="car_controller/car"]
-[editable path="Checkpoint"]
-[editable path="Checkpoint/stage_sign_split_rb"]
-[editable path="Checkpoint/stage_sign_split_rb2"]
+[editable path="Checkpoint0"]
+[editable path="Checkpoint0/stage_sign_split_rb"]
+[editable path="Checkpoint0/stage_sign_split_rb2"]
 [editable path="car_controller2/car"]
