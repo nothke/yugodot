@@ -108,6 +108,8 @@ var inputs = [[KEY_A, KEY_D, KEY_W, KEY_S], [KEY_J, KEY_L, KEY_I, KEY_K]]
 
 @export var carBodyColors: PackedColorArray
 
+var flippedClock : float = 0
+
 func _ready():
 	inputKeyLeft = inputs[playerId][0]
 	inputKeyRight = inputs[playerId][1]
@@ -409,6 +411,23 @@ func _physics_process(dt: float) -> void:
 		s.throttle = throttleInput
 
 		samples.append(s)
+		
+	if up.y < 0.5 and speed < 2.0:
+		flippedClock += dt
+		
+		if flippedClock > 5:
+			var planar_forward := -forward
+			planar_forward.y = 0
+			
+			look_at(position + planar_forward.normalized())
+			translate(Vector3(0, 1, 0))
+			linear_velocity = Vector3.ZERO
+			angular_velocity = Vector3.ZERO
+			
+			flippedClock = 0.0
+	else:
+		flippedClock = 0.0
+		
 
 func on_entered_checkpoint(body: Node, checkpointIndex: int) -> void:
 	if body == self:
