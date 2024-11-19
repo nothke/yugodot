@@ -11,8 +11,7 @@ var countDownTime = countDownTimeSet
 var hoodCameraIsActive = false
 
 var hasRestared = false
-var players_active = 1
-
+var players = [false, false, false, false]
 func _ready():
 	#get_node(chaseCamera).make_current()
 
@@ -40,9 +39,14 @@ func _input(event):
 
 	if event is InputEventKey and event.pressed:
 
-		if event.keycode == KEY_I:
-			add_player()
-
+		if event.is_action_pressed("p1_throttle"):
+			add_player(0)
+		if event.is_action_pressed("p2_throttle"):
+			add_player(1)
+		if event.is_action_pressed("p3_throttle"):
+			add_player(2)
+		if event.is_action_pressed("p4_throttle"):
+			add_player(3)
 		if event.keycode == KEY_R:
 			get_tree().reload_current_scene()
 			hasRestared = true
@@ -58,17 +62,20 @@ func _input(event):
 		if event.keycode == KEY_V:
 			(get_node(tracksideCamera)).make_current()
 
-func add_player():
-	if(players_active > 1 || countDownTime <=0):
+func add_player(id):
+	if(players[id]|| countDownTime <=0):
 		return
+	players[id] = true
 	var car = CAR.instantiate()
-	car.playerId = players_active
+	car.playerId = id
 	get_parent().add_child(car)
 	var cars = get_tree().get_nodes_in_group("car_group")
-	car.global_position =  cars[cars.size()-2].global_position
-	car.global_position.x += car.get_child(0).shape.size.x * 2
+	if cars.size() ==1:
+		car.global_position = %CarSpawnPoint.global_position
+	else:
+		car.global_position =  cars[cars.size()-2].global_position
+		car.global_position.x += car.get_child(0).shape.size.x * 2
 	%viewport_gird.add_new_player_view(car.camera, car.ui)
-	players_active +=1
 	countDownTime = countDownTimeSet
 	$countdown.text = str(countDownTime)
 

@@ -1,9 +1,7 @@
-[gd_scene load_steps=24 format=3 uid="uid://c3jddj6t3n61p"]
+[gd_scene load_steps=22 format=3 uid="uid://c3jddj6t3n61p"]
 
 [ext_resource type="Environment" uid="uid://cdvs5noiss70h" path="res://effects/main_environment.tres" id="1_mtb8u"]
 [ext_resource type="Environment" uid="uid://ccvv7vlr00s3u" path="res://effects/no_post_environment.tres" id="1_ylkew"]
-[ext_resource type="PackedScene" uid="uid://y3xmnq2dtd80" path="res://player_view_port.tscn" id="2_eyh80"]
-[ext_resource type="PackedScene" uid="uid://b5rnx13k43fsh" path="res://car.tscn" id="3"]
 [ext_resource type="Material" path="res://art/plane.tres" id="4"]
 [ext_resource type="PlaneMesh" path="res://art/base_plane.tres" id="5"]
 [ext_resource type="Material" uid="uid://dfvthhapa3nh4" path="res://effects/particle.tres" id="6"]
@@ -45,15 +43,11 @@ theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 script = ExtResource("19_6kue6")
 
-[node name="PlayerViewPort" parent="viewport_gird" instance=ExtResource("2_eyh80")]
-layout_mode = 2
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("1_mtb8u")
 
 [node name="Game" type="Node" parent="."]
 script = ExtResource("14")
-chaseCamera = NodePath("../car/chase_camera")
 tracksideCamera = NodePath("../trackside_camera")
 noPostEnvironment = ExtResource("1_ylkew")
 
@@ -95,10 +89,6 @@ visible = false
 current = true
 fov = 35.9
 far = 1000.0
-
-[node name="car" parent="." instance=ExtResource("3")]
-transform = Transform3D(-0.999932, 0, 0.0116757, 0, 1, 0, -0.0116757, 0, -0.999932, 23.3396, 3.05579, 21.5112)
-timingPath = NodePath("")
 
 [node name="track" parent="." instance=ExtResource("25")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3718, -0.936892, -31.4487)
@@ -238,6 +228,10 @@ mesh = SubResource("6")
 direction = Vector3(0, 0, -1)
 spread = 8.4
 gravity = Vector3(0, -30, 0)
+
+[node name="CarSpawnPoint" type="Marker3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 0, 19)
 
 [connection signal="timeout" from="Game/CountDownTimer" to="Game" method="_on_count_down_timer_timeout"]
 
