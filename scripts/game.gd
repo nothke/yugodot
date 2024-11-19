@@ -70,13 +70,24 @@ func add_player():
 
 
 func _on_count_down_timer_timeout() -> void:
-	if(countDownTime > 0):
-		countDownTime -=1
+	if(countDownTime > 1):
 		$audio_countdown.play()
 		$countdown.text = str(countDownTime)
+		countDownTime -=1
 		return
-	$countdown.visible = false
-	var cars = get_tree().get_nodes_in_group("car_group")
-	for car in cars:
-		car.start_race()
-	$CountDownTimer.stop()
+	if(countDownTime ==1):
+		$audio_countdown.play()
+		$countdown.text = "YOU"
+		countDownTime -=1
+		return
+	if(countDownTime == 0):
+		$countdown.text = "GO"
+		countDownTime -=1
+		var cars = get_tree().get_nodes_in_group("car_group")
+		for car in cars:
+			car.start_race()
+		return
+	countDownTime -=1
+	if(countDownTime < -1):
+		$countdown.visible = false
+		$CountDownTimer.stop()
