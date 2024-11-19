@@ -7,7 +7,7 @@
 [ext_resource type="QuadMesh" uid="uid://blk6ks7b4u8e1" path="res://effects/gpu_dirt.tres" id="3_4ok4p"]
 [ext_resource type="AudioStream" uid="uid://dn0s865j4dybc" path="res://audio/beetle_hi.wav" id="4_tuv2w"]
 [ext_resource type="PackedScene" uid="uid://dqwrgblwdkh3d" path="res://art/car/yugo/yugo_body.gltf" id="5_jl7f1"]
-[ext_resource type="Material" path="res://art/car/yugo/yugo_body_material.tres" id="6_s1yhe"]
+[ext_resource type="Material" uid="uid://diusihsexbrpu" path="res://art/car/yugo/yugo_body_material.tres" id="6_s1yhe"]
 [ext_resource type="Script" path="res://scripts/car_camera.gd" id="7_npgrb"]
 [ext_resource type="FontFile" path="res://art/fonts/inconsolata.tres" id="9_n2hot"]
 
