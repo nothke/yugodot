@@ -1,8 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://bvxkcuertj2pg"]
+[gd_scene load_steps=3 format=3 uid="uid://bvxkcuertj2pg"]
 
 [ext_resource type="PackedScene" uid="uid://003ajwer846l" path="res://art/car/car_wheel.gltf" id="1"]
+[ext_resource type="PackedScene" uid="uid://3m10bd6g3vw7" path="res://art/car/yugo/yugo_wheel.gltf" id="2_o2gqo"]
 
 [node name="car_wheel" instance=ExtResource("1")]
 
 [node name="car_whl" parent="." index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visible = false
+
+[node name="yugo_wheel" parent="." index="1" instance=ExtResource("2_o2gqo")]
