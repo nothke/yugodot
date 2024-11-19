@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b5rnx13k43fsh"]
+[gd_scene load_steps=11 format=3 uid="uid://b5rnx13k43fsh"]
 
 [ext_resource type="PackedScene" uid="uid://og0w6ajh23rj" path="res://art/car/car_body.gltf" id="1"]
 [ext_resource type="Script" path="res://scripts/car_controller.gd" id="1_3d7m5"]
@@ -7,6 +7,7 @@
 [ext_resource type="QuadMesh" uid="uid://blk6ks7b4u8e1" path="res://effects/gpu_dirt.tres" id="3_4ok4p"]
 [ext_resource type="AudioStream" uid="uid://dn0s865j4dybc" path="res://audio/beetle_hi.wav" id="4_tuv2w"]
 [ext_resource type="PackedScene" uid="uid://dqwrgblwdkh3d" path="res://art/car/yugo/yugo_body.gltf" id="5_jl7f1"]
+[ext_resource type="Material" uid="uid://diusihsexbrpu" path="res://art/car/yugo/yugo_body_material.tres" id="6_s1yhe"]
 [ext_resource type="Script" path="res://scripts/car_camera.gd" id="7_npgrb"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3ed4l"]
@@ -76,8 +77,11 @@ far = 1000.0
 [node name="car" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 1.86265e-09, 0, 1, 0, -1.86265e-09, 0, 1, 0, -0.476137, 0)
 
-[node name="yugo_body2" parent="car" instance=ExtResource("5_jl7f1")]
+[node name="body" parent="car" instance=ExtResource("5_jl7f1")]
 transform = Transform3D(1, 0, 9.31323e-10, 0, 1, 0, -9.31323e-10, 0, 1, 0.000238502, 0.0361466, 0.0204258)
+
+[node name="yugo_body" parent="car/body" index="0"]
+material_override = ExtResource("6_s1yhe")
 
 [node name="RootNode" type="Node3D" parent="car"]
 
@@ -103,3 +107,5 @@ current = true
 far = 1000.0
 script = ExtResource("7_npgrb")
 car_path = NodePath("..")
+
+[editable path="car/body"]

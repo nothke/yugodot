@@ -1,0 +1,112 @@
+[gd_resource type="VisualShader" load_steps=11 format=3 uid="uid://b5t6svrxh1u1g"]
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_mquho"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_ilfwf"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(0.5, 0.5, 0.5)]
+op_type = 3
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_td8xi"]
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_ux78j"]
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_owc2p"]
+constant = 1.0
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_y6h8g"]
+parameter_name = "Albedo_Texture"
+texture_type = 1
+texture_filter = 1
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_lcnpb"]
+source = 5
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_injv8"]
+expanded_output_ports = [0]
+source = 5
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_xt5se"]
+parameter_name = "Splat_Texture"
+texture_filter = 1
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_wn6hj"]
+parameter_name = "Body_Color"
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform sampler2D Albedo_Texture : source_color, filter_nearest;
+uniform vec4 Body_Color : source_color;
+uniform sampler2D Splat_Texture : filter_nearest;
+
+
+
+void fragment() {
+	vec4 n_out3p0;
+// Texture2D:3
+	n_out3p0 = texture(Albedo_Texture, UV);
+
+
+// ColorConstant:12
+	vec4 n_out12p0 = vec4(1.000000, 1.000000, 1.000000, 1.000000);
+
+
+// ColorParameter:6
+	vec4 n_out6p0 = Body_Color;
+
+
+	vec4 n_out4p0;
+// Texture2D:4
+	n_out4p0 = texture(Splat_Texture, UV);
+	float n_out4p1 = n_out4p0.r;
+
+
+// Mix:11
+	vec3 n_out11p0 = mix(vec3(n_out12p0.xyz), vec3(n_out6p0.xyz), vec3(n_out4p1));
+
+
+// VectorOp:10
+	vec3 n_out10p0 = vec3(n_out3p0.xyz) * n_out11p0;
+
+
+// FloatConstant:13
+	float n_out13p0 = 0.000000;
+
+
+// FloatConstant:14
+	float n_out14p0 = 1.000000;
+
+
+// Output:0
+	ALBEDO = n_out10p0;
+	METALLIC = n_out13p0;
+	ROUGHNESS = n_out14p0;
+
+
+}
+"
+graph_offset = Vector2(-168.921, 274.732)
+nodes/fragment/0/position = Vector2(680, 420)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture2DParameter_y6h8g")
+nodes/fragment/2/position = Vector2(-940, 120)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_lcnpb")
+nodes/fragment/3/position = Vector2(-540, 260)
+nodes/fragment/4/node = SubResource("VisualShaderNodeTexture_injv8")
+nodes/fragment/4/position = Vector2(-580, 720)
+nodes/fragment/5/node = SubResource("VisualShaderNodeTexture2DParameter_xt5se")
+nodes/fragment/5/position = Vector2(-940, 600)
+nodes/fragment/6/node = SubResource("VisualShaderNodeColorParameter_wn6hj")
+nodes/fragment/6/position = Vector2(-820, -100)
+nodes/fragment/10/node = SubResource("VisualShaderNodeVectorOp_mquho")
+nodes/fragment/10/position = Vector2(180, 240)
+nodes/fragment/11/node = SubResource("VisualShaderNodeMix_ilfwf")
+nodes/fragment/11/position = Vector2(-240, -100)
+nodes/fragment/12/node = SubResource("VisualShaderNodeColorConstant_td8xi")
+nodes/fragment/12/position = Vector2(-480, -120)
+nodes/fragment/13/node = SubResource("VisualShaderNodeFloatConstant_ux78j")
+nodes/fragment/13/position = Vector2(200, 660)
+nodes/fragment/14/node = SubResource("VisualShaderNodeFloatConstant_owc2p")
+nodes/fragment/14/position = Vector2(200, 560)
+nodes/fragment/connections = PackedInt32Array(2, 0, 3, 2, 5, 0, 4, 2, 3, 0, 10, 0, 6, 0, 11, 1, 12, 0, 11, 0, 4, 1, 11, 2, 11, 0, 10, 1, 10, 0, 0, 0, 13, 0, 0, 2, 14, 0, 0, 3)
