@@ -31,8 +31,8 @@ var has_race_started:bool = false
 
 var torqueMult: float = 10
 
-var wheelBase: float = 1.05
-var wheelTrack: float = 0.7
+var wheelBase: float = 1.1
+var wheelTrack: float = 0.65
 
 var wheelRoot: Node3D
 
