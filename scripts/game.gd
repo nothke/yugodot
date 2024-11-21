@@ -63,14 +63,14 @@ func _input(event):
 			(get_node(tracksideCamera)).make_current()
 
 func add_player(id):
-	if(players[id]|| countDownTime <=0):
+	if(players[id] || countDownTime <=0):
 		return
 	players[id] = true
 	var car = CAR.instantiate()
-	car.playerId = id
+	car.playerId = id+1
 	get_parent().add_child(car)
 	var cars = get_tree().get_nodes_in_group("car_group")
-	if cars.size() ==1:
+	if cars.size() == 1:
 		car.global_position = %CarSpawnPoint.global_position
 	else:
 		car.global_position =  cars[cars.size()-2].global_position
