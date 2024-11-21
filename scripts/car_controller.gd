@@ -115,6 +115,7 @@ const dbToVolume = 8.685
 @export var carBodyColors: PackedColorArray
 
 var flippedClock : float = 0
+const FLIPPED_DURATION := 1.5
 
 var viewport: Viewport
 
@@ -426,7 +427,7 @@ func _physics_process(dt: float) -> void:
 	if up.y < 0.5 and speed < 2.0:
 		flippedClock += dt
 
-		if flippedClock > 5:
+		if flippedClock > FLIPPED_DURATION:
 			var planar_forward := -forward
 			planar_forward.y = 0
 
