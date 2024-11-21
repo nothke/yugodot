@@ -24,10 +24,11 @@ const rayLength = 0.6
 @export var carBodyPath: NodePath
 
 # Car vars
-var inputKeyRight
-var inputKeyLeft
-var inputKeyThrottle
-var inputKeyBrake
+var inputKeyRight: String
+var inputKeyLeft: String
+var inputKeyThrottle: String
+var inputKeyBrake: String
+var inputKeySwitchCamera: String
 
 var has_race_started:bool = false
 
@@ -81,6 +82,11 @@ var stageTime: float = 0
 
 @onready var timingText = $UI/timing
 
+@onready var chaseCamera := $chase_camera as Camera3D
+@onready var hoodCamera := $hood_camera as Camera3D
+
+var hoodCameraIsActive := false
+
 # Replay
 
 class ReplaySample:
@@ -110,13 +116,15 @@ const dbToVolume = 8.685
 
 var flippedClock : float = 0
 
-func _ready():
-	var idStr := str(playerId)
-	inputKeyLeft = "p" + idStr + "_left"
-	inputKeyRight = "p" + idStr + "_right"
-	inputKeyThrottle = "p" + idStr + "_throttle"
-	inputKeyBrake = "p"+ idStr +"_brake"
+var viewport: Viewport
 
+func _ready():
+	var idStr := "p" + str(playerId)
+	inputKeyLeft = idStr + "_left"
+	inputKeyRight = idStr + "_right"
+	inputKeyThrottle = idStr + "_throttle"
+	inputKeyBrake = idStr +"_brake"
+	inputKeySwitchCamera = idStr + "_switch_camera"
 
 	var checkpoints = get_tree().get_nodes_in_group("Checkpoint_group")
 	for checkpoint in checkpoints:
@@ -223,7 +231,7 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_F:
 		isReplay = true
 		replaySampleIndex = 0
-
+		
 func _physics_process(dt: float) -> void:
 	if isReplay:
 		var sample: ReplaySample = samples[replaySampleIndex] as ReplaySample
@@ -430,7 +438,19 @@ func _physics_process(dt: float) -> void:
 			flippedClock = 0.0
 	else:
 		flippedClock = 0.0
+		
+func activate_camera(cam: Camera3D) -> void:
+	RenderingServer.viewport_attach_camera(viewport.get_viewport_rid(), cam.get_camera_rid())
 
+func _process(_dt: float) -> void:
+	# Switch between hood and chase cameras
+	if Input.is_action_just_pressed(inputKeySwitchCamera):
+		hoodCameraIsActive = not hoodCameraIsActive
+		
+		if hoodCameraIsActive:
+			activate_camera(hoodCamera)
+		else:
+			activate_camera(chaseCamera)
 
 func on_entered_checkpoint(body: Node, checkpointIndex: int) -> void:
 	if body == self:

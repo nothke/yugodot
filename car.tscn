@@ -72,7 +72,7 @@ autoplay = true
 emission_angle_degrees = 82.0
 
 [node name="hood_camera" type="Camera3D" parent="."]
-transform = Transform3D(-1, 0, 7.82311e-08, 0, 1, 0, -7.82311e-08, 0, -1, 0.0086441, 0.770113, 0.739529)
+transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 0.009, 0.603, 0.655)
 visible = false
 current = true
 far = 1000.0

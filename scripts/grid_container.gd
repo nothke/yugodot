@@ -11,7 +11,7 @@ const PLAYER_VIEW_PORT = preload("res://player_view_port.tscn")
 	#var viewport_rid1 = viewport1.get_viewport_rid()
 	#RenderingServer.viewport_attach_camera(viewport_rid1, Camera_rid1)
 
-func add_new_player_view(camera: Camera3D, canvas: CanvasLayer):
+func add_new_player_view(camera: Camera3D, canvas: CanvasLayer) -> Viewport:
 	var newViewPort = PLAYER_VIEW_PORT.instantiate()
 	add_child(newViewPort)
 
@@ -23,3 +23,5 @@ func add_new_player_view(camera: Camera3D, canvas: CanvasLayer):
 
 	if get_tree().get_nodes_in_group("car_group").size() > 1:
 		columns = 2
+		
+	return newViewPort.get_child(0) as Viewport

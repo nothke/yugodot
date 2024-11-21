@@ -51,34 +51,28 @@ func _input(event):
 			get_tree().reload_current_scene()
 			hasRestared = true
 
-		#if event.keycode == KEY_C:
-			#hoodCameraIsActive = not hoodCameraIsActive
-#
-			#if hoodCameraIsActive:
-				#(get_node(hoodCamera) as Camera3D).make_current()
-			#else:
-				#(get_node(chaseCamera) as Camera3D).make_current()
-
 		#if event.keycode == KEY_V:
 			#(get_node(tracksideCamera)).make_current()
 
 func add_player(id):
 	if(players[id] || countDownTime <=0):
 		return
+		
 	players[id] = true
 	var car = CAR.instantiate()
 	car.playerId = id+1
 	get_parent().add_child(car)
 	var cars = get_tree().get_nodes_in_group("car_group")
+	
 	if cars.size() == 1:
 		car.global_position = %CarSpawnPoint.global_position
 	else:
 		car.global_position =  cars[cars.size()-2].global_position
 		car.global_position.x += car.get_child(0).shape.size.x * 2
-	%viewport_gird.add_new_player_view(car.camera, car.ui)
+		
+	car.viewport = %viewport_gird.add_new_player_view(car.camera, car.ui)
 	countDownTime = countDownTimeSet
 	$countdown.text = str(countDownTime)
-
 
 func _on_count_down_timer_timeout() -> void:
 	if(countDownTime > 1):
