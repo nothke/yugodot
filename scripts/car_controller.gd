@@ -270,22 +270,20 @@ func _physics_process(dt: float) -> void:
 
 	# -- INPUT --
 
+	var inputVec := Input.get_vector(inputKeyLeft, inputKeyRight, inputKeyBrake, inputKeyThrottle)
 
-	var xInput: float = -1 if Input.is_action_pressed(inputKeyLeft) else (1 if Input.is_action_pressed(inputKeyRight) else 0)
-	var yInput: float = -1 if Input.is_action_pressed(inputKeyBrake) else (1 if Input.is_action_pressed(inputKeyThrottle) else 0)
-
-	var throttleInput: float = yInput
+	var throttleInput: float = inputVec.y
 
 
 	if isReplay:
-		yInput = samples[replaySampleIndex].throttle
+		inputVec.y = samples[replaySampleIndex].throttle
 
-	smoothSteer = lerp(smoothSteer, xInput, dt * 10)
+	smoothSteer = lerp(smoothSteer, inputVec.x, dt * 10)
 
 	smoothThrottle = lerp(smoothThrottle, throttleInput, dt * 10)
 
 	if !has_race_started:
-		yInput = 0
+		inputVec.y = 0
 
 	# -- PHYSICS --
 
@@ -350,8 +348,8 @@ func _physics_process(dt: float) -> void:
 			var dirtSpeedFactor = -smoothSteer if i < 2 else 0.0
 			w.dirt.rotation = Vector3(deg_to_rad(20), atan(-sidewaysSpeed * 0.1 + dirtSpeedFactor), 0)
 
-			if grounded != w.wasGrounded || prevYInput != yInput:
-				w.dirt.emitting = grounded and yInput > 0
+			if grounded != w.wasGrounded || prevYInput != inputVec.y:
+				w.dirt.emitting = grounded and inputVec.y > 0
 
 		# Graphical wheel position and rotation
 
@@ -389,13 +387,13 @@ func _physics_process(dt: float) -> void:
 
 		var steeringFactor = clamp(inverse_lerp(0, 5, speed), 0, 1)
 
-		apply_torque(-transform.basis.y * xInput * torqueMult * steeringFactor)
+		apply_torque(-transform.basis.y * inputVec.x * torqueMult * steeringFactor)
 
 		# Traction
 
 		var maxSpeed = maxSpeedKmh / 3.6
 		var tractionMult = 1.0 - ease(abs(forwardVelocity) / maxSpeed, tractionEase)
-		var tractionForce = tractionMult * yInput * tractionForceMult * wheelFactor
+		var tractionForce = tractionMult * inputVec.y * tractionForceMult * wheelFactor
 
 		var sideAbs = abs(sidewaysSpeed)
 		var sidewaysSign: int = int(sign(sidewaysSpeed))
@@ -407,7 +405,7 @@ func _physics_process(dt: float) -> void:
 
 		apply_force(forwardTraction + sidewaysTraction, midPoint - transform.origin)
 
-	prevYInput = yInput
+	prevYInput = inputVec.y
 
 	if not isReplay:
 		var s = ReplaySample.new()
