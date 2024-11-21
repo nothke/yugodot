@@ -27,7 +27,7 @@ const rayLength = 0.6
 var inputKeyRight
 var inputKeyLeft
 var inputKeyThrottle
-var inputKeyBreak
+var inputKeyBrake
 
 var has_race_started:bool = false
 
@@ -111,10 +111,11 @@ const dbToVolume = 8.685
 var flippedClock : float = 0
 
 func _ready():
-	inputKeyLeft = "p"+str(playerId)+"_left"
-	inputKeyRight = "p"+str(playerId)+"_right"
-	inputKeyThrottle = "p"+str(playerId)+"_throttle"
-	inputKeyBreak = "p"+str(playerId)+"_break"
+	var idStr := str(playerId)
+	inputKeyLeft = "p" + idStr + "_left"
+	inputKeyRight = "p" + idStr + "_right"
+	inputKeyThrottle = "p" + idStr + "_throttle"
+	inputKeyBrake = "p"+ idStr +"_brake"
 
 
 	var checkpoints = get_tree().get_nodes_in_group("Checkpoint_group")
@@ -271,7 +272,7 @@ func _physics_process(dt: float) -> void:
 
 
 	var xInput: float = -1 if Input.is_action_pressed(inputKeyLeft) else (1 if Input.is_action_pressed(inputKeyRight) else 0)
-	var yInput: float = -1 if Input.is_action_pressed(inputKeyBreak) else (1 if Input.is_action_pressed(inputKeyThrottle) else 0)
+	var yInput: float = -1 if Input.is_action_pressed(inputKeyBrake) else (1 if Input.is_action_pressed(inputKeyThrottle) else 0)
 
 	var throttleInput: float = yInput
 
