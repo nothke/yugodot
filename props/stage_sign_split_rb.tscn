@@ -7,7 +7,7 @@
 size = Vector3(1.06306, 0.349644, 1.59404)
 
 [node name="stage_sign_split_rb" type="RigidBody3D"]
-transform = Transform3D(0.999932, 0.0116756, 4.17552e-09, 0, -3.57628e-07, 1, 0.0116756, -0.999932, -3.57604e-07, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 mass = 0.1
 sleeping = true
 freeze = true
@@ -20,5 +20,5 @@ disabled = true
 transform = Transform3D(1, -4.44089e-16, 0, 0, -4.37113e-08, -1, 4.44089e-16, 1, -4.37114e-08, 0, 0, 0)
 
 [node name="stage_sign_end" parent="." instance=ExtResource("1")]
-transform = Transform3D(1, -4.44089e-16, 0, 0, -4.37113e-08, -1, 4.44089e-16, 1, -4.37114e-08, 0, 0, 0)
+transform = Transform3D(1, -4.44089e-16, 1.94117e-23, 0, -4.37114e-08, -1, 4.44089e-16, 1, -4.37114e-08, 0, 0, 0)
 visible = false
