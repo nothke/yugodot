@@ -1,22 +1,24 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://bbtivgde41pfs"]
 
-[ext_resource path="res://props/stage_sign_end.tscn" type="PackedScene" id=1]
-[ext_resource path="res://props/stage_sign_split.tscn" type="PackedScene" id=2]
+[ext_resource type="PackedScene" path="res://props/stage_sign_end.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://props/stage_sign_split.tscn" id="2"]
 
-[sub_resource type="BoxShape3D" id=3]
-extents = Vector3( 0.531528, 0.174822, 0.797022 )
+[sub_resource type="BoxShape3D" id="3"]
+size = Vector3(1.06306, 0.349644, 1.59404)
 
 [node name="stage_sign_split_rb" type="RigidBody3D"]
-transform = Transform3D( 0.999932, 0.0116756, 4.17552e-09, 0, -3.57628e-07, 1, 0.0116756, -0.999932, -3.57604e-07, 0, 0, 0 )
+transform = Transform3D(0.999932, 0.0116756, 4.17552e-09, 0, -3.57628e-07, 1, 0.0116756, -0.999932, -3.57604e-07, 0, 0, 0)
 mass = 0.1
 sleeping = true
+freeze = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource( 3 )
+shape = SubResource("3")
+disabled = true
 
-[node name="stage_sign_split" parent="." instance=ExtResource( 2 )]
-transform = Transform3D( 1, -4.44089e-16, 0, 0, -4.37113e-08, -1, 4.44089e-16, 1, -4.37114e-08, 0, 0, 0 )
+[node name="stage_sign_split" parent="." instance=ExtResource("2")]
+transform = Transform3D(1, -4.44089e-16, 0, 0, -4.37113e-08, -1, 4.44089e-16, 1, -4.37114e-08, 0, 0, 0)
 
-[node name="stage_sign_end" parent="." instance=ExtResource( 1 )]
-transform = Transform3D( 1, -4.44089e-16, 0, 0, -4.37113e-08, -1, 4.44089e-16, 1, -4.37114e-08, 0, 0, 0 )
+[node name="stage_sign_end" parent="." instance=ExtResource("1")]
+transform = Transform3D(1, -4.44089e-16, 0, 0, -4.37113e-08, -1, 4.44089e-16, 1, -4.37114e-08, 0, 0, 0)
 visible = false
