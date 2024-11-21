@@ -51,16 +51,16 @@ func _input(event):
 			get_tree().reload_current_scene()
 			hasRestared = true
 
-		if event.keycode == KEY_C:
-			hoodCameraIsActive = not hoodCameraIsActive
+		#if event.keycode == KEY_C:
+			#hoodCameraIsActive = not hoodCameraIsActive
+#
+			#if hoodCameraIsActive:
+				#(get_node(hoodCamera) as Camera3D).make_current()
+			#else:
+				#(get_node(chaseCamera) as Camera3D).make_current()
 
-			if hoodCameraIsActive:
-				(get_node(hoodCamera) as Camera3D).make_current()
-			else:
-				(get_node(chaseCamera) as Camera3D).make_current()
-
-		if event.keycode == KEY_V:
-			(get_node(tracksideCamera)).make_current()
+		#if event.keycode == KEY_V:
+			#(get_node(tracksideCamera)).make_current()
 
 func add_player(id):
 	if(players[id] || countDownTime <=0):
