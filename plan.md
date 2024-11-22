@@ -15,7 +15,7 @@
 - [ ] try new map
 - [ ] add more physicsy objects for fun
 - [ ] make surfaces respond differently: tarmac, dirt, grass
-- [ ] add "press forward on your controller to add player" in intro
+- [x] add "press forward on your controller to add player" in intro
 - [ ] some kind of info for each player notifying what controls they have before start "WASD" "IJKL" "gamepad 1" "gamepad 2"
 - [ ] fix ovelapping UI
 - [ ] add some background behind UI labels (or shadow) to improve visibility

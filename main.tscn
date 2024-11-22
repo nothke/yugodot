@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://c3jddj6t3n61p"]
+[gd_scene load_steps=21 format=3 uid="uid://c3jddj6t3n61p"]
 
 [ext_resource type="Environment" uid="uid://cdvs5noiss70h" path="res://effects/main_environment.tres" id="1_mtb8u"]
 [ext_resource type="Environment" uid="uid://ccvv7vlr00s3u" path="res://effects/no_post_environment.tres" id="1_ylkew"]
@@ -12,7 +12,6 @@
 [ext_resource type="AudioStream" uid="uid://blkbgboic27oe" path="res://audio/beep.wav" id="15"]
 [ext_resource type="AudioStream" uid="uid://cnh2u4xxekefn" path="res://audio/Powerup15.wav" id="16"]
 [ext_resource type="AudioStream" uid="uid://n73bnpaqi8wu" path="res://audio/Blip_Select12.wav" id="17"]
-[ext_resource type="FontFile" path="res://art/fonts/inconsolata.tres" id="19"]
 [ext_resource type="Script" path="res://scripts/grid_container.gd" id="19_6kue6"]
 [ext_resource type="QuadMesh" uid="uid://blk6ks7b4u8e1" path="res://effects/gpu_dirt.tres" id="22"]
 [ext_resource type="Material" uid="uid://ckkb1wyahqkn7" path="res://effects/gpu_dirt.material" id="23"]
@@ -51,32 +50,29 @@ script = ExtResource("14")
 tracksideCamera = NodePath("../trackside_camera")
 noPostEnvironment = ExtResource("1_ylkew")
 
-[node name="countdown" type="RichTextLabel" parent="Game"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -14.0
-offset_top = -150.0
-offset_right = 355.0
-offset_bottom = 104.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(2, 2)
-size_flags_horizontal = 0
-size_flags_vertical = 0
-theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_fonts/normal_font = ExtResource("19")
-text = "4"
-
-[node name="SecondTickTimer" type="Timer" parent="Game"]
-
 [node name="CountDownTimer" type="Timer" parent="Game"]
 one_shot = true
 
 [node name="audio_countdown" type="AudioStreamPlayer" parent="Game"]
 stream = ExtResource("17")
+
+[node name="countdown" type="Label" parent="Game"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -213.0
+offset_right = 302.0
+offset_bottom = -63.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "Press forward to enter the race"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.0369346, 0.895348, 0.443833, -0.784513, -0.249134, 0.567865, 0.619011, -0.369167, 0.693211, -8.51985, 10.6491, -20.8834)

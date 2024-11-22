@@ -32,7 +32,6 @@ func _ready():
 
 		if noPost:
 			enviro.environment = noPostEnvironment
-	$CountDownTimer.start(1)
 	$CountDownTimer.one_shot = false
 
 func _input(event):
@@ -59,6 +58,8 @@ func add_player(id):
 		return
 		
 	players[id] = true
+	if players.count(true) == 1:
+		$CountDownTimer.start(1)
 	var car = CAR.instantiate()
 	car.playerId = id+1
 	get_parent().add_child(car)
