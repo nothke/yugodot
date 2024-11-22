@@ -1,5 +1,5 @@
 extends RigidBody3D
-
+class_name Car
 # Exports
 
 @export var raycastHeightOffset: float = 0
@@ -48,6 +48,7 @@ var  config: ConfigFile
 var drawParticles = true
 #var drawLines = false
 var debugSplits = false
+var carColor: Color
 
 class Wheel:
 	var point: Vector3
@@ -199,16 +200,24 @@ func _ready():
 		bestCheckpointTimes[i] = 0
 		prevBestCheckpointTimes[i] = 0
 
-	# randomize body color
+	set_random_color()
+
+
+func set_random_color() -> void:
 	var carBody := get_node(carBodyPath) as GeometryInstance3D
-
-	var rng = RandomNumberGenerator.new()
-
 	var bodyMat := carBody.material_override.duplicate() as ShaderMaterial
 	carBody.material_override = bodyMat
-	var bodyColor := carBodyColors[rng.randi_range(0, 4)]
+	
+	var rng := RandomNumberGenerator.new()
+	var bodyColor := carBodyColors[rng.randi_range(0, carBodyColors.size()-1)]
+	var isDuplicate := get_tree().get_nodes_in_group("car_group").any(func (car): return car.carColor == bodyColor)
+	# no do whiles in gdscript D:
+	while isDuplicate:
+		bodyColor = carBodyColors[rng.randi_range(0, carBodyColors.size()-1)]
+		isDuplicate = get_tree().get_nodes_in_group("car_group").any(func (car:Car): return car.carColor == bodyColor)
+		
 	bodyMat.set_shader_parameter("Body_Color", bodyColor)
-
+	carColor = bodyColor
 
 func get_velocity_at_point(point: Vector3) -> Vector3:
 	return linear_velocity + angular_velocity.cross(point - global_transform.origin)

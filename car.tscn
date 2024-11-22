@@ -30,7 +30,7 @@ timingPath = NodePath("../timing")
 checkpointSoundPath = NodePath("../audio_checkpoint")
 finishSoundPath = NodePath("../audio_finish")
 carBodyPath = NodePath("car/body/yugo_body")
-carBodyColors = PackedColorArray(1, 1, 1, 1, 0.73, 0, 0.0121665, 1, 1, 0.883333, 0, 1, 0.345, 0.69, 0, 1, 0, 0.297, 0.66, 1, 1, 0.971, 0.71, 1)
+carBodyColors = PackedColorArray(1, 1, 1, 1, 0.73, 0, 0.0121665, 1, 1, 0.883333, 0, 1, 0.345, 0.69, 0, 1, 0, 0.297, 0.66, 1, 1, 0.971, 0.71, 1, 0.890196, 0, 1, 1)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, 1, 0, 0.522249, 0)
