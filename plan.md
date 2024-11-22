@@ -22,5 +22,5 @@
 - [ ] remove timing from each player (there is only one global time). Maybe just keep the sector checks.
 - [ ] "Press R to restart" info at the end
 - [ ] improve intro screen, remove countdown
-- [ ] make sure that each player has a unique color (and add more colors)
+- [x] make sure that each player has a unique color (and add more colors)
 - [ ] add crash sounds
