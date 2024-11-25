@@ -12,6 +12,9 @@ var hoodCameraIsActive = false
 
 var hasRestared = false
 var players = [false, false, false, false]
+
+var mute := false
+
 func _ready():
 	#get_node(chaseCamera).make_current()
 
@@ -32,6 +35,9 @@ func _ready():
 
 		if noPost:
 			enviro.environment = noPostEnvironment
+			
+		var volume := float(config.get_value("audio", "master_volume", 1))
+		AudioServer.set_bus_volume_db(0, log(volume) * dbToVolume)
 	$CountDownTimer.one_shot = false
 
 func _input(event):
@@ -49,6 +55,13 @@ func _input(event):
 		if event.keycode == KEY_R:
 			get_tree().reload_current_scene()
 			hasRestared = true
+			
+
+			
+		if event.keycode == KEY_VOLUMEMUTE or event.keycode == KEY_M:
+			mute = not mute
+			AudioServer.set_bus_mute(0, mute)
+			
 
 		#if event.keycode == KEY_V:
 			#(get_node(tracksideCamera)).make_current()

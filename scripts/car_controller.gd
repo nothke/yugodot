@@ -108,7 +108,6 @@ var checkpointSound: AudioStreamPlayer
 
 var finishSound: AudioStreamPlayer
 var engineAudio: AudioStreamPlayer3D
-const dbToVolume = 8.685
 
 @onready var camera = $chase_camera
 @onready var ui = $UI
@@ -178,9 +177,6 @@ func _ready():
 
 		springRate = float(config.get_value("setup", "spring_rate", 40))
 		dampRate = float(config.get_value("setup", "damp_rate", 3))
-
-		var volume = float(config.get_value("audio", "master_volume", 1))
-		AudioServer.set_bus_volume_db(0, log(volume) * dbToVolume)
 
 		drawParticles = cfgBool.call("graphics", "draw_particles")
 
