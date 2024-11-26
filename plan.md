@@ -24,3 +24,12 @@
 - [ ] improve intro screen, remove countdown
 - [x] make sure that each player has a unique color (and add more colors)
 - [ ] add crash sounds
+- [ ] HUD overhaul
+	- Per player:
+		- [ ] speedo
+		- [ ] checkpoints
+		- [ ] laps
+		- [ ] position - 1st, 2nd..
+- [ ] arrow to show where next checkpoint is?
+- [x] add arrows control scheme
+- [ ] paths for determining where along the track a car is (could be derived from checkpoint positions)

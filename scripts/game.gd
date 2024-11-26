@@ -10,8 +10,9 @@ var sun: DirectionalLight3D
 var countDownTime = countDownTimeSet
 var hoodCameraIsActive = false
 
-var hasRestared = false
-var players = [false, false, false, false]
+var hasRestared := false
+const NUMBER_OF_CONTROL_SCHEMES := 5
+var players : PackedByteArray
 
 var mute := false
 
@@ -19,6 +20,9 @@ const DB_TO_VOLUME = 8.685
 
 func _ready():
 	#get_node(chaseCamera).make_current()
+	
+	players.resize(NUMBER_OF_CONTROL_SCHEMES)
+	players.fill(0)
 
 	sun = get_node("../sun") as DirectionalLight3D
 	assert(sun != null)
@@ -41,26 +45,24 @@ func _ready():
 		var volume := float(config.get_value("audio", "master_volume", 1))
 		AudioServer.set_bus_volume_db(0, log(volume) * DB_TO_VOLUME)
 	$CountDownTimer.one_shot = false
+	
+func countingDownToStart() -> bool:
+	return countDownTime > -1.0
 
 func _input(event):
 
 	if event is InputEventKey and event.pressed:
 
-		if event.is_action_pressed("p1_throttle"):
-			add_player(0)
-		if event.is_action_pressed("p2_throttle"):
-			add_player(1)
-		if event.is_action_pressed("p3_throttle"):
-			add_player(2)
-		if event.is_action_pressed("p4_throttle"):
-			add_player(3)
+		if countingDownToStart():
+			for i in range(NUMBER_OF_CONTROL_SCHEMES):
+				if event.is_action_pressed("p" + str(i + 1) + "_throttle"):
+					add_player(i)
+		
 		if event.keycode == KEY_R:
 			get_tree().reload_current_scene()
 			hasRestared = true
 			
-
-			
-		if event.keycode == KEY_VOLUMEMUTE or event.keycode == KEY_M:
+		if event.keycode == KEY_M:
 			mute = not mute
 			AudioServer.set_bus_mute(0, mute)
 			
