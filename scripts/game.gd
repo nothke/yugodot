@@ -15,6 +15,8 @@ var players = [false, false, false, false]
 
 var mute := false
 
+const DB_TO_VOLUME = 8.685
+
 func _ready():
 	#get_node(chaseCamera).make_current()
 
@@ -37,7 +39,7 @@ func _ready():
 			enviro.environment = noPostEnvironment
 			
 		var volume := float(config.get_value("audio", "master_volume", 1))
-		AudioServer.set_bus_volume_db(0, log(volume) * dbToVolume)
+		AudioServer.set_bus_volume_db(0, log(volume) * DB_TO_VOLUME)
 	$CountDownTimer.one_shot = false
 
 func _input(event):
